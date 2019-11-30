@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>AMTools.Web.Data.FileImport</AssemblyName>
+    <RootNamespace>AMTools.Web.Data.FileImport</RootNamespace>
+  </PropertyGroup>
+
+</Project>
