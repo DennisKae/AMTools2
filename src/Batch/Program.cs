@@ -22,6 +22,12 @@ namespace AMTools.Batch
             const string subscriberFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\subscribers.xml";
             var subscriberFileRepo = new SubscriberFileRepository(subscriberFilePath);
             List<Subscriber> allSubscribers = subscriberFileRepo.GetAllSubscribers();
+
+
+            const string availabilityFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\availability.hst";
+            var availabilityFileRepo = new AvailabilityFileRepository(availabilityFilePath, mapper);
+            var availabilityByIssi = availabilityFileRepo.GetAvailabilityByIssi(allSubscribers[0].Issi);
+            var allAvailabilities = availabilityFileRepo.GetAllAvailabilities();
         }
 
 
