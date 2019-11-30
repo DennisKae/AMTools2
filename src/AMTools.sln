@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Batch", "Batch\Batch.csproj", "{295E0329-C34B-44DD-902B-529252E0A19A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Data.FileImport", "Web.Data.FileImport\Web.Data.FileImport.csproj", "{9A268CE9-D501-4A25-8124-906218E8FDF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Data.Files", "Web.Data.FileImport\Web.Data.Files.csproj", "{9A268CE9-D501-4A25-8124-906218E8FDF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Core", "Shared.Core\Shared.Core.csproj", "{2B73AE0C-FB99-4FA5-971A-023E06A3AD79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9A268CE9-D501-4A25-8124-906218E8FDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A268CE9-D501-4A25-8124-906218E8FDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A268CE9-D501-4A25-8124-906218E8FDF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B73AE0C-FB99-4FA5-971A-023E06A3AD79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B73AE0C-FB99-4FA5-971A-023E06A3AD79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B73AE0C-FB99-4FA5-971A-023E06A3AD79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B73AE0C-FB99-4FA5-971A-023E06A3AD79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
