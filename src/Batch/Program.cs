@@ -14,10 +14,14 @@ namespace AMTools.Batch
             const string calloutFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\callout.hst";
             IMapper mapper = GetMapper();
 
-            var calloutImportRepo = new CalloutFileImportRepository(calloutFilePath, mapper);
+            var calloutImportRepo = new CalloutFileRepository(calloutFilePath, mapper);
             List<AlertIdentification> allAlertIds = calloutImportRepo.GetAllAlertIds();
             Alert alert = calloutImportRepo.GetAlert(allAlertIds[2]);
             List<UserResponse> responses = calloutImportRepo.GetUserResponses(allAlertIds[2]);
+
+            const string subscriberFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\subscribers.xml";
+            var subscriberFileRepo = new SubscriberFileRepository(subscriberFilePath);
+            List<Subscriber> allSubscribers = subscriberFileRepo.GetAllSubscribers();
         }
 
 
