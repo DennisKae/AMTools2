@@ -10,12 +10,12 @@ using AutoMapper;
 
 namespace AMTools.Web.Data.Files.Repositories
 {
-    public class CalloutFileImportRepository : FileImportRepositoryBase
+    public class CalloutFileRepository : FileImportRepositoryBase
     {
         private readonly string _calloutFilePath;
         private readonly IMapper _mapper;
 
-        public CalloutFileImportRepository(
+        public CalloutFileRepository(
             string calloutFilePath,
             IMapper mapper
             )
