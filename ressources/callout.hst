@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Alerts>
+
+  <Alert>
+    <Number>4</Number>
+    <Status>1</Status>
+    <Timestamp>2019-07-28,21:22:11</Timestamp>
+    <AlertTimestamp>28.07. 21:22</AlertTimestamp>
+    <Text>28.07. 21:22 - ID: 4, Schweregrad 1 - Jonas Färber -  - Funktionsprobe!</Text>
+    <AlertedSubscribers>*</AlertedSubscribers>
+    <UserResponses />
+  </Alert>
+  
+  <Alert>
+    <Number>300</Number>
+    <Status>1</Status>
+    <Timestamp>2019-10-12,23:21:33</Timestamp>
+    <AlertTimestamp>12.10. 23:21:33</AlertTimestamp>
+    <Text>12.10. 23:21:33 - ID: 300, Schweregrad 6 - Musterhausen - Subgruppe(n): MUSTERHAUSEN_PAGER_VOLLALARM - S01*FUNKTIONSPROBE</Text>
+    <AlertedSubscribers>*</AlertedSubscribers>
+  </Alert>
+
+  
+  <Alert>
+    <Number>244</Number>
+    <Status>1</Status>
+    <Timestamp>2019-07-31,20:29:33</Timestamp>
+    <AlertTimestamp>31.07. 20:29:33</AlertTimestamp>
+    <Text>31.07. 20:29:33 - ID: 244, Schweregrad 6 - Musterhausen - Subgruppe(n): MUSTERHAUSEN_PAGER_VOLLALARM - S01*FUNKTIONSPROBE</Text>
+    <AlertedSubscribers>*</AlertedSubscribers>
+    <UserResponses>
+      <UserResponse>
+        <ISSI>1234515</ISSI>
+        <Accept>True</Accept>
+        <Color>#A6CE39</Color>
+        <Response>31.07. 20:29:38 - Frank Hoch (1234515), akzeptiert</Response>
+      </UserResponse>
+      <UserResponse>
+        <ISSI>1234524</ISSI>
+        <Accept>True</Accept>
+        <Color>#A6CE39</Color>
+        <Response>31.07. 20:29:42 - Jonas Färber (1234524), akzeptiert</Response>
+      </UserResponse>
+      <UserResponse>
+        <ISSI>1234532</ISSI>
+        <Accept>True</Accept>
+        <Color>#A6CE39</Color>
+        <Response>31.07. 20:29:53 - Paul Decker (1234532), abgelehnt</Response>
+      </UserResponse>
+	  <UserResponse>
+        <ISSI>1234537</ISSI>
+        <Accept>True</Accept>
+        <Color>#A6CE39</Color>
+        <Response>31.07. 20:29:58 - Kristin Becker (1234537), akzeptiert</Response>
+      </UserResponse>
+    </UserResponses> 
+  </Alert>
+</Alerts>
