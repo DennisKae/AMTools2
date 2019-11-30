@@ -15,6 +15,7 @@ namespace AMTools.Web.Data.Files
         {
             CreateMap<AlertImportModel, Alert>();
             CreateMap<AlertUserResponseImportModel, UserResponse>();
+            CreateMap<AvailabilityImportModel, AvailabilityStatus>();
         }
     }
 }
