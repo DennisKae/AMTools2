@@ -20,6 +20,8 @@ namespace AMTools.Web.Data.Database
 
         public DbSet<DbUserResponse> UserResponse { get; set; }
 
+        public DbSet<DbSetting> Setting { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=" + @"C:\install\AMTools2\AMTools2.db");
@@ -70,6 +72,11 @@ namespace AMTools.Web.Data.Database
 
                 entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now')");
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<DbSetting>(entity =>
+            {
+                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now')");
             });
         }
     }

@@ -14,6 +14,6 @@ namespace AMTools.Shared.Core.Models
 
         public string Color { get; set; }
 
-        public string SettingName { get; set; }
+        public string Name { get; set; }
     }
 }

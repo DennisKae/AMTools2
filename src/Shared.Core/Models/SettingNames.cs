@@ -8,6 +8,7 @@ namespace AMTools.Shared.Core.Models
 {
     public class SettingNames
     {
+        public static readonly string License = "License";
         public static readonly string Availability = "Availability";
         public static readonly string SeverityLevels = "SeverityLevels";
         public static readonly string UserResponsesStatus = "UserResponsesStatus";
