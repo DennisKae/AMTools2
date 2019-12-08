@@ -31,6 +31,10 @@ namespace AMTools.Batch
             var availabilityByIssi = availabilityFileRepo.GetAvailabilityByIssi(allSubscribers[0].Issi);
             var allAvailabilities = availabilityFileRepo.GetAllAvailabilities();
 
+            const string settingsFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\settings.xml";
+            var settingsFileRepo = new SettingsFileRepository(settingsFilePath, mapper);
+            var allSettings = settingsFileRepo.GetAllSettings();
+
             var context = new DatabaseContext();
             context.Database.Migrate();
         }
