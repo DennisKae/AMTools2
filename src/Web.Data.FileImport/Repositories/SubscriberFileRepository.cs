@@ -18,7 +18,7 @@ namespace AMTools.Web.Data.Files.Repositories
             _subscriberFilePath = subscriberFilePath;
         }
 
-        public List<Subscriber> GetAllSubscribers()
+        public List<Subscriber> GetAll()
         {
             var result = new List<Subscriber>();
 

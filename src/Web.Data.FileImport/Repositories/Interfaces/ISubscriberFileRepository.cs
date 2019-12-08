@@ -5,6 +5,6 @@ namespace AMTools.Web.Data.Files.Repositories.Interfaces
 {
     public interface ISubscriberFileRepository
     {
-        List<Subscriber> GetAllSubscribers();
+        List<Subscriber> GetAll();
     }
 }

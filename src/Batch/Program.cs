@@ -22,8 +22,8 @@ namespace AMTools.Batch
             //Alert alert = calloutImportRepo.GetAlert(allAlertIds[2]);
             //List<UserResponse> responses = calloutImportRepo.GetUserResponses(allAlertIds[2]);
 
-            //const string subscriberFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\subscribers.xml";
-            //var subscriberFileRepo = new SubscriberFileRepository(subscriberFilePath);
+            const string subscriberFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\subscribers.xml";
+            var subscriberFileRepo = new SubscriberFileRepository(subscriberFilePath);
             //List<Subscriber> allSubscribers = subscriberFileRepo.GetAllSubscribers();
 
 
@@ -41,6 +41,9 @@ namespace AMTools.Batch
 
             var settingsSyncService = new SettingsSyncService(settingsFileRepo, mapper);
             settingsSyncService.Sync();
+
+            var subscriberSyncService = new SubscriberSyncService(subscriberFileRepo, mapper);
+            subscriberSyncService.Sync();
         }
 
 

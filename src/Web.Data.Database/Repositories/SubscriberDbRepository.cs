@@ -21,12 +21,26 @@ namespace AMTools.Web.Data.Database.Repositories
         public void Insert(DbSubscriber subscriber) => _databaseContext.Add(subscriber);
         public void Insert(List<DbSubscriber> subscribers) => _databaseContext.AddRange(subscribers);
 
+        public void DeleteAll()
+        {
+            var allSubscribers = _databaseContext.Subscriber.ToList();
+            if (allSubscribers?.Count > 0)
+            {
+                allSubscribers.ForEach(x =>
+                {
+                    x.SysDeleted = true;
+                    x.SysStampUp = DateTime.Now;
+                });
+            }
+        }
+
         public void Delete(int id)
         {
             var target = _databaseContext.Subscriber.FirstOrDefault(x => x.Id == id);
             if (target != null)
             {
                 target.SysDeleted = true;
+                target.SysStampUp = DateTime.Now;
             }
         }
     }
