@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using AMTools.Shared.Core.Models;
+using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Files;
 using AMTools.Web.Data.Files.Repositories;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMTools.Batch
 {
@@ -28,6 +30,9 @@ namespace AMTools.Batch
             var availabilityFileRepo = new AvailabilityFileRepository(availabilityFilePath, mapper);
             var availabilityByIssi = availabilityFileRepo.GetAvailabilityByIssi(allSubscribers[0].Issi);
             var allAvailabilities = availabilityFileRepo.GetAllAvailabilities();
+
+            var context = new DatabaseContext();
+            context.Database.Migrate();
         }
 
 

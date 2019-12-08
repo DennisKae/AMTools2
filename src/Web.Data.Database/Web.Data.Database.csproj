@@ -1,10 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net462;netstandard2.0</TargetFrameworks>
     <AssemblyName>AMTools.Web.Data.Database</AssemblyName>
     <RootNamespace>AMTools.Web.Data.Database</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20191208145211_Migration1.cs" />
+    <Compile Remove="Migrations\20191208145211_Migration1.Designer.cs" />
+    <Compile Remove="Migrations\20191208150045_Migration2.cs" />
+    <Compile Remove="Migrations\20191208150045_Migration2.Designer.cs" />
+    <Compile Remove="Migrations\20191208151424_Migration3.cs" />
+    <Compile Remove="Migrations\20191208151424_Migration3.Designer.cs" />
+    <Compile Remove="Migrations\20191208151543_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191208151543_InitialMigration.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
@@ -13,6 +24,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
