@@ -18,7 +18,7 @@ namespace AMTools.Web.Data.Database.Models
         public DateTime Timestamp { get; set; }
 
         [Column(Order = 2)]
-        public DbAppLogSeverity Severity { get; set; }
+        public AppLogSeverity Severity { get; set; }
 
         [Column(Order = 3)]
         public string Message { get; set; }

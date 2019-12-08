@@ -18,13 +18,9 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public DbAvailabilityStatus GetByIssi(string issi) => _databaseContext.AvailabilityStatus.FirstOrDefault(x => x.Issi == issi);
 
-        public void Insert(DbAvailabilityStatus availabilityStatus) => Insert(new List<DbAvailabilityStatus> { availabilityStatus });
+        public void Insert(DbAvailabilityStatus availabilityStatus) => _databaseContext.Add(availabilityStatus);
 
-        public void Insert(List<DbAvailabilityStatus> availabilityStatus)
-        {
-            _databaseContext.AddRange(availabilityStatus);
-            _databaseContext.SaveChanges();
-        }
+        public void Insert(List<DbAvailabilityStatus> availabilityStatus) => _databaseContext.AddRange(availabilityStatus);
 
         public void Delete(string issi)
         {

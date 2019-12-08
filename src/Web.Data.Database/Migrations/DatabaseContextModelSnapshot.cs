@@ -42,7 +42,7 @@ namespace AMTools.Web.Data.Database.Migrations
                     b.Property<DateTime>("SysStampIn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now')");
+                        .HasDefaultValueSql("datetime('now','localtime')");
 
                     b.Property<DateTime?>("SysStampUp")
                         .HasColumnType("TEXT");
@@ -115,7 +115,7 @@ namespace AMTools.Web.Data.Database.Migrations
                     b.Property<DateTime>("SysStampIn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now')");
+                        .HasDefaultValueSql("datetime('now','localtime')");
 
                     b.Property<DateTime?>("SysStampUp")
                         .HasColumnType("TEXT");
@@ -151,7 +151,7 @@ namespace AMTools.Web.Data.Database.Migrations
                     b.Property<DateTime>("SysStampIn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now')");
+                        .HasDefaultValueSql("datetime('now','localtime')");
 
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
@@ -184,7 +184,7 @@ namespace AMTools.Web.Data.Database.Migrations
                     b.Property<DateTime>("SysStampIn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now')");
+                        .HasDefaultValueSql("datetime('now','localtime')");
 
                     b.Property<DateTime?>("SysStampUp")
                         .HasColumnType("TEXT");
@@ -225,7 +225,7 @@ namespace AMTools.Web.Data.Database.Migrations
                     b.Property<DateTime>("SysStampIn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now')");
+                        .HasDefaultValueSql("datetime('now','localtime')");
 
                     b.Property<DateTime?>("SysStampUp")
                         .HasColumnType("TEXT");

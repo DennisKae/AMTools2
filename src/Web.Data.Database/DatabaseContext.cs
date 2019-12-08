@@ -41,7 +41,7 @@ namespace AMTools.Web.Data.Database
                 entity.HasQueryFilter(x => !x.SysDeleted);
                 entity.HasIndex(x => x.Issi);
 
-                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now')");
+                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now','localtime')");
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
             });
 
@@ -50,7 +50,7 @@ namespace AMTools.Web.Data.Database
                 entity.HasQueryFilter(x => !x.SysDeleted);
                 entity.HasIndex(x => x.Issi);
 
-                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now')");
+                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now','localtime')");
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
             });
 
@@ -60,7 +60,7 @@ namespace AMTools.Web.Data.Database
                 entity.HasIndex(x => x.Number);
                 entity.HasIndex(x => x.Timestamp);
 
-                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now')");
+                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now','localtime')");
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
             });
 
@@ -70,13 +70,13 @@ namespace AMTools.Web.Data.Database
                 entity.HasIndex(x => x.AlertId);
                 entity.HasIndex(x => x.Issi);
 
-                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now')");
+                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now','localtime')");
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
             });
 
             modelBuilder.Entity<DbSetting>(entity =>
             {
-                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now')");
+                entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now','localtime')");
             });
         }
     }

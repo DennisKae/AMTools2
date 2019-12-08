@@ -20,7 +20,7 @@ namespace AMTools.Web.Data.Database.Migrations
                     Text = table.Column<string>(nullable: true),
                     AlertedSubscribers = table.Column<string>(nullable: true),
                     Xml = table.Column<string>(nullable: true),
-                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now')"),
+                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
                     SysStampUp = table.Column<DateTime>(nullable: true),
                     SysDeleted = table.Column<bool>(nullable: false, defaultValue: false)
                 },
@@ -56,13 +56,30 @@ namespace AMTools.Web.Data.Database.Migrations
                     Issi = table.Column<string>(nullable: true),
                     Value = table.Column<int>(nullable: false),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now')"),
+                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
                     SysStampUp = table.Column<DateTime>(nullable: true),
                     SysDeleted = table.Column<bool>(nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AvailabilityStatus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Setting",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true),
+                    Key = table.Column<string>(nullable: true),
+                    Value = table.Column<string>(nullable: true),
+                    Color = table.Column<string>(nullable: true),
+                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Setting", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,7 +91,7 @@ namespace AMTools.Web.Data.Database.Migrations
                     Issi = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Qualification = table.Column<string>(nullable: true),
-                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now')"),
+                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
                     SysStampUp = table.Column<DateTime>(nullable: true),
                     SysDeleted = table.Column<bool>(nullable: false, defaultValue: false)
                 },
@@ -95,7 +112,7 @@ namespace AMTools.Web.Data.Database.Migrations
                     Color = table.Column<string>(nullable: true),
                     Response = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
-                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now')"),
+                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
                     SysStampUp = table.Column<DateTime>(nullable: true),
                     SysDeleted = table.Column<bool>(nullable: false, defaultValue: false)
                 },
@@ -155,6 +172,9 @@ namespace AMTools.Web.Data.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "AvailabilityStatus");
+
+            migrationBuilder.DropTable(
+                name: "Setting");
 
             migrationBuilder.DropTable(
                 name: "Subscriber");

@@ -18,7 +18,7 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public List<DbSubscriber> GetAll() => _databaseContext.Subscriber.ToList();
 
-        public void Insert(DbSubscriber subscriber) => Insert(new List<DbSubscriber> { subscriber });
+        public void Insert(DbSubscriber subscriber) => _databaseContext.Add(subscriber);
         public void Insert(List<DbSubscriber> subscribers) => _databaseContext.AddRange(subscribers);
 
         public void Delete(int id)
