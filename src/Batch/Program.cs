@@ -14,11 +14,11 @@ namespace AMTools.Batch
     {
         public static void Main(string[] args)
         {
-            //const string calloutFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\callout.hst";
             IMapper mapper = GetMapper();
 
-            //var calloutImportRepo = new CalloutFileRepository(calloutFilePath, mapper);
-            //List<AlertIdentification> allAlertIds = calloutImportRepo.GetAllAlertIds();
+            const string calloutFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\callout.hst";
+            var calloutImportRepo = new CalloutFileRepository(calloutFilePath, mapper);
+            List<AlertIdentification> allAlertIds = calloutImportRepo.GetAllAlertIds();
             //Alert alert = calloutImportRepo.GetAlert(allAlertIds[2]);
             //List<UserResponse> responses = calloutImportRepo.GetUserResponses(allAlertIds[2]);
 
@@ -47,6 +47,10 @@ namespace AMTools.Batch
 
             var availabilityStatusSyncService = new AvailabilityStatusSyncService(availabilityFileRepo, mapper);
             availabilityStatusSyncService.Sync();
+
+            var alertSyncService = new AlertSyncService(calloutImportRepo, mapper);
+            List<AlertIdentification> newAlerts = alertSyncService.GetNewAlerts();
+            // TODO: Keine neuen Alerts => UserResponseänderung?! (in eigenem SyncService aufnehmen)
         }
 
 

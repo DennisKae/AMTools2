@@ -59,6 +59,7 @@ namespace AMTools.Web.Data.Database
                 entity.HasQueryFilter(x => !x.SysDeleted);
                 entity.HasIndex(x => x.Number);
                 entity.HasIndex(x => x.Timestamp);
+                entity.HasIndex(x => x.SysDeleted);
 
                 entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now','localtime')");
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);

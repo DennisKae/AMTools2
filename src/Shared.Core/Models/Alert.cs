@@ -21,5 +21,9 @@ namespace AMTools.Shared.Core.Models
         public string AlertedSubscribers { get; set; }
 
         public string Xml { get; set; }
+
+        public bool Enabled { get; set; }
+
+        public DateTime? TimestampOfDeactivation { get; set; }
     }
 }
