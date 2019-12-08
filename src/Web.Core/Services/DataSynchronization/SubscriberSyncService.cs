@@ -68,7 +68,7 @@ namespace AMTools.Web.Core.Services.DataSynchronization
                 {
                     DbSubscriber existingDbSubscriber = existingDbSubscribers.FirstOrDefault(x => x.Issi == fileSubscriber.Issi);
 
-                    // Subscriber existierte noch nicht
+                    // Subscriber existierte noch nicht => Insert
                     if (existingDbSubscriber == null)
                     {
                         DbSubscriber mappedFileSubscriber = _mapper.Map<DbSubscriber>(fileSubscriber);
@@ -79,10 +79,11 @@ namespace AMTools.Web.Core.Services.DataSynchronization
 
                     Subscriber mappedDbSubscriber = _mapper.Map<Subscriber>(existingDbSubscriber);
 
-                    // Subscriber hat sich geändert
+                    // Subscriber hat sich geändert => Update
                     if (!SubscribersAreEqual(fileSubscriber, mappedDbSubscriber))
                     {
                         DbSubscriber mergedSubscriber = _mapper.Map(fileSubscriber, existingDbSubscriber);
+                        mergedSubscriber.SysStampUp = DateTime.Now;
                         hasChanges = true;
                     }
                 }

@@ -16,18 +16,38 @@ namespace AMTools.Web.Data.Database.Repositories
             _databaseContext = databaseContext;
         }
 
+        public List<DbAvailabilityStatus> GetAll() => _databaseContext.AvailabilityStatus.ToList();
+
         public DbAvailabilityStatus GetByIssi(string issi) => _databaseContext.AvailabilityStatus.FirstOrDefault(x => x.Issi == issi);
 
         public void Insert(DbAvailabilityStatus availabilityStatus) => _databaseContext.Add(availabilityStatus);
 
         public void Insert(List<DbAvailabilityStatus> availabilityStatus) => _databaseContext.AddRange(availabilityStatus);
 
+        public void DeleteAll()
+        {
+            List<DbAvailabilityStatus> targets = _databaseContext.AvailabilityStatus.ToList();
+            if (targets?.Count > 0)
+            {
+                targets.ForEach(x =>
+                {
+                    x.SysDeleted = true;
+                    x.SysStampUp = DateTime.Now;
+                });
+                _databaseContext.SaveChanges();
+            }
+        }
+
         public void Delete(string issi)
         {
             List<DbAvailabilityStatus> targets = _databaseContext.AvailabilityStatus.Where(x => x.Issi == issi).ToList();
             if (targets?.Count > 0)
             {
-                targets.ForEach(x => x.SysDeleted = true);
+                targets.ForEach(x =>
+                {
+                    x.SysDeleted = true;
+                    x.SysStampUp = DateTime.Now;
+                });
                 _databaseContext.SaveChanges();
             }
         }
