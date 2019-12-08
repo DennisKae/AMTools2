@@ -15,9 +15,14 @@
     <Compile Remove="Migrations\20191208151424_Migration3.Designer.cs" />
     <Compile Remove="Migrations\20191208151543_InitialMigration.cs" />
     <Compile Remove="Migrations\20191208151543_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191208152142_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191208152142_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191208173751_Migration1.cs" />
+    <Compile Remove="Migrations\20191208173751_Migration1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
@@ -28,6 +33,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared.Core\Shared.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AMTools.Web.Data.Database.Models
 {
-    public enum DbAppLogSeverity
+    public enum AppLogSeverity
     {
         Info = 0,
         Error = 1,

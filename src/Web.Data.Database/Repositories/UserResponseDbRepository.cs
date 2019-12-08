@@ -18,9 +18,9 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public List<DbUserResponse> GetByAlertId(int alertId) => _databaseContext.UserResponse.Where(x => x.AlertId == alertId).ToList();
 
-        public void Insert(DbUserResponse userResponse) => Insert(new List<DbUserResponse> { userResponse });
+        public void Insert(DbUserResponse userResponse) => _databaseContext.Add(userResponse);
 
-        public void Insert(List<DbUserResponse> userResponses) => _databaseContext.UserResponse.AddRange(userResponses);
+        public void Insert(List<DbUserResponse> userResponses) => _databaseContext.AddRange(userResponses);
 
         public void DeleteByAlertId(int alertId)
         {

@@ -18,8 +18,8 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public List<DbSetting> GetByName(string name) => _databaseContext.Setting.Where(x => x.Name == name).ToList();
 
-        public void Insert(List<DbSetting> settings) => _databaseContext.Setting.AddRange(settings);
+        public void Insert(List<DbSetting> settings) => _databaseContext.AddRange(settings);
 
-        public void DeleteAll() => _databaseContext.Setting = null;
+        public void DeleteAll() => _databaseContext.RemoveRange(_databaseContext.Setting);
     }
 }
