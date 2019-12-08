@@ -15,5 +15,9 @@ namespace AMTools.Shared.Core.Models
         public static readonly string UserResponsesText = "UserResponsesText";
         public static readonly string SubGroups = "SubGroups";
         public static readonly string Qualifications = "Qualifications";
+        public static readonly string ShowAvailabilityTimestamp = "ShowAvailabilityTimestamp";
+        public static readonly string GroupSubscribersByQualification = "GroupSubscribersByQualification";
+        public static readonly string SortSubscribersByName = "SortSubscribersByName";
+        public static readonly string AlertHistoryLength = "AlertHistoryLength";
     }
 }

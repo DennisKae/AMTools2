@@ -27,6 +27,10 @@ namespace AMTools.Web.Data.Database.Models
 
         public string Xml { get; set; }
 
+        public bool Enabled { get; set; }
+
+        public DateTime? TimestampOfDeactivation { get; set; }
+
         public DateTime SysStampIn { get; set; }
         public DateTime? SysStampUp { get; set; }
         public bool SysDeleted { get; set; }
