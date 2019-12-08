@@ -30,7 +30,7 @@ namespace AMTools.Web.Data.Files.Repositories
             {
                 return null;
             }
-            var result = new Setting { SettingName = settingName };
+            var result = new Setting { Name = settingName };
             bool valueHasId = value.Contains('=');
             if (valueHasId)
             {
