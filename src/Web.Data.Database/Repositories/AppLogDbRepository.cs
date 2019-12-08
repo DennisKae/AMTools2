@@ -7,19 +7,15 @@ using AMTools.Web.Data.Database.Models;
 
 namespace AMTools.Web.Data.Database.Repositories
 {
-    public class AppLogDbRepository
+    public class AppLogDbRepository : BaseRepository
     {
         private readonly DatabaseContext _databaseContext;
 
-        public AppLogDbRepository(DatabaseContext databaseContext)
+        public AppLogDbRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
             _databaseContext = databaseContext;
         }
 
-        public void Insert(DbAppLog appLog)
-        {
-            _databaseContext.Add(appLog);
-            _databaseContext.SaveChanges();
-        }
+        public void Insert(DbAppLog appLog) => _databaseContext.Add(appLog);
     }
 }

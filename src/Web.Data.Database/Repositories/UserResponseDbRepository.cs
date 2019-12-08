@@ -7,11 +7,11 @@ using AMTools.Web.Data.Database.Models;
 
 namespace AMTools.Web.Data.Database.Repositories
 {
-    public class UserResponseDbRepository
+    public class UserResponseDbRepository : BaseRepository
     {
         private readonly DatabaseContext _databaseContext;
 
-        public UserResponseDbRepository(DatabaseContext databaseContext)
+        public UserResponseDbRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
             _databaseContext = databaseContext;
         }
@@ -20,11 +20,7 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public void Insert(DbUserResponse userResponse) => Insert(new List<DbUserResponse> { userResponse });
 
-        public void Insert(List<DbUserResponse> userResponses)
-        {
-            _databaseContext.UserResponse.AddRange(userResponses);
-            _databaseContext.SaveChanges();
-        }
+        public void Insert(List<DbUserResponse> userResponses) => _databaseContext.UserResponse.AddRange(userResponses);
 
         public void DeleteByAlertId(int alertId)
         {
@@ -32,7 +28,6 @@ namespace AMTools.Web.Data.Database.Repositories
             if (targets?.Count > 0)
             {
                 targets.ForEach(x => x.SysDeleted = true);
-                _databaseContext.SaveChanges();
             }
         }
     }

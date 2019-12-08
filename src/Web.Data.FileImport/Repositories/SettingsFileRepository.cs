@@ -6,11 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using AMTools.Shared.Core.Models;
+using AMTools.Web.Data.Files.Repositories.Interfaces;
 using AutoMapper;
 
 namespace AMTools.Web.Data.Files.Repositories
 {
-    public class SettingsFileRepository : FileImportRepositoryBase
+    public class SettingsFileRepository : FileImportRepositoryBase, ISettingsFileRepository
     {
         private readonly string _settingsFilePath;
         private readonly IMapper _mapper;
