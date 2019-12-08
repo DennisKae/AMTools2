@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Data.Files", "Web.Data.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Core", "Shared.Core\Shared.Core.csproj", "{2B73AE0C-FB99-4FA5-971A-023E06A3AD79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Data.Database", "Web.Data.Database\Web.Data.Database.csproj", "{F1E6C7C4-5841-417B-88AE-A1708E2DEB54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Data.Database", "Web.Data.Database\Web.Data.Database.csproj", "{F1E6C7C4-5841-417B-88AE-A1708E2DEB54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Core", "Web.Core\Web.Core.csproj", "{0D8D17F6-9F5B-444A-A5AC-54F23D85A665}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F1E6C7C4-5841-417B-88AE-A1708E2DEB54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1E6C7C4-5841-417B-88AE-A1708E2DEB54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1E6C7C4-5841-417B-88AE-A1708E2DEB54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D8D17F6-9F5B-444A-A5AC-54F23D85A665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D8D17F6-9F5B-444A-A5AC-54F23D85A665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D8D17F6-9F5B-444A-A5AC-54F23D85A665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D8D17F6-9F5B-444A-A5AC-54F23D85A665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

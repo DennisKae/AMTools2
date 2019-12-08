@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <AssemblyName>AMTools.Batch</AssemblyName>
-    <RootNamespace>AMTools.Batch</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>AMTools.Web.Core</RootNamespace>
+    <AssemblyName>AMTools.Web.Core</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shared.Core\Shared.Core.csproj" />
-    <ProjectReference Include="..\Web.Core\Web.Core.csproj" />
     <ProjectReference Include="..\Web.Data.Database\Web.Data.Database.csproj" />
     <ProjectReference Include="..\Web.Data.FileImport\Web.Data.Files.csproj" />
   </ItemGroup>
