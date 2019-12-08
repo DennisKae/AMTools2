@@ -7,27 +7,19 @@ using AMTools.Web.Data.Database.Models;
 
 namespace AMTools.Web.Data.Database.Repositories
 {
-    public class SettingDbRepository
+    public class SettingDbRepository : BaseRepository
     {
         private readonly DatabaseContext _databaseContext;
 
-        public SettingDbRepository(DatabaseContext databaseContext)
+        public SettingDbRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
             _databaseContext = databaseContext;
         }
 
         public List<DbSetting> GetByName(string name) => _databaseContext.Setting.Where(x => x.Name == name).ToList();
 
-        public void Insert(List<DbSetting> settings)
-        {
-            _databaseContext.Setting.AddRange(settings);
-            _databaseContext.SaveChanges();
-        }
+        public void Insert(List<DbSetting> settings) => _databaseContext.Setting.AddRange(settings);
 
-        public void DeleteAll()
-        {
-            _databaseContext.Setting = null;
-            _databaseContext.SaveChanges();
-        }
+        public void DeleteAll() => _databaseContext.Setting = null;
     }
 }

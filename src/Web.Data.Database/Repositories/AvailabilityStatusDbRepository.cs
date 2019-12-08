@@ -7,11 +7,11 @@ using AMTools.Web.Data.Database.Models;
 
 namespace AMTools.Web.Data.Database.Repositories
 {
-    public class AvailabilityStatusDbRepository
+    public class AvailabilityStatusDbRepository : BaseRepository
     {
         private readonly DatabaseContext _databaseContext;
 
-        public AvailabilityStatusDbRepository(DatabaseContext databaseContext)
+        public AvailabilityStatusDbRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
             _databaseContext = databaseContext;
         }

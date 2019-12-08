@@ -7,11 +7,11 @@ using AMTools.Web.Data.Database.Models;
 
 namespace AMTools.Web.Data.Database.Repositories
 {
-    public class SubscriberDbRepository
+    public class SubscriberDbRepository : BaseRepository
     {
         private readonly DatabaseContext _databaseContext;
 
-        public SubscriberDbRepository(DatabaseContext databaseContext)
+        public SubscriberDbRepository(DatabaseContext databaseContext) : base(databaseContext)
         {
             _databaseContext = databaseContext;
         }
@@ -19,11 +19,7 @@ namespace AMTools.Web.Data.Database.Repositories
         public List<DbSubscriber> GetAll() => _databaseContext.Subscriber.ToList();
 
         public void Insert(DbSubscriber subscriber) => Insert(new List<DbSubscriber> { subscriber });
-        public void Insert(List<DbSubscriber> subscribers)
-        {
-            _databaseContext.AddRange(subscribers);
-            _databaseContext.SaveChanges();
-        }
+        public void Insert(List<DbSubscriber> subscribers) => _databaseContext.AddRange(subscribers);
 
         public void Delete(int id)
         {
@@ -31,7 +27,6 @@ namespace AMTools.Web.Data.Database.Repositories
             if (target != null)
             {
                 target.SysDeleted = true;
-                _databaseContext.SaveChanges();
             }
         }
     }

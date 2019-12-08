@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.Xml;
 using AMTools.Shared.Core.Models;
 using AMTools.Web.Data.Files.Models.Callout;
+using AMTools.Web.Data.Files.Repositories.Interfaces;
 using AutoMapper;
 
 namespace AMTools.Web.Data.Files.Repositories
 {
-    public class CalloutFileRepository : FileImportRepositoryBase
+    public class CalloutFileRepository : FileImportRepositoryBase, ICalloutFileRepository
     {
         private readonly string _calloutFilePath;
         private readonly IMapper _mapper;

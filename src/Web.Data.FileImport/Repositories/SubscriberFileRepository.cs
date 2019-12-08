@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using AMTools.Shared.Core.Models;
+using AMTools.Web.Data.Files.Repositories.Interfaces;
 
 namespace AMTools.Web.Data.Files.Repositories
 {
-    public class SubscriberFileRepository : FileImportRepositoryBase
+    public class SubscriberFileRepository : FileImportRepositoryBase, ISubscriberFileRepository
     {
         private readonly string _subscriberFilePath;
 

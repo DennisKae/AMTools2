@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using System.Xml;
 using AMTools.Shared.Core.Models;
 using AMTools.Web.Data.Files.Models.Callout;
+using AMTools.Web.Data.Files.Repositories.Interfaces;
 using AutoMapper;
 
 namespace AMTools.Web.Data.Files.Repositories
 {
-    public class AvailabilityFileRepository : FileImportRepositoryBase
+    public class AvailabilityFileRepository : FileImportRepositoryBase, IAvailabilityFileRepository
     {
         private readonly string _availabilityFilePath;
         private readonly IMapper _mapper;
