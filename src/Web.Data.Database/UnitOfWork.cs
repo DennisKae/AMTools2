@@ -5,8 +5,9 @@ using AMTools.Web.Data.Database.Repositories;
 
 namespace AMTools.Web.Data.Database
 {
-    public class UnitOfWork : IDisposable
+    public sealed class UnitOfWork : IDisposable
     {
+        private readonly string _repositoryNotFoundMessage = "Dieses Repository existiert nicht oder wurde falsch implementiert.";
         private readonly DatabaseContext _databaseContext;
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
@@ -22,7 +23,7 @@ namespace AMTools.Web.Data.Database
         {
             if (typeof(T).BaseType != typeof(BaseRepository))
             {
-                throw new ArgumentException("Dieses Repository existiert nicht oder wurde falsch implementiert.");
+                throw new ArgumentException(_repositoryNotFoundMessage);
             }
 
             if (!_repositories.ContainsKey(typeof(T)))

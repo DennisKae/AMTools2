@@ -88,6 +88,11 @@ namespace AMTools.Web.Data.Files.Repositories
         public List<UserResponse> GetUserResponses(AlertIdentification alertIdentification)
         {
             var result = new List<AlertUserResponseImportModel>();
+            if (alertIdentification == null)
+            {
+                return _mapper.Map<List<UserResponse>>(result);
+            }
+
             XmlNode alertNode = GetAlertNodeById(alertIdentification);
 
             if (alertNode == null)

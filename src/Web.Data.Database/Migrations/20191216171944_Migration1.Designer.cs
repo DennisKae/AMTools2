@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AMTools.Web.Data.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20191208204058_Migration1")]
+    [Migration("20191216171944_Migration1")]
     partial class Migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,9 @@ namespace AMTools.Web.Data.Database.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
 
                     b.Property<int>("Number")
                         .HasColumnType("INTEGER");
@@ -65,6 +67,8 @@ namespace AMTools.Web.Data.Database.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Enabled");
 
                     b.HasIndex("Number");
 
@@ -236,9 +240,6 @@ namespace AMTools.Web.Data.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("datetime('now','localtime')");
-
-                    b.Property<DateTime?>("SysStampUp")
-                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("TEXT");

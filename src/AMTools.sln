@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Core", "Shared.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Data.Database", "Web.Data.Database\Web.Data.Database.csproj", "{F1E6C7C4-5841-417B-88AE-A1708E2DEB54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Core", "Web.Core\Web.Core.csproj", "{0D8D17F6-9F5B-444A-A5AC-54F23D85A665}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Core", "Web.Core\Web.Core.csproj", "{0D8D17F6-9F5B-444A-A5AC-54F23D85A665}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{852A7201-F462-4901-8A7B-C632F8A8129A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
