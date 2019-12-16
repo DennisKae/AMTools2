@@ -40,9 +40,11 @@ namespace AMTools.Web.Data.Files.Repositories
             XmlNodeList alertNodes = rootNode.SelectNodes("Alert");
             foreach (XmlNode alertNode in alertNodes)
             {
-                var newAlert = new AlertIdentification();
-                newAlert.Number = int.TryParse(alertNode.SelectSingleNode("Number//text()")?.Value, out int parsedNumber) ? parsedNumber : default;
-                newAlert.Timestamp = DateTime.TryParse(alertNode.SelectSingleNode("Timestamp//text()")?.Value, out DateTime parsedTimestamp) ? parsedTimestamp : default;
+                var newAlert = new AlertIdentification
+                {
+                    Number = int.TryParse(alertNode.SelectSingleNode("Number//text()")?.Value, out int parsedNumber) ? parsedNumber : default,
+                    Timestamp = DateTime.TryParse(alertNode.SelectSingleNode("Timestamp//text()")?.Value, out DateTime parsedTimestamp) ? parsedTimestamp : default
+                };
                 result.Add(newAlert);
             }
 
@@ -74,13 +76,15 @@ namespace AMTools.Web.Data.Files.Repositories
                 return null;
             }
 
-            var result = new AlertImportModel();
-            result.Number = int.TryParse(alertNode.SelectSingleNode("Number//text()")?.Value, out int parsedNumber) ? parsedNumber : default;
-            result.Timestamp = DateTime.TryParse(alertNode.SelectSingleNode("Timestamp//text()")?.Value, out DateTime parsedTimestamp) ? parsedTimestamp : default;
+            var result = new AlertImportModel
+            {
+                Number = int.TryParse(alertNode.SelectSingleNode("Number//text()")?.Value, out int parsedNumber) ? parsedNumber : default,
+                Timestamp = DateTime.TryParse(alertNode.SelectSingleNode("Timestamp//text()")?.Value, out DateTime parsedTimestamp) ? parsedTimestamp : default,
+                Text = alertNode.SelectSingleNode("Text/text()")?.Value,
+                AlertedSubscribers = alertNode.SelectSingleNode("AlertedSubscribers/text()")?.Value,
+                Xml = alertNode.OuterXml
+            };
             result.AlertTimestamp = GetDateTimeFromAlertTimestamp(alertNode.SelectSingleNode("AlertTimestamp//text()")?.Value, result.Timestamp);
-            result.Text = alertNode.SelectSingleNode("Text/text()")?.Value;
-            result.AlertedSubscribers = alertNode.SelectSingleNode("AlertedSubscribers/text()")?.Value;
-            result.Xml = alertNode.OuterXml;
 
             return _mapper.Map<Alert>(result);
         }
@@ -103,11 +107,13 @@ namespace AMTools.Web.Data.Files.Repositories
             XmlNodeList userResponseNodes = alertNode.SelectNodes("UserResponses//UserResponse");
             foreach (XmlNode userResponseNode in userResponseNodes)
             {
-                var newResponse = new AlertUserResponseImportModel();
-                newResponse.Issi = userResponseNode.SelectSingleNode("ISSI//text()")?.Value;
-                newResponse.Accept = bool.TryParse(userResponseNode.SelectSingleNode("Accept//text()")?.Value, out bool parsedAccept) ? parsedAccept : default;
-                newResponse.Color = userResponseNode.SelectSingleNode("Color//text()")?.Value;
-                newResponse.Response = userResponseNode.SelectSingleNode("Response//text()")?.Value;
+                var newResponse = new AlertUserResponseImportModel
+                {
+                    Issi = userResponseNode.SelectSingleNode("ISSI//text()")?.Value,
+                    Accept = bool.TryParse(userResponseNode.SelectSingleNode("Accept//text()")?.Value, out bool parsedAccept) ? parsedAccept : default,
+                    Color = userResponseNode.SelectSingleNode("Color//text()")?.Value,
+                    Response = userResponseNode.SelectSingleNode("Response//text()")?.Value
+                };
 
                 if (!string.IsNullOrWhiteSpace(newResponse.Response) && newResponse.Response.Contains('-'))
                 {
