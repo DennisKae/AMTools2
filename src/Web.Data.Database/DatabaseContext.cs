@@ -34,26 +34,6 @@ namespace AMTools.Web.Data.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=" + @"C:\install\AMTools2\AMTools2.db");
-
-            //ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
-            //{
-            //    var configurations = new LoggerFilterOptions
-            //    {
-            //        MinLevel = LogLevel.Information
-            //    };
-
-            //    builder.AddFilter((category, level) =>
-            //    {
-            //        Console.WriteLine("Category: " + category);
-            //        return true;
-            //        // DbLoggerCategory.Database.Transaction.Name
-            //        //return category == DbLoggerCategory.Database.Command.Name && level >= LogLevel.Information;
-            //        //return category == DbLoggerCategory.Database.Transaction.Name && level >= LogLevel.Information;
-            //    }).AddConsole();
-            //});
-
-            //optionsBuilder.UseLoggerFactory(loggerFactory);
-            //optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override bool ObjectIsInstanceOfForbiddenClass(object target)
