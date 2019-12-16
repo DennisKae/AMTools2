@@ -110,6 +110,39 @@ namespace AMTools.Web.Data.Database.Migrations
                     b.ToTable("AppLog");
                 });
 
+            modelBuilder.Entity("AMTools.Web.Data.Database.Models.DbAuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("KeyValues")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NewValues")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OldValues")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Operation")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("SysStampIn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT")
+                        .HasDefaultValueSql("datetime('now','localtime')");
+
+                    b.Property<string>("TableName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TableName");
+
+                    b.ToTable("AuditLog");
+                });
+
             modelBuilder.Entity("AMTools.Web.Data.Database.Models.DbAvailabilityStatus", b =>
                 {
                     b.Property<int>("Id")

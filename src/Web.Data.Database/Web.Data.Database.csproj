@@ -33,14 +33,18 @@
     <Compile Remove="Migrations\20191216163846_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20191216171706_Migration1.cs" />
     <Compile Remove="Migrations\20191216171706_Migration1.Designer.cs" />
+    <Compile Remove="Migrations\20191216171944_Migration1.cs" />
+    <Compile Remove="Migrations\20191216171944_Migration1.Designer.cs" />
+    <Compile Remove="Migrations\20191216202312_Migration2.cs" />
+    <Compile Remove="Migrations\20191216202312_Migration2.Designer.cs" />
+    <Compile Remove="Migrations\20191216202351_Migration2.cs" />
+    <Compile Remove="Migrations\20191216202351_Migration2.Designer.cs" />
+    <Compile Remove="Migrations\20191216204803_Migration3.cs" />
+    <Compile Remove="Migrations\20191216204803_Migration3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
@@ -51,6 +55,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
   <ItemGroup>
