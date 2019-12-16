@@ -25,25 +25,22 @@ namespace AMTools.Web.Core.Services.DataSynchronization
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Erkennt neue Alerts
-        /// </summary>
+        /// <summary>Erkennt neue Alerts</summary>
         public List<AlertIdentification> GetNewAlerts()
         {
             var result = new List<AlertIdentification>();
             List<AlertIdentification> fileAlertIdentifications = _calloutFileRepository.GetAllAlertIds();
 
+            // Keine File-Alerts => Alle DB-Alerts deaktivieren
+            if (fileAlertIdentifications == null || fileAlertIdentifications.Count == 0)
+            {
+                DisableAllAlerts();
+                return result;
+            }
+
             using (var unit = new UnitOfWork())
             {
                 var dbRepo = unit.GetRepository<AlertDbRepository>();
-
-                // Keine File-Alerts => Alle DB-Alerts deaktivieren
-                if (fileAlertIdentifications == null || fileAlertIdentifications.Count == 0)
-                {
-                    dbRepo.DisableAll();
-                    unit.SaveChanges();
-                    return result;
-                }
 
                 // Keine aktive DB-Alerts vorhanden => Alle File-Alerts sind neu
                 List<DbAlert> activeDbAlerts = dbRepo.GetEnabledAlerts();
@@ -52,26 +49,108 @@ namespace AMTools.Web.Core.Services.DataSynchronization
                     return fileAlertIdentifications;
                 }
 
-                // TODO: Einzelne File-Alerts auf Vorhandensein überprüfen und bei nicht-vorhandensein returnen
+                // Einzelne File-Alerts auf Vorhandensein überprüfen und bei nicht-vorhandensein zurückgeben
+                foreach (AlertIdentification fileAlertIdentification in fileAlertIdentifications)
+                {
+                    DbAlert dbAlert = dbRepo.GetByAlertIdentification(fileAlertIdentification);
+                    if (dbAlert == null)
+                    {
+                        result.Add(fileAlertIdentification);
+                    }
+                }
             }
 
             return result;
         }
 
-        /// <summary>
-        /// Ganz normaler Sync. 
-        /// </summary>
-        public void Sync()
+        public void DisableAllAlerts()
         {
-            //TODO: Wird das überhaupt gebraucht?
+            using (var unit = new UnitOfWork())
+            {
+                var dbRepo = unit.GetRepository<AlertDbRepository>();
+                dbRepo.DisableAll();
+                unit.SaveChanges();
+            }
         }
 
-        /// <summary>
-        /// Deaktiviert DB-Alerts, die nicht mehr im Alert-File vorhanden sind
-        /// </summary>
+        public void ImportAlerts(List<AlertIdentification> alertIdentifications)
+        {
+            if (alertIdentifications == null || alertIdentifications.Count == 0)
+            {
+                return;
+            }
+
+            using (var unit = new UnitOfWork())
+            {
+                var dbRepo = unit.GetRepository<AlertDbRepository>();
+                bool hasInserts = false;
+                foreach (AlertIdentification alertIdentification in alertIdentifications)
+                {
+                    Alert fileAlert = _calloutFileRepository.GetAlert(alertIdentification);
+                    if (fileAlert == null)
+                    {
+                        // Kein Datensatz zum Import gefunden
+                        continue;
+                    }
+
+                    DbAlert dbAlert = dbRepo.GetByAlertIdentification(alertIdentification);
+                    if (dbAlert != null)
+                    {
+                        // Alert existiert bereits in der DB
+                        continue;
+                    }
+
+                    DbAlert newDbAlert = _mapper.Map<DbAlert>(fileAlert);
+                    if (newDbAlert != null)
+                    {
+                        dbRepo.Insert(newDbAlert);
+                        hasInserts = true;
+                    }
+                }
+
+                if (hasInserts)
+                {
+                    unit.SaveChanges();
+                }
+            }
+        }
+
+        /// <summary>Deaktiviert DB-Alerts, die nicht mehr im Alert-File vorhanden sind</summary>
         public void DisableObsoleteAlerts()
         {
+            using (var unit = new UnitOfWork())
+            {
+                var alertDbRepo = unit.GetRepository<AlertDbRepository>();
+                List<DbAlert> activeDbAlerts = alertDbRepo.GetEnabledAlerts();
+                if (activeDbAlerts == null || activeDbAlerts.Count == 0)
+                {
+                    return;
+                }
 
+                bool saveChanges = false;
+                foreach (DbAlert activeDbAlert in activeDbAlerts)
+                {
+                    var alertIdentification = new AlertIdentification
+                    {
+                        Number = activeDbAlert.Number,
+                        Timestamp = activeDbAlert.Timestamp
+                    };
+
+                    Alert fileAlert = _calloutFileRepository.GetAlert(alertIdentification);
+                    if (fileAlert != null)
+                    {
+                        continue;
+                    }
+
+                    alertDbRepo.Disable(activeDbAlert.Id);
+                    saveChanges = true;
+                }
+
+                if (saveChanges)
+                {
+                    unit.SaveChanges();
+                }
+            }
         }
     }
 }

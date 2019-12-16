@@ -26,10 +26,7 @@ namespace AMTools.Web.Data.Database.Models
 
         public DateTime Timestamp { get; set; }
 
-
         public DateTime SysStampIn { get; set; }
-
-        public DateTime? SysStampUp { get; set; }
 
         public bool SysDeleted { get; set; }
     }

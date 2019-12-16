@@ -21,6 +21,27 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public List<DbAlert> GetEnabledAlerts() => _databaseContext.Alert.Where(x => x.Enabled).ToList();
 
+        public DbAlert GetByAlertIdentification(AlertIdentification alertIdentification)
+        {
+            if (alertIdentification == null)
+            {
+                return null;
+            }
+
+            return _databaseContext.Alert.FirstOrDefault(x => x.Number == alertIdentification.Number && x.Timestamp == alertIdentification.Timestamp);
+        }
+
+        public void Disable(int alertId)
+        {
+            DbAlert target = _databaseContext.Alert.FirstOrDefault(x => x.Id == alertId);
+            if (target != null)
+            {
+                target.Enabled = false;
+                target.TimestampOfDeactivation = DateTime.Now;
+                target.SysStampUp = DateTime.Now;
+            }
+        }
+
         public void DisableAll()
         {
             List<DbAlert> targets = _databaseContext.Alert.Where(x => x.Enabled).ToList();
@@ -35,5 +56,7 @@ namespace AMTools.Web.Data.Database.Repositories
                 });
             }
         }
+
+        public void Insert(DbAlert dbAlert) => _databaseContext.Add(dbAlert);
     }
 }

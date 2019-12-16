@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AMTools.Web.Data.Database.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Migration1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,8 @@ namespace AMTools.Web.Data.Database.Migrations
                     Text = table.Column<string>(nullable: true),
                     AlertedSubscribers = table.Column<string>(nullable: true),
                     Xml = table.Column<string>(nullable: true),
+                    Enabled = table.Column<bool>(nullable: false, defaultValue: true),
+                    TimestampOfDeactivation = table.Column<DateTime>(nullable: true),
                     SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
                     SysStampUp = table.Column<DateTime>(nullable: true),
                     SysDeleted = table.Column<bool>(nullable: false, defaultValue: false)
@@ -113,7 +115,6 @@ namespace AMTools.Web.Data.Database.Migrations
                     Response = table.Column<string>(nullable: true),
                     Timestamp = table.Column<DateTime>(nullable: false),
                     SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')"),
-                    SysStampUp = table.Column<DateTime>(nullable: true),
                     SysDeleted = table.Column<bool>(nullable: false, defaultValue: false)
                 },
                 constraints: table =>
@@ -122,9 +123,19 @@ namespace AMTools.Web.Data.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Alert_Enabled",
+                table: "Alert",
+                column: "Enabled");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Alert_Number",
                 table: "Alert",
                 column: "Number");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Alert_SysDeleted",
+                table: "Alert",
+                column: "SysDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Alert_Timestamp",

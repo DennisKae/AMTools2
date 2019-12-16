@@ -6,6 +6,10 @@
     <RootNamespace>AMTools.Web.Data.Database</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
+    <NoWarn>1701;1702;IDE0058;CA1062</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Migrations\20191208145211_Migration1.cs" />
     <Compile Remove="Migrations\20191208145211_Migration1.Designer.cs" />
@@ -19,10 +23,24 @@
     <Compile Remove="Migrations\20191208152142_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20191208173751_Migration1.cs" />
     <Compile Remove="Migrations\20191208173751_Migration1.Designer.cs" />
+    <Compile Remove="Migrations\20191208182327_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191208182327_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191208204058_Migration1.cs" />
+    <Compile Remove="Migrations\20191208204058_Migration1.Designer.cs" />
+    <Compile Remove="Migrations\20191216160436_Migration2.cs" />
+    <Compile Remove="Migrations\20191216160436_Migration2.Designer.cs" />
+    <Compile Remove="Migrations\20191216163846_InitialMigration.cs" />
+    <Compile Remove="Migrations\20191216163846_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20191216171706_Migration1.cs" />
+    <Compile Remove="Migrations\20191216171706_Migration1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>

@@ -29,7 +29,9 @@ namespace AMTools.Web.Data.Database.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Enabled")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
 
                     b.Property<int>("Number")
                         .HasColumnType("INTEGER");
@@ -63,6 +65,8 @@ namespace AMTools.Web.Data.Database.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Enabled");
 
                     b.HasIndex("Number");
 
@@ -234,9 +238,6 @@ namespace AMTools.Web.Data.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("datetime('now','localtime')");
-
-                    b.Property<DateTime?>("SysStampUp")
-                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("TEXT");

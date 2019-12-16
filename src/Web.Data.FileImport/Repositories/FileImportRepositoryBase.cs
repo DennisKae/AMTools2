@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,10 +31,7 @@ namespace AMTools.Web.Data.Files.Repositories
             return true;
         }
 
-        protected string GetTimestampFromDateTime(DateTime dateTime)
-        {
-            return dateTime.ToString("yyyy-MM-dd,HH:mm:ss");
-        }
+        protected string GetTimestampFromDateTime(DateTime dateTime) => dateTime.ToString("yyyy-MM-dd,HH:mm:ss", CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Parsed ein DateTime aus einem string im Format "03.11. 20:29:42"

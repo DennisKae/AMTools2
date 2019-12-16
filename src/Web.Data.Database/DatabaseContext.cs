@@ -29,14 +29,14 @@ namespace AMTools.Web.Data.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DbAppLog>(entity =>
+            modelBuilder?.Entity<DbAppLog>(entity =>
             {
                 entity.HasQueryFilter(x => !x.SysDeleted);
                 entity.HasIndex(x => x.Timestamp);
                 entity.HasIndex(x => x.ApplicationPart);
             });
 
-            modelBuilder.Entity<DbSubscriber>(entity =>
+            modelBuilder?.Entity<DbSubscriber>(entity =>
             {
                 entity.HasQueryFilter(x => !x.SysDeleted);
                 entity.HasIndex(x => x.Issi);
@@ -45,7 +45,7 @@ namespace AMTools.Web.Data.Database
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
             });
 
-            modelBuilder.Entity<DbAvailabilityStatus>(entity =>
+            modelBuilder?.Entity<DbAvailabilityStatus>(entity =>
             {
                 entity.HasQueryFilter(x => !x.SysDeleted);
                 entity.HasIndex(x => x.Issi);
@@ -54,18 +54,21 @@ namespace AMTools.Web.Data.Database
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
             });
 
-            modelBuilder.Entity<DbAlert>(entity =>
+            modelBuilder?.Entity<DbAlert>(entity =>
             {
                 entity.HasQueryFilter(x => !x.SysDeleted);
                 entity.HasIndex(x => x.Number);
                 entity.HasIndex(x => x.Timestamp);
                 entity.HasIndex(x => x.SysDeleted);
+                entity.HasIndex(x => x.Enabled);
+
+                entity.Property(x => x.Enabled).HasDefaultValue(true);
 
                 entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now','localtime')");
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
             });
 
-            modelBuilder.Entity<DbUserResponse>(entity =>
+            modelBuilder?.Entity<DbUserResponse>(entity =>
             {
                 entity.HasQueryFilter(x => !x.SysDeleted);
                 entity.HasIndex(x => x.AlertId);
@@ -75,7 +78,7 @@ namespace AMTools.Web.Data.Database
                 entity.Property(x => x.SysDeleted).HasDefaultValue(false);
             });
 
-            modelBuilder.Entity<DbSetting>(entity =>
+            modelBuilder?.Entity<DbSetting>(entity =>
             {
                 entity.Property(x => x.SysStampIn).HasDefaultValueSql("datetime('now','localtime')");
             });
