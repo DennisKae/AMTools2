@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AMTools.Web.Data.Database.Migrations
 {
-    public partial class Migration1 : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,6 +47,24 @@ namespace AMTools.Web.Data.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppLog", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AuditLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TableName = table.Column<string>(nullable: true),
+                    Operation = table.Column<string>(nullable: true),
+                    KeyValues = table.Column<string>(nullable: true),
+                    OldValues = table.Column<string>(nullable: true),
+                    NewValues = table.Column<string>(nullable: true),
+                    SysStampIn = table.Column<DateTime>(nullable: false, defaultValueSql: "datetime('now','localtime')")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditLog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,6 +171,11 @@ namespace AMTools.Web.Data.Database.Migrations
                 column: "Timestamp");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuditLog_TableName",
+                table: "AuditLog",
+                column: "TableName");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AvailabilityStatus_Issi",
                 table: "AvailabilityStatus",
                 column: "Issi");
@@ -180,6 +203,9 @@ namespace AMTools.Web.Data.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "AppLog");
+
+            migrationBuilder.DropTable(
+                name: "AuditLog");
 
             migrationBuilder.DropTable(
                 name: "AvailabilityStatus");

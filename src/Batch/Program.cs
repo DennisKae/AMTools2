@@ -33,8 +33,8 @@ namespace AMTools.Batch
             //List<Subscriber> allSubscribers = subscriberFileRepo.GetAllSubscribers();
 
 
-            //const string availabilityFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\availability.hst";
-            //var availabilityFileRepo = new AvailabilityFileRepository(availabilityFilePath, mapper);
+            const string availabilityFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\availability.hst";
+            var availabilityFileRepo = new AvailabilityFileRepository(availabilityFilePath, mapper);
             //var availabilityByIssi = availabilityFileRepo.GetAvailabilityByIssi(allSubscribers[0].Issi);
             //var allAvailabilities = availabilityFileRepo.GetAllAvailabilities();
 
@@ -51,14 +51,14 @@ namespace AMTools.Batch
              * Sync Services
              */
 
-            var settingsSyncService = new SettingsSyncService(settingsFileRepo, mapper);
-            settingsSyncService.Sync();
+            //var settingsSyncService = new SettingsSyncService(settingsFileRepo, mapper);
+            //settingsSyncService.Sync();
 
             //var subscriberSyncService = new SubscriberSyncService(subscriberFileRepo, mapper);
             //subscriberSyncService.Sync();
 
-            //var availabilityStatusSyncService = new AvailabilityStatusSyncService(availabilityFileRepo, mapper);
-            //availabilityStatusSyncService.Sync();
+            var availabilityStatusSyncService = new AvailabilityStatusSyncService(availabilityFileRepo, mapper);
+            availabilityStatusSyncService.Sync();
 
 
             /*
