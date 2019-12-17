@@ -130,6 +130,7 @@ namespace AMTools.Web
                 services.AddHostedService<SettingsBackgroundService>();
                 services.AddHostedService<AvailabilityStatusBackgroundService>();
                 services.AddHostedService<SubscriberBackgroundService>();
+                services.AddHostedService<CalloutBackgroundService>();
             }
             catch (Exception exception)
             {
