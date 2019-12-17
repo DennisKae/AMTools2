@@ -84,7 +84,7 @@ namespace AMTools.Batch
             // UserResponse Updates verarbeiten
             var userResponseSyncService = new UserResponseSyncService(mapper, calloutFileRepo);
             List<DbUserResponse> newUserResponses = userResponseSyncService.SyncAndGetNewUserResponses();
-            // TODO: Benachrichtigungen der neuen UserResponses versenden
+            // TODO: Benachrichtigungen über neue UserResponses versenden
 
             // Obsolete Alerts deaktivieren
             alertSyncService.DisableObsoleteAlerts();

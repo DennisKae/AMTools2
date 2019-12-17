@@ -29,12 +29,12 @@ namespace AMTools.Web.BackgroundServices
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             DateiKonfiguration dateiKonfiguration = _configurationFileRepository?.GetConfigFromJsonFile<DateiKonfiguration>();
-            InitializeFileSystemWatcher(dateiKonfiguration?.SubscriberDatei);
+            InitializeBackgroundService(dateiKonfiguration?.SubscriberDatei);
 
             return Task.CompletedTask;
         }
 
-        protected override void OnFileChange(object sender, FileSystemEventArgs eventArgs)
+        protected override void OnFileChange()
         {
             _subscriberSyncService.Sync();
         }

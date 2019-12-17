@@ -17,7 +17,6 @@ namespace AMTools.Web.BackgroundServices
     {
         private readonly ISettingsSyncService _settingsSyncService;
         private readonly IConfigurationFileRepository _configurationFileRepository;
-        private readonly ILogService _logService;
 
         public SettingsBackgroundService(
             ISettingsSyncService settingsSyncService,
@@ -26,18 +25,17 @@ namespace AMTools.Web.BackgroundServices
         {
             _settingsSyncService = settingsSyncService;
             _configurationFileRepository = configurationFileRepository;
-            _logService = logService;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             DateiKonfiguration dateiKonfiguration = _configurationFileRepository?.GetConfigFromJsonFile<DateiKonfiguration>();
-            InitializeFileSystemWatcher(dateiKonfiguration?.SettingsDatei);
+            InitializeBackgroundService(dateiKonfiguration?.SettingsDatei);
 
             return Task.CompletedTask;
         }
 
-        protected override void OnFileChange(object sender, FileSystemEventArgs eventArgs)
+        protected override void OnFileChange()
         {
             _settingsSyncService.Sync();
         }
