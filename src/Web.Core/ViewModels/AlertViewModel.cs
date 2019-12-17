@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AMTools.Shared.Core.Models;
 
-namespace AMTools.Shared.Core.Models
+namespace AMTools.Web.Core.ViewModels
 {
-    public class Alert
+    public class AlertViewModel
     {
-        /// <summary>Datenbank-ID</summary>
+        /// <summary>Datenbank-Id</summary>
         public int? Id { get; set; }
 
         public int Number { get; set; }
@@ -28,5 +29,7 @@ namespace AMTools.Shared.Core.Models
         public bool Enabled { get; set; }
 
         public DateTime? TimestampOfDeactivation { get; set; }
+
+        public List<UserResponseViewModel> UserResponses { get; set; }
     }
 }

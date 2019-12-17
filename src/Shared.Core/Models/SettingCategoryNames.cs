@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AMTools.Shared.Core.Models
 {
-    public static class SettingNames
+    public static class SettingCategoryNames
     {
         public static readonly string License = "License";
         public static readonly string Availability = "Availability";
