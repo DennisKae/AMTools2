@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="AlarmKonfiguration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="DateiKonfiguration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
