@@ -53,6 +53,8 @@ namespace AMTools.Web
                 c.IncludeXmlComments(xmlPath);
             });
             services.AddSwaggerGenNewtonsoftSupport();
+
+            InjectDependencies(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,6 +81,10 @@ namespace AMTools.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetExecutingAssembly().GetName().Name + " API V1");
             });
+        }
+
+        private void InjectDependencies(IServiceCollection services)
+        {
         }
     }
 }

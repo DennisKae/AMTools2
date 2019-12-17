@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Models.Konfigurationen;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Data.Files.Models.Callout;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
 using AutoMapper;
@@ -13,28 +16,29 @@ namespace AMTools.Web.Data.Files.Repositories
 {
     public class CalloutFileRepository : FileImportRepositoryBase, ICalloutFileRepository
     {
-        private readonly string _calloutFilePath;
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
         public CalloutFileRepository(
-            string calloutFilePath,
-            IMapper mapper
-            )
+            ILogService logService,
+            IConfigurationFileRepository configurationFileRepository,
+            IMapper mapper) : base(logService)
         {
-            _calloutFilePath = calloutFilePath;
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
         }
 
         public List<AlertIdentification> GetAllAlertIds()
         {
+            DateiKonfiguration dateiKonfig = _configurationFileRepository?.GetConfigFromJsonFile<DateiKonfiguration>();
             var result = new List<AlertIdentification>();
-            if (!FileExistsAndIsNotEmpty(_calloutFilePath))
+            if (!FileExistsAndIsNotEmpty(nameof(dateiKonfig.CalloutDatei), dateiKonfig?.CalloutDatei))
             {
                 return result;
             }
 
             var xmlDocument = new XmlDocument();
-            xmlDocument.Load(_calloutFilePath);
+            xmlDocument.Load(dateiKonfig.CalloutDatei);
             XmlNode rootNode = xmlDocument.DocumentElement;
 
             XmlNodeList alertNodes = rootNode.SelectNodes("Alert");
@@ -53,13 +57,14 @@ namespace AMTools.Web.Data.Files.Repositories
 
         private XmlNode GetAlertNodeById(AlertIdentification alertIdentification)
         {
-            if (alertIdentification == null || !FileExistsAndIsNotEmpty(_calloutFilePath))
+            DateiKonfiguration dateiKonfig = _configurationFileRepository?.GetConfigFromJsonFile<DateiKonfiguration>();
+            if (alertIdentification == null || !FileExistsAndIsNotEmpty(nameof(dateiKonfig.CalloutDatei), dateiKonfig?.CalloutDatei))
             {
                 return null;
             }
 
             var xmlDocument = new XmlDocument();
-            xmlDocument.Load(_calloutFilePath);
+            xmlDocument.Load(dateiKonfig.CalloutDatei);
             XmlNode rootNode = xmlDocument.DocumentElement;
             string alertTimestmap = GetTimestampFromDateTime(alertIdentification.Timestamp);
             XmlNode alertNode = rootNode.SelectSingleNode($"/Alerts/Alert[Number='{alertIdentification.Number}' and Timestamp='{alertTimestmap}']");

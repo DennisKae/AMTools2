@@ -5,7 +5,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Models.Konfigurationen;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
 using AutoMapper;
 
@@ -13,15 +16,15 @@ namespace AMTools.Web.Data.Files.Repositories
 {
     public class SettingsFileRepository : FileImportRepositoryBase, ISettingsFileRepository
     {
-        private readonly string _settingsFilePath;
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
         public SettingsFileRepository(
-            string settingsFilePath,
-            IMapper mapper
-            )
+            ILogService logService,
+            IConfigurationFileRepository configurationFileRepository,
+            IMapper mapper) : base(logService)
         {
-            _settingsFilePath = settingsFilePath;
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
         }
 
@@ -75,13 +78,14 @@ namespace AMTools.Web.Data.Files.Repositories
         public List<Setting> GetSetting(string settingName)
         {
             var result = new List<Setting>();
-            if (string.IsNullOrWhiteSpace(settingName) || !FileExistsAndIsNotEmpty(_settingsFilePath))
+            DateiKonfiguration dateiKonfig = _configurationFileRepository?.GetConfigFromJsonFile<DateiKonfiguration>();
+            if (string.IsNullOrWhiteSpace(settingName) || !FileExistsAndIsNotEmpty(nameof(dateiKonfig.SettingsDatei), dateiKonfig?.SettingsDatei))
             {
                 return result;
             }
 
             var xmlDocument = new XmlDocument();
-            xmlDocument.Load(_settingsFilePath);
+            xmlDocument.Load(dateiKonfig.SettingsDatei);
             XmlNode rootNode = xmlDocument.DocumentElement;
 
             XmlNode settingNode = rootNode.SelectSingleNode($"/settings/setting[@name='{settingName}']");

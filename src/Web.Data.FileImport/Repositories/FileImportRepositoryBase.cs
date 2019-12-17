@@ -5,26 +5,31 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
 
 namespace AMTools.Web.Data.Files.Repositories
 {
     public class FileImportRepositoryBase
     {
-        protected bool FileExistsAndIsNotEmpty(string filepath)
-        {
-            if (string.IsNullOrWhiteSpace(filepath))
-            {
-                return false;
-            }
+        private readonly ILogService _logService;
 
-            if (!File.Exists(filepath))
+        public FileImportRepositoryBase(ILogService logService)
+        {
+            _logService = logService;
+        }
+
+        protected bool FileExistsAndIsNotEmpty(string propertyName, string filepath)
+        {
+            if (string.IsNullOrWhiteSpace(filepath) || !File.Exists(filepath))
             {
+                _logService.Error($"Konfigurationsproblem: {propertyName} nicht gefunden.");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(File.ReadAllText(filepath)))
             {
+                _logService.Info("Die folgende Datei ist leer: " + filepath);
                 return false;
             }
 
