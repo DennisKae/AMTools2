@@ -11,6 +11,8 @@ using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Shared.Core.Services;
 using AMTools.Shared.Core.Services.Interfaces;
 using AMTools.Shared.Core.Services.Logging;
+using AMTools.Shared.Core.Services.VirtualDesktops;
+using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.BackgroundServices;
 using AMTools.Web.Core.Services.DataSynchronization;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
