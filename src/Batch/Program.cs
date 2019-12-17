@@ -51,7 +51,7 @@ namespace AMTools.Batch
              * Sync Services
              */
 
-            var settingsSyncService = new SettingsSyncService(settingsFileRepo, mapper);
+            var settingsSyncService = new SettingsSyncService(logService, settingsFileRepo, mapper);
             settingsSyncService.Sync();
 
             var subscriberSyncService = new SubscriberSyncService(subscriberFileRepo, mapper);

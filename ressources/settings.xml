@@ -143,7 +143,7 @@
     <value>EF=Einheitsführer</value>
     <value>AGT=Atemschutzgeräteträger</value>
     <value>MA=Maschinist</value>
-    <value>DEFAULT=Einsatzkraft</value>
+    <value>DEFAULT=Einsatzkraft2</value>
   </setting>
   <setting name="SubscriberLists" />
   <setting name="ServerIP">
