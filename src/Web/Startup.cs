@@ -14,9 +14,13 @@ using AMTools.Shared.Core.Services.Logging;
 using AMTools.Shared.Core.Services.VirtualDesktops;
 using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.BackgroundServices;
+using AMTools.Web.Core.Facades;
+using AMTools.Web.Core.Facades.Interfaces;
 using AMTools.Web.Core.Services.DataSynchronization;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Data.Database;
+using AMTools.Web.Data.Database.Services;
+using AMTools.Web.Data.Database.Services.Interfaces;
 using AMTools.Web.Data.Files;
 using AMTools.Web.Data.Files.Repositories;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
@@ -146,6 +150,10 @@ namespace AMTools.Web
                 services.AddSingleton<IVirtualDesktopVersionService, VirtualDesktopVersionService>();
                 services.AddSingleton<IVirtualDesktopWrapperService, VirtualDesktopWrapperService>();
                 services.AddSingleton<IVirtualDesktopService, VirtualDesktopService>();
+                services.AddSingleton<IAlertService, AlertService>();
+
+                // Facades
+                services.AddSingleton<IVirtualDesktopFacade, VirtualDesktopFacade>();
             }
             catch (Exception exception)
             {

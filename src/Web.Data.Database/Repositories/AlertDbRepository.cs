@@ -19,6 +19,8 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public List<DbAlert> GetAll() => _databaseContext.Alert.ToList();
 
+        public DbAlert GetLatestEnabledAlert() => _databaseContext.Alert.Where(x => x.Enabled).OrderByDescending(x => x.AlertTimestamp).FirstOrDefault();
+
         public List<DbAlert> GetEnabledAlerts() => _databaseContext.Alert.Where(x => x.Enabled).ToList();
 
         public DbAlert GetByAlertIdentification(AlertIdentification alertIdentification)

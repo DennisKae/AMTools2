@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
+using AMTools.Web.Core.Facades.Interfaces;
 using AMTools.Web.Data.Database.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,23 +16,36 @@ namespace AMTools.Web.Controllers
     [ApiController]
     public class DesktopController : BaseController
     {
-        private readonly IVirtualDesktopService _virtualDesktopService;
+        private readonly IVirtualDesktopFacade _virtualDesktopFacade;
 
         public DesktopController(
-            IVirtualDesktopService virtualDesktopService,
+            IVirtualDesktopFacade virtualDesktopFacade,
             ILogFactory logFactory) : base(logFactory)
         {
-            _virtualDesktopService = virtualDesktopService;
+            _virtualDesktopFacade = virtualDesktopFacade;
         }
 
-        /// <summary>Switches to the next virtual desktop.</summary>
+        /// <summary>Wechselt zum nächsten Desktop auf der linken Seite.</summary>
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(List<AppLog>), StatusCodes.Status200OK)]
-        public IActionResult Switch()
+        public IActionResult SwitchLeft()
         {
             return Execute(() =>
             {
-                _virtualDesktopService.SwitchRight();
+                _virtualDesktopFacade.SwitchLeft();
+
+                return GetTemporaryAppLogEntries();
+            });
+        }
+
+        /// <summary>Wechselt zum nächsten Desktop auf der rechten Seite.</summary>
+        [HttpPost("[action]")]
+        [ProducesResponseType(typeof(List<AppLog>), StatusCodes.Status200OK)]
+        public IActionResult SwitchRight()
+        {
+            return Execute(() =>
+            {
+                _virtualDesktopFacade.SwitchRight();
 
                 return GetTemporaryAppLogEntries();
             });
