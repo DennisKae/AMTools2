@@ -1,6 +1,6 @@
 ﻿using AMTools.Shared.Core.Models;
 
-namespace AMTools.Shared.Core.Services.Interfaces
+namespace AMTools.Shared.Core.Services.VirtualDesktops.Interfaces
 {
     public interface IVirtualDesktopWrapperService
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
-using AMTools.Shared.Core.Services.Interfaces;
+using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Data.Database.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

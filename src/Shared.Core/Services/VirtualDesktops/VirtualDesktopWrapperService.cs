@@ -3,8 +3,9 @@ using System.IO;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Services.Interfaces;
+using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 
-namespace AMTools.Shared.Core.Services
+namespace AMTools.Shared.Core.Services.VirtualDesktops
 {
     public class VirtualDesktopWrapperService : IVirtualDesktopWrapperService
     {

@@ -23,5 +23,14 @@
     <ProjectReference Include="..\Web.Core\Web.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="_Skripte\Desktop umschalten.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="_Skripte\Skriptkonfiguration.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
