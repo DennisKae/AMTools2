@@ -9,6 +9,7 @@ using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Repositories;
 using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Shared.Core.Services.Logging;
+using AMTools.Web.BackgroundServices;
 using AMTools.Web.Core.Services.DataSynchronization;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Data.Database;
@@ -69,7 +70,7 @@ namespace AMTools.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -92,6 +93,8 @@ namespace AMTools.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetExecutingAssembly().GetName().Name + " API V1");
             });
+
+            serviceProvider.EnsureMigrationOfContext<DatabaseContext>();
         }
 
         private void InjectDependencies(IServiceCollection services)
@@ -99,21 +102,37 @@ namespace AMTools.Web
             // Singleton means only a single instance will ever be created. That instance is shared between all components that require it. The same instance is thus used always.
             // Scoped means an instance is created once per scope. A scope is created on every request to the application, thus any components registered as Scoped will be created once per request.
             // Transient components are created every time they are requested and are never shared.
-            services.AddSingleton<IConfigurationFileRepository, ConfigurationFileRepository>();
 
-            services.AddSingleton(GetMapper());
-            services.AddSingleton(GetLogService());
+            ILogService logService = GetLogService();
 
-            services.AddSingleton<IAvailabilityFileRepository, AvailabilityFileRepository>();
-            services.AddSingleton<ICalloutFileRepository, CalloutFileRepository>();
-            services.AddSingleton<ISettingsFileRepository, SettingsFileRepository>();
-            services.AddSingleton<ISubscriberFileRepository, SubscriberFileRepository>();
+            try
+            {
+                services.AddDbContext<DatabaseContext>();
+                services.AddSingleton<IConfigurationFileRepository, ConfigurationFileRepository>();
 
-            services.AddSingleton<IAlertSyncService, AlertSyncService>();
-            services.AddSingleton<IAvailabilityStatusSyncService, AvailabilityStatusSyncService>();
-            services.AddSingleton<ISettingsSyncService, SettingsSyncService>();
-            services.AddSingleton<ISubscriberSyncService, SubscriberSyncService>();
-            services.AddSingleton<IUserResponseSyncService, UserResponseSyncService>();
+                services.AddSingleton(GetMapper());
+                services.AddSingleton(logService);
+
+                // FileRepositories
+                services.AddSingleton<IAvailabilityFileRepository, AvailabilityFileRepository>();
+                services.AddSingleton<ICalloutFileRepository, CalloutFileRepository>();
+                services.AddSingleton<ISettingsFileRepository, SettingsFileRepository>();
+                services.AddSingleton<ISubscriberFileRepository, SubscriberFileRepository>();
+
+                // SyncServices
+                services.AddSingleton<IAlertSyncService, AlertSyncService>();
+                services.AddSingleton<IAvailabilityStatusSyncService, AvailabilityStatusSyncService>();
+                services.AddSingleton<ISettingsSyncService, SettingsSyncService>();
+                services.AddSingleton<ISubscriberSyncService, SubscriberSyncService>();
+                services.AddSingleton<IUserResponseSyncService, UserResponseSyncService>();
+
+                // BackgroundServices
+                services.AddHostedService<SettingsBackgroundService>();
+            }
+            catch (Exception exception)
+            {
+                logService.Exception(exception, "Exception bei der Dependency Injection.");
+            }
         }
 
         private IMapper GetMapper()
