@@ -41,7 +41,8 @@ namespace AMTools.Web.Data.Database
             // Nur diese Klassen sollen geloggt werden
             bool isInstanceOfAllowedClass = target is DbAvailabilityStatus ||
                                             target is DbAlert ||
-                                            target is DbUserResponse;
+                                            target is DbUserResponse ||
+                                            target is DbSubscriber;
 
             return !isInstanceOfAllowedClass;
         }

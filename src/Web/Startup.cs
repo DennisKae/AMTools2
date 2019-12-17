@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Repositories;
 using AMTools.Shared.Core.Repositories.Interfaces;
+using AMTools.Shared.Core.Services;
+using AMTools.Shared.Core.Services.Interfaces;
 using AMTools.Shared.Core.Services.Logging;
 using AMTools.Web.BackgroundServices;
 using AMTools.Web.Core.Services.DataSynchronization;
@@ -103,7 +105,7 @@ namespace AMTools.Web
             // Scoped means an instance is created once per scope. A scope is created on every request to the application, thus any components registered as Scoped will be created once per request.
             // Transient components are created every time they are requested and are never shared.
 
-            ILogService logService = GetLogService();
+            ILogFactory logFactory = GetLogFactory();
 
             try
             {
@@ -111,7 +113,12 @@ namespace AMTools.Web
                 services.AddSingleton<IConfigurationFileRepository, ConfigurationFileRepository>();
 
                 services.AddSingleton(GetMapper());
-                services.AddSingleton(logService);
+                services.AddSingleton(logFactory);
+                services.AddSingleton<ILogService>(serviceProvider =>
+                {
+                    ILogFactory logFactory = serviceProvider.GetService<ILogFactory>();
+                    return logFactory;
+                });
 
                 // FileRepositories
                 services.AddSingleton<IAvailabilityFileRepository, AvailabilityFileRepository>();
@@ -131,10 +138,16 @@ namespace AMTools.Web
                 services.AddHostedService<AvailabilityStatusBackgroundService>();
                 services.AddHostedService<SubscriberBackgroundService>();
                 services.AddHostedService<CalloutBackgroundService>();
+
+                // Andere Services
+                services.AddSingleton<ITerminalService, TerminalService>();
+                services.AddSingleton<IVirtualDesktopVersionService, VirtualDesktopVersionService>();
+                services.AddSingleton<IVirtualDesktopWrapperService, VirtualDesktopWrapperService>();
+                services.AddSingleton<IVirtualDesktopService, VirtualDesktopService>();
             }
             catch (Exception exception)
             {
-                logService.Exception(exception, "Exception bei der Dependency Injection.");
+                logFactory.Exception(exception, "Exception bei der Dependency Injection.");
             }
         }
 
@@ -149,9 +162,15 @@ namespace AMTools.Web
             return new Mapper(config);
         }
 
-        private ILogService GetLogService()
+        private ILogFactory GetLogFactory()
         {
-            return new ConsoleLogService(Assembly.GetExecutingAssembly().FullName, null);
+            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+            var consoleLogService = new ConsoleLogService(assemblyName, null);
+            var dbLogService = new DbLogService(assemblyName, null, consoleLogService);
+
+            var result = new LogFactory(consoleLogService, assemblyName, null);
+            result.LoggingServices.Add(dbLogService);
+            return result;
         }
     }
 }
