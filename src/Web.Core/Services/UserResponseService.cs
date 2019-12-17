@@ -4,28 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
+using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Repositories;
-using AMTools.Web.Data.Database.Services.Interfaces;
 using AutoMapper;
 
-namespace AMTools.Web.Data.Database.Services
+namespace AMTools.Web.Core.Services
 {
-    public class AlertService : IAlertService
+    public class UserResponseService : IUserResponseService
     {
         private readonly IMapper _mapper;
 
-        public AlertService(
+        public UserResponseService(
             IMapper mapper)
         {
             _mapper = mapper;
         }
 
-        public Alert GetLatestEnabledAlert()
+        public List<UserResponse> GetByAlertId(int alertId)
         {
             using (var unit = new UnitOfWork())
             {
-                var alertRepo = unit.GetRepository<AlertDbRepository>();
-                return _mapper.Map<Alert>(alertRepo.GetLatestEnabledAlert());
+                var userResponseRepo = unit.GetRepository<UserResponseDbRepository>();
+                return _mapper.Map<List<UserResponse>>(userResponseRepo.GetByAlertId(alertId));
             }
         }
     }

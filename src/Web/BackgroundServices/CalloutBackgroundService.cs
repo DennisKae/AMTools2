@@ -9,7 +9,9 @@ using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Models.Konfigurationen;
 using AMTools.Shared.Core.Repositories.Interfaces;
+using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
+using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Data.Database.Models;
 
 namespace AMTools.Web.BackgroundServices
@@ -19,16 +21,24 @@ namespace AMTools.Web.BackgroundServices
         private readonly IAlertSyncService _alertSyncService;
         private readonly IUserResponseSyncService _userResponseSyncService;
         private readonly IConfigurationFileRepository _configurationFileRepository;
+        private readonly IVirtualDesktopService _virtualDesktopService;
+        private readonly ICalloutNotificationService _calloutNotificationService;
+        private readonly ILogService _logService;
 
         public CalloutBackgroundService(
             IAlertSyncService alertSyncService,
             IUserResponseSyncService userResponseSyncService,
             IConfigurationFileRepository configurationFileRepository,
+            IVirtualDesktopService virtualDesktopService,
+            ICalloutNotificationService calloutNotificationService,
             ILogService logService) : base(logService)
         {
             _alertSyncService = alertSyncService;
             _userResponseSyncService = userResponseSyncService;
             _configurationFileRepository = configurationFileRepository;
+            _virtualDesktopService = virtualDesktopService;
+            _calloutNotificationService = calloutNotificationService;
+            _logService = logService;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -46,21 +56,42 @@ namespace AMTools.Web.BackgroundServices
 
             if (newAlerts?.Count > 0)
             {
-                // TODO: Bildschirm umschalten
+                AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
+                if (alarmKonfiguration == null)
+                {
+                    _logService.Error($"Keine {nameof(AlarmKonfiguration)} gefunden! Es wird stattdessen eine Fallbackkonfiguration verwendet.");
+                    alarmKonfiguration = FallbackKonfigurationen.AlarmKonfiguration;
+                }
 
+                // Bildschirm umschalten
+                SwitchWithTimeout(alarmKonfiguration);
 
                 // Neue Alerts importieren
                 _alertSyncService.ImportAlerts(newAlerts);
 
-                // TODO: Benachrichtigungen versenden
+                // Benachrichtigungen versenden
+                _calloutNotificationService.SendAlertNotifications(newAlerts);
             }
 
             // UserResponse Updates verarbeiten
             List<DbUserResponse> newUserResponses = _userResponseSyncService.SyncAndGetNewUserResponses();
-            // TODO: Benachrichtigungen über neue UserResponses versenden
+
+            // Benachrichtigungen über neue UserResponses versenden
+            if (newUserResponses?.Count > 0)
+            {
+                _calloutNotificationService.SendNewUserResponseNotifications(newUserResponses);
+            }
 
             // Obsolete Alerts deaktivieren
             _alertSyncService.DisableObsoleteAlerts();
+        }
+
+
+        private void SwitchWithTimeout(AlarmKonfiguration alarmKonfiguration)
+        {
+            _virtualDesktopService.Switch(alarmKonfiguration.AlarmierungsDesktop - 1);
+
+            //TODO: Timeout starten und anschließend wieder auf den Standby-Monitor zurückswitchen
         }
     }
 }

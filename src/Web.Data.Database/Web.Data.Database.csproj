@@ -63,4 +63,8 @@
     <ProjectReference Include="..\Shared.Core\Shared.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+
 </Project>

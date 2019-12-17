@@ -16,5 +16,11 @@ namespace AMTools.Shared.Core.Models.Konfigurationen
 
         /// <summary>Virtueller Desktop, auf dem das Standby-Bild angezeigt wird.</summary>
         public int StandbyDesktop { get; set; }
+
+        /// <summary>Liste mit Email-Adressen, die bei Alarmierungen benachrichtigt werden sollen.</summary>
+        public List<string> AlarmierungsEmailEmpfaenger { get; set; }
+
+        /// <summary>Daten zur Konfiguration des Email-Absenders.</summary>
+        public EmailSender EmailSender { get; set; }
     }
 }

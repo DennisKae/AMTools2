@@ -10,7 +10,7 @@ using AMTools.Shared.Core.Models.Konfigurationen;
 using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Core.Facades.Interfaces;
-using AMTools.Web.Data.Database.Services.Interfaces;
+using AMTools.Web.Core.Services.Interfaces;
 
 namespace AMTools.Web.Core.Facades
 {

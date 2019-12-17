@@ -23,6 +23,8 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public List<DbAlert> GetEnabledAlerts() => _databaseContext.Alert.Where(x => x.Enabled).ToList();
 
+        public DbAlert GetById(int alertId) => _databaseContext.Alert.FirstOrDefault(x => x.Id == alertId);
+
         public DbAlert GetByAlertIdentification(AlertIdentification alertIdentification)
         {
             if (alertIdentification == null)

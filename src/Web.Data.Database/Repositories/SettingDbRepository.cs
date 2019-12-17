@@ -16,7 +16,9 @@ namespace AMTools.Web.Data.Database.Repositories
             _databaseContext = databaseContext;
         }
 
-        public List<DbSetting> GetByName(string name) => _databaseContext.Setting.Where(x => x.Name == name).ToList();
+        public List<DbSetting> GetAll() => _databaseContext.Setting.ToList();
+
+        public List<DbSetting> GetByCategoryName(string name) => _databaseContext.Setting.Where(x => x.Name == name).ToList();
 
         public void Insert(List<DbSetting> settings) => _databaseContext.AddRange(settings);
 

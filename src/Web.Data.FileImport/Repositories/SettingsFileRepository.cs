@@ -116,7 +116,7 @@ namespace AMTools.Web.Data.Files.Repositories
         {
             var result = new List<Setting>();
 
-            List<string> settingNames = typeof(SettingNames).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => x.GetValue(null) as string).ToList();
+            List<string> settingNames = typeof(SettingCategoryNames).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => x.GetValue(null) as string).ToList();
 
             if (settingNames == null || settingNames.Count == 0)
             {

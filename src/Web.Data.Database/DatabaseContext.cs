@@ -34,6 +34,8 @@ namespace AMTools.Web.Data.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=" + @"C:\install\AMTools2\AMTools2.db");
+            // TODO: Auf FileKonfiguration umbauen
+            // TODO: Vacuum/Verkleinerung der DB einbauen: https://stackoverflow.com/questions/31127676/vacuum-sqlite-database-with-entityframework-6-1
         }
 
         protected override bool ObjectIsInstanceOfForbiddenClass(object target)
