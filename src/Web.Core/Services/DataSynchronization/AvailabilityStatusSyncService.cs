@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
+using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
 using AMTools.Web.Data.Database.Repositories;
@@ -12,7 +13,7 @@ using AutoMapper;
 
 namespace AMTools.Web.Core.Services.DataSynchronization
 {
-    public class AvailabilityStatusSyncService
+    public class AvailabilityStatusSyncService : IAvailabilityStatusSyncService
     {
         private readonly IAvailabilityFileRepository _availabilityFileRepository;
         private readonly IMapper _mapper;

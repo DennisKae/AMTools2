@@ -5,6 +5,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AMTools.Core.Services.Logging;
+using AMTools.Shared.Core.Repositories;
+using AMTools.Shared.Core.Repositories.Interfaces;
+using AMTools.Shared.Core.Services.Logging;
+using AMTools.Web.Core.Services.DataSynchronization;
+using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
+using AMTools.Web.Data.Database;
+using AMTools.Web.Data.Files;
+using AMTools.Web.Data.Files.Repositories;
+using AMTools.Web.Data.Files.Repositories.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -85,6 +96,40 @@ namespace AMTools.Web
 
         private void InjectDependencies(IServiceCollection services)
         {
+            // Singleton means only a single instance will ever be created. That instance is shared between all components that require it. The same instance is thus used always.
+            // Scoped means an instance is created once per scope. A scope is created on every request to the application, thus any components registered as Scoped will be created once per request.
+            // Transient components are created every time they are requested and are never shared.
+            services.AddSingleton<IConfigurationFileRepository, ConfigurationFileRepository>();
+
+            services.AddSingleton(GetMapper());
+            services.AddSingleton(GetLogService());
+
+            services.AddSingleton<IAvailabilityFileRepository, AvailabilityFileRepository>();
+            services.AddSingleton<ICalloutFileRepository, CalloutFileRepository>();
+            services.AddSingleton<ISettingsFileRepository, SettingsFileRepository>();
+            services.AddSingleton<ISubscriberFileRepository, SubscriberFileRepository>();
+
+            services.AddSingleton<IAlertSyncService, AlertSyncService>();
+            services.AddSingleton<IAvailabilityStatusSyncService, AvailabilityStatusSyncService>();
+            services.AddSingleton<ISettingsSyncService, SettingsSyncService>();
+            services.AddSingleton<ISubscriberSyncService, SubscriberSyncService>();
+            services.AddSingleton<IUserResponseSyncService, UserResponseSyncService>();
+        }
+
+        private IMapper GetMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<FileImportMapProfile>();
+                cfg.AddProfile<DatabaseMapProfile>();
+            });
+
+            return new Mapper(config);
+        }
+
+        private ILogService GetLogService()
+        {
+            return new ConsoleLogService(Assembly.GetExecutingAssembly().FullName, null);
         }
     }
 }
