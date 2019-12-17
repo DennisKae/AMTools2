@@ -79,7 +79,7 @@ namespace AMTools.Web.Data.Database
             var auditEntries = new List<AuditEntryBuilder>();
             foreach (EntityEntry entry in ChangeTracker.Entries())
             {
-                if (ObjectIsInstanceOfForbiddenClass(entry.Entity) || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
+                if (ObjectIsInstanceOfForbiddenClass(entry.Entity) || entry.Entity is DbAuditLog || entry.State == EntityState.Detached || entry.State == EntityState.Unchanged)
                 {
                     continue;
                 }

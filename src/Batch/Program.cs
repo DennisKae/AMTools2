@@ -104,7 +104,7 @@ namespace AMTools.Batch
 
         private static ILogService GetLogService()
         {
-            return new ConsoleLogService(Assembly.GetExecutingAssembly().FullName, null);
+            return new ConsoleLogService(Assembly.GetExecutingAssembly().GetName().Name, null);
         }
     }
 }

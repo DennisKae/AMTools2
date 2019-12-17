@@ -11,17 +11,13 @@ namespace AMTools.Core.Services.Logging
     /// Multipliziert die ausgeführten Logmethoden auf die konfigurierten Logservices 
     /// und speichert alle abgewickelten Lognachrichten.
     /// </summary>
-    public class LogFactory : LogServiceBase
+    public class LogFactory : LogServiceBase, ILogFactory
     {
         private readonly List<AppLog> _allLogEntries = new List<AppLog>();
         private readonly string _assemblyName;
         private readonly string _batchCommand;
 
         public List<ILogService> LoggingServices { get; set; }
-
-        public List<AppLog> GetAllLogEntries() => _allLogEntries;
-
-        public event EventHandler<AppLog> MessageLogged;
 
 
         public LogFactory(ILogService initialLogService, string assemblyName, string batchCommand) : base(assemblyName, batchCommand)
@@ -38,6 +34,9 @@ namespace AMTools.Core.Services.Logging
             _batchCommand = batchCommand;
         }
 
+        public List<AppLog> GetAllTempLogEntries() => _allLogEntries;
+        public void ClearTempLogEntries() => _allLogEntries.Clear();
+
         public override void Log(AppLogSeverity logSeverity, string message)
         {
             var newLogEntry = new AppLog
@@ -50,7 +49,6 @@ namespace AMTools.Core.Services.Logging
             };
 
             _allLogEntries.Add(newLogEntry);
-            MessageLogged?.Invoke(this, newLogEntry);
             LoggingServices?.ForEach(x => x?.Log(logSeverity, message));
         }
     }
