@@ -4,31 +4,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Models.Konfigurationen;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
 
 namespace AMTools.Web.Data.Files.Repositories
 {
     public class SubscriberFileRepository : FileImportRepositoryBase, ISubscriberFileRepository
     {
-        private readonly string _subscriberFilePath;
+        private readonly IConfigurationFileRepository _configurationFileRepository;
 
-        public SubscriberFileRepository(string subscriberFilePath)
+        public SubscriberFileRepository(
+            ILogService logService,
+            IConfigurationFileRepository configurationFileRepository
+            ) : base(logService)
         {
-            _subscriberFilePath = subscriberFilePath;
+            _configurationFileRepository = configurationFileRepository;
         }
 
         public List<Subscriber> GetAll()
         {
             var result = new List<Subscriber>();
+            DateiKonfiguration dateiKonfig = _configurationFileRepository?.GetConfigFromJsonFile<DateiKonfiguration>();
 
-            if (!FileExistsAndIsNotEmpty(_subscriberFilePath))
+            if (!FileExistsAndIsNotEmpty(nameof(dateiKonfig.SubscriberDatei), dateiKonfig?.SubscriberDatei))
             {
                 return result;
             }
 
             var xmlDocument = new XmlDocument();
-            xmlDocument.Load(_subscriberFilePath);
+            xmlDocument.Load(dateiKonfig.SubscriberDatei);
             XmlNode rootNode = xmlDocument.DocumentElement;
 
             XmlNodeList subscriberNodes = rootNode.SelectNodes("subscriber");

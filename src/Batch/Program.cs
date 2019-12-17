@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Repositories;
+using AMTools.Shared.Core.Services.Logging;
 using AMTools.Web.Core.Services.DataSynchronization;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
@@ -17,29 +21,25 @@ namespace AMTools.Batch
         public static void Main()
         {
             IMapper mapper = GetMapper();
-
+            ILogService logService = GetLogService();
             /**
              * Import
              */
+            ConfigurationFileRepository configFileRepo = new ConfigurationFileRepository();
+            var calloutFileRepo = new CalloutFileRepository(logService, configFileRepo, mapper);
+            //List<AlertIdentification> allAlertIds = calloutFileRepo.GetAllAlertIds();
+            //Alert alert = calloutFileRepo.GetAlert(allAlertIds[2]);
+            //List<UserResponse> responses = calloutFileRepo.GetUserResponses(allAlertIds[2]);
 
-            const string calloutFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\callout.hst";
-            var calloutFileRepo = new CalloutFileRepository(calloutFilePath, mapper);
-            //List<AlertIdentification> allAlertIds = calloutImportRepo.GetAllAlertIds();
-            //Alert alert = calloutImportRepo.GetAlert(allAlertIds[2]);
-            //List<UserResponse> responses = calloutImportRepo.GetUserResponses(allAlertIds[2]);
-
-            //const string subscriberFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\subscribers.xml";
-            //var subscriberFileRepo = new SubscriberFileRepository(subscriberFilePath);
-            //List<Subscriber> allSubscribers = subscriberFileRepo.GetAllSubscribers();
+            var subscriberFileRepo = new SubscriberFileRepository(logService, configFileRepo);
+            //List<Subscriber> allSubscribers = subscriberFileRepo.GetAll();
 
 
-            const string availabilityFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\availability.hst";
-            var availabilityFileRepo = new AvailabilityFileRepository(availabilityFilePath, mapper);
+            var availabilityFileRepo = new AvailabilityFileRepository(logService, configFileRepo, mapper);
             //var availabilityByIssi = availabilityFileRepo.GetAvailabilityByIssi(allSubscribers[0].Issi);
             //var allAvailabilities = availabilityFileRepo.GetAllAvailabilities();
 
-            const string settingsFilePath = @"C:\Users\Dennis\source\repos\AMTools2\ressources\settings.xml";
-            var settingsFileRepo = new SettingsFileRepository(settingsFilePath, mapper);
+            var settingsFileRepo = new SettingsFileRepository(logService, configFileRepo, mapper);
             //var allSettings = settingsFileRepo.GetAllSettings();
 
             using (var context = new DatabaseContext())
@@ -51,11 +51,11 @@ namespace AMTools.Batch
              * Sync Services
              */
 
-            //var settingsSyncService = new SettingsSyncService(settingsFileRepo, mapper);
-            //settingsSyncService.Sync();
+            var settingsSyncService = new SettingsSyncService(settingsFileRepo, mapper);
+            settingsSyncService.Sync();
 
-            //var subscriberSyncService = new SubscriberSyncService(subscriberFileRepo, mapper);
-            //subscriberSyncService.Sync();
+            var subscriberSyncService = new SubscriberSyncService(subscriberFileRepo, mapper);
+            subscriberSyncService.Sync();
 
             var availabilityStatusSyncService = new AvailabilityStatusSyncService(availabilityFileRepo, mapper);
             availabilityStatusSyncService.Sync();
@@ -100,6 +100,11 @@ namespace AMTools.Batch
             });
 
             return new Mapper(config);
+        }
+
+        private static ILogService GetLogService()
+        {
+            return new ConsoleLogService(Assembly.GetExecutingAssembly().FullName, null);
         }
     }
 }

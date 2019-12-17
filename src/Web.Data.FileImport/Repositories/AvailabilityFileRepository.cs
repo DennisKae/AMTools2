@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Models.Konfigurationen;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Data.Files.Models.Callout;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
 using AutoMapper;
@@ -13,14 +16,15 @@ namespace AMTools.Web.Data.Files.Repositories
 {
     public class AvailabilityFileRepository : FileImportRepositoryBase, IAvailabilityFileRepository
     {
-        private readonly string _availabilityFilePath;
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
         public AvailabilityFileRepository(
-            string availabilityFilePath,
-            IMapper mapper)
+            ILogService logService,
+            IConfigurationFileRepository configurationFileRepository,
+            IMapper mapper) : base(logService)
         {
-            _availabilityFilePath = availabilityFilePath;
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
         }
 
@@ -41,13 +45,14 @@ namespace AMTools.Web.Data.Files.Repositories
 
         public AvailabilityStatus GetAvailabilityByIssi(string issi)
         {
-            if (string.IsNullOrWhiteSpace(issi) || !FileExistsAndIsNotEmpty(_availabilityFilePath))
+            DateiKonfiguration dateiKonfig = _configurationFileRepository?.GetConfigFromJsonFile<DateiKonfiguration>();
+            if (string.IsNullOrWhiteSpace(issi) || !FileExistsAndIsNotEmpty(nameof(dateiKonfig.AvailabilityDatei), dateiKonfig?.AvailabilityDatei))
             {
                 return null;
             }
 
             var xmlDocument = new XmlDocument();
-            xmlDocument.Load(_availabilityFilePath);
+            xmlDocument.Load(dateiKonfig.AvailabilityDatei);
             XmlNode rootNode = xmlDocument.DocumentElement;
 
             XmlNode availabilityNode = rootNode.SelectSingleNode($"/Subscribers/Subscriber[ISSI='{issi}']");
@@ -56,14 +61,15 @@ namespace AMTools.Web.Data.Files.Repositories
 
         public List<AvailabilityStatus> GetAllAvailabilities()
         {
+            DateiKonfiguration dateiKonfig = _configurationFileRepository?.GetConfigFromJsonFile<DateiKonfiguration>();
             var result = new List<AvailabilityImportModel>();
-            if (!FileExistsAndIsNotEmpty(_availabilityFilePath))
+            if (!FileExistsAndIsNotEmpty(nameof(dateiKonfig.AvailabilityDatei), dateiKonfig?.AvailabilityDatei))
             {
                 return _mapper.Map<List<AvailabilityStatus>>(result);
             }
 
             var xmlDocument = new XmlDocument();
-            xmlDocument.Load(_availabilityFilePath);
+            xmlDocument.Load(dateiKonfig.AvailabilityDatei);
             XmlNode rootNode = xmlDocument.DocumentElement;
 
             XmlNodeList availabilityNodes = rootNode.SelectNodes("Subscriber");
