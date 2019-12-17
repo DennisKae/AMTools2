@@ -34,6 +34,7 @@ namespace AMTools.Shared.Core.Repositories
         }
 
         /// <summary>Liefert die Konfiguration des angegebenen Typs aus einer gemeinsamen "AppConfig.json"-Datei.</summary>
+        [Obsolete]
         public T GetConfigFromAppConfig<T>() where T : class
         {
             string targetFile = Path.Combine(AppContext.BaseDirectory, "AppConfig.json");
