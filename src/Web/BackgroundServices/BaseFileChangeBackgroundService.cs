@@ -28,6 +28,8 @@ namespace AMTools.Web.BackgroundServices
 
         protected abstract void OnFileChange();
 
+        protected abstract void OnExceptionAfterFileChange();
+
         /// <summary>
         /// Initialisiert den BackgroundService:
         /// <para>- Erstellt den FileSystemWatcher</para>
@@ -35,27 +37,35 @@ namespace AMTools.Web.BackgroundServices
         /// </summary>
         protected void InitializeBackgroundService(string filepath)
         {
-            if (string.IsNullOrWhiteSpace(filepath) || !File.Exists(filepath))
+            try
             {
-                throw new FileNotFoundException(filepath);
+                if (string.IsNullOrWhiteSpace(filepath) || !File.Exists(filepath))
+                {
+                    throw new FileNotFoundException(filepath);
+                }
+
+                _targetFilepath = filepath;
+                string targetDirectory = Path.GetDirectoryName(filepath);
+                string fileName = Path.GetFileName(filepath);
+
+                _fileSystemWatcher = new FileSystemWatcher(targetDirectory)
+                {
+                    NotifyFilter = NotifyFilters.LastWrite,
+                    Filter = "*" + fileName
+                };
+
+                _fileSystemWatcher.Changed += new FileSystemEventHandler(InternalOnFileChange);
+                _fileSystemWatcher.Created += new FileSystemEventHandler(InternalOnFileChange);
+                _fileSystemWatcher.EnableRaisingEvents = true;
+
+                _logService.Info(GetType().Name + " mit folgendem Pfad initialisiert: " + Environment.NewLine + filepath);
+
+                ExecuteOnFileChange();
             }
-
-            _targetFilepath = filepath;
-            string targetDirectory = Path.GetDirectoryName(filepath);
-            string fileName = Path.GetFileName(filepath);
-
-            _fileSystemWatcher = new FileSystemWatcher(targetDirectory)
+            catch (Exception exception)
             {
-                NotifyFilter = NotifyFilters.LastWrite,
-                Filter = "*" + fileName
-            };
-
-            _fileSystemWatcher.Changed += new FileSystemEventHandler(InternalOnFileChange);
-            _fileSystemWatcher.Created += new FileSystemEventHandler(InternalOnFileChange);
-            _fileSystemWatcher.EnableRaisingEvents = true;
-
-            _logService.Info(GetType().Name + " mit folgendem Pfad initialisiert: " + Environment.NewLine + filepath);
-            OnFileChange();
+                _logService.Exception(exception, GetType().Name + ": Bei der Initialisierung trat eine Exception auf.");
+            }
         }
 
         // Das Event wird mehrfach ausgeführt?! Bekannter Bug:
@@ -72,6 +82,20 @@ namespace AMTools.Web.BackgroundServices
             }
 
             OnFileChange();
+        }
+
+        private void ExecuteOnFileChange()
+        {
+            try
+            {
+                OnFileChange();
+            }
+            catch (Exception exception)
+            {
+                _logService.Exception(exception, GetType().Name + ": Beim Verarbeiten der Dateiänderung trat eine Exception auf.");
+
+                OnExceptionAfterFileChange();
+            }
         }
     }
 }

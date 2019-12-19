@@ -83,6 +83,7 @@ namespace AMTools.Web.Data.Files.Repositories
 
             var result = new AlertImportModel
             {
+                Status = int.TryParse(alertNode.SelectSingleNode("Status//text()")?.Value, out int parsedStatus) ? parsedStatus : default,
                 Number = int.TryParse(alertNode.SelectSingleNode("Number//text()")?.Value, out int parsedNumber) ? parsedNumber : default,
                 Timestamp = DateTime.TryParse(alertNode.SelectSingleNode("Timestamp//text()")?.Value, out DateTime parsedTimestamp) ? parsedTimestamp : default,
                 Text = alertNode.SelectSingleNode("Text/text()")?.Value,

@@ -76,7 +76,15 @@ namespace AMTools.Web.Core.Services
         private void SendAlertNotification(AlertIdentification alertIdentification, AlarmKonfiguration alarmKonfiguration)
         {
             // Quasi das Gleiche wie bei neuen UserResponses nur mit anderem Betreff
-            // TODO: Die UserResponses, die bereits per Email versandt wurden, als versandt markieren
+
+            AlertViewModel alert = _alertService.GetByAlertIdentification(alertIdentification);
+            if (alert == null)
+            {
+                _logService.Error(nameof(CalloutNotificationService) + "." + nameof(SendAlertNotification) + ": Kein alert zu dieser Identifikation gefunden: " + alertIdentification?.ToString());
+                return;
+            }
+            var test = alertIdentification?.ToString();
+            var headline = "Neue Alarmierung - " + alert.Text;
         }
 
         private void SendNewUserResponseNotification(int alertId, AlarmKonfiguration alarmKonfiguration)
@@ -87,6 +95,12 @@ namespace AMTools.Web.Core.Services
             // Darunter eine Tabelle mit den Rückmeldungen (durchnummeriert, nach Timestamp absteigend sortiert)
 
             AlertViewModel alert = _alertService.GetById(alertId);
+        }
+
+
+        private void SendCalloutSummaryEmail(AlertViewModel alert, string headline)
+        {
+
         }
     }
 }

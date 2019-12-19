@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
 using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.ViewModels;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Repositories;
 using AutoMapper;
@@ -20,7 +21,16 @@ namespace AMTools.Web.Core.Services
             _mapper = mapper;
         }
 
-        public Subscriber GetByIssi(string issi)
+        public List<SubscriberViewModel> GetAll()
+        {
+            using (var unit = new UnitOfWork())
+            {
+                var subscriberRepo = unit.GetRepository<SubscriberDbRepository>();
+                return _mapper.Map<List<SubscriberViewModel>>(subscriberRepo.GetAll());
+            }
+        }
+
+        public SubscriberViewModel GetByIssi(string issi)
         {
             if (string.IsNullOrWhiteSpace(issi))
             {
@@ -30,7 +40,35 @@ namespace AMTools.Web.Core.Services
             using (var unit = new UnitOfWork())
             {
                 var subscriberRepo = unit.GetRepository<SubscriberDbRepository>();
-                return _mapper.Map<Subscriber>(subscriberRepo.GetByIssi(issi));
+                return _mapper.Map<SubscriberViewModel>(subscriberRepo.GetByIssi(issi));
+            }
+        }
+
+        public SubscriberViewModel GetFromAlertText(string alertText)
+        {
+            if (string.IsNullOrWhiteSpace(alertText))
+            {
+                return null;
+            }
+
+            // 01.11. 21:22 - ID: 4, Schweregrad 1 - Jonas Färber -  - Funktionsprobe!
+
+            string[] splittedAlertText = alertText.Split('-');
+            if (splittedAlertText.Length < 3)
+            {
+                return null;
+            }
+
+            string subscriberName = splittedAlertText[2].Trim();
+            if (string.IsNullOrWhiteSpace(subscriberName))
+            {
+                return null;
+            }
+
+            using (var unit = new UnitOfWork())
+            {
+                var subscriberRepo = unit.GetRepository<SubscriberDbRepository>();
+                return _mapper.Map<SubscriberViewModel>(subscriberRepo.GetByName(subscriberName));
             }
         }
     }

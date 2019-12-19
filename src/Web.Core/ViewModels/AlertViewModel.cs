@@ -31,5 +31,19 @@ namespace AMTools.Web.Core.ViewModels
         public DateTime? TimestampOfDeactivation { get; set; }
 
         public List<UserResponseViewModel> UserResponses { get; set; }
+
+        public string SchweregradText { get; set; }
+
+        public SeverityLevelViewModel Schweregrad { get; set; }
+
+        /// <summary>z.B. "Jonas Färber" oder "Musterhausen"</summary>
+        public string TargetText { get; set; }
+
+        /// <summary>Wird nur dann gefüllt, wenn keine SubGroups vorhanden sind.</summary>
+        public SubscriberViewModel TargetSubscriber { get; set; }
+
+        public List<SubGroupViewModel> SubGroups { get; set; }
+
+        public string Alarmierungstext { get; set; }
     }
 }

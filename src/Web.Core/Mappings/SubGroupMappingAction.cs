@@ -9,11 +9,11 @@ using AutoMapper;
 
 namespace AMTools.Web.Core.Mappings
 {
-    public class QualificationMappingAction : IMappingAction<Setting, QualificationViewModel>
+    public class SubGroupMappingAction : IMappingAction<Setting, SubGroupViewModel>
     {
-        public void Process(Setting source, QualificationViewModel destination, ResolutionContext context)
+        public void Process(Setting source, SubGroupViewModel destination, ResolutionContext context)
         {
-            destination.Abkuerzung = source?.Key;
+            destination.Nummer = int.TryParse(source?.Key, out int parsedNumber) ? parsedNumber : default;
             destination.Bezeichnung = source?.Value;
         }
     }

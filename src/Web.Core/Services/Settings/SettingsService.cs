@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
-using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.Services.Settings.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Repositories;
 using AutoMapper;
 
-namespace AMTools.Web.Core.Services
+namespace AMTools.Web.Core.Services.Settings
 {
     public class SettingsService : ISettingsService
     {

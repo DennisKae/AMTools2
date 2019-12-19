@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
-using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.Services.Settings.Interfaces;
 using AMTools.Web.Core.ViewModels;
 using AutoMapper;
 
-namespace AMTools.Web.Core.Services
+namespace AMTools.Web.Core.Services.Settings
 {
     public class QualificationService : IQualificationService
     {
@@ -47,7 +47,7 @@ namespace AMTools.Web.Core.Services
             List<string> referenceStringSplitted = referenceString.Split(new[] { _qualificationStringSeparator }, StringSplitOptions.RemoveEmptyEntries).ToList();
             referenceStringSplitted.ForEach(x => x = x.Trim().ToLowerInvariant());
 
-            return allPossibleQualifications.Where(x => referenceStringSplitted.Any(y => x.Referenz.Trim().Equals(y, StringComparison.InvariantCultureIgnoreCase))).ToList();
+            return allPossibleQualifications.Where(x => referenceStringSplitted.Any(y => x.Abkuerzung.Trim().Equals(y, StringComparison.InvariantCultureIgnoreCase))).ToList();
         }
     }
 }
