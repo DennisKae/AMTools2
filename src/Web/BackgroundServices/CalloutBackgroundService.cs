@@ -62,8 +62,6 @@ namespace AMTools.Web.BackgroundServices
 
         protected override void OnFileChange()
         {
-            AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
-
             if (CalloutFileIsEmpty())
             {
                 // Wenn die Datei leer ist: Loggen und abbrechen
@@ -76,6 +74,7 @@ namespace AMTools.Web.BackgroundServices
 
             if (newAlerts?.Count > 0)
             {
+                AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
                 if (alarmKonfiguration == null)
                 {
                     _logService.Error($"Keine {nameof(AlarmKonfiguration)} gefunden! Es wird stattdessen eine Fallbackkonfiguration verwendet.");
@@ -83,13 +82,13 @@ namespace AMTools.Web.BackgroundServices
                 }
 
                 // Bildschirm umschalten
-                SwitchWithTimeout(alarmKonfiguration);
+                //SwitchWithTimeout(alarmKonfiguration);
 
                 // Neue Alerts importieren
                 _alertSyncService.ImportAlerts(newAlerts);
 
                 // Benachrichtigungen versenden
-                _calloutNotificationService.SendAlertNotifications(newAlerts);
+                _calloutNotificationService.SendNewAlertNotifications(newAlerts);
             }
 
             // UserResponse Updates verarbeiten TODO: Sync XML Prop in der Alert Tabelle
@@ -107,7 +106,8 @@ namespace AMTools.Web.BackgroundServices
 
         private bool CalloutFileIsEmpty()
         {
-            return true;
+            DateiKonfiguration dateiKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<DateiKonfiguration>();
+            return string.IsNullOrWhiteSpace(dateiKonfiguration?.CalloutDatei) || !File.Exists(dateiKonfiguration.CalloutDatei) || string.IsNullOrWhiteSpace(File.ReadAllText(dateiKonfiguration.CalloutDatei));
         }
 
         private void SwitchWithTimeout(AlarmKonfiguration alarmKonfiguration)

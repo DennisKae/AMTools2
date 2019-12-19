@@ -6,6 +6,7 @@ using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Repositories;
 using AMTools.Shared.Core.Services.Logging;
 using AMTools.Web.Core;
+using AMTools.Web.Core.Services;
 using AMTools.Web.Core.Services.DataSynchronization;
 using AMTools.Web.Core.Services.Settings;
 using AMTools.Web.Core.ViewModels;
@@ -68,12 +69,19 @@ namespace AMTools.Batch
 
             var settingsService = new SettingsService(mapper);
             var subGroupService = new SubGroupService(mapper, settingsService);
-            List<SubGroupViewModel> allSubGroups = subGroupService.GetAll();
-            var alertText = "03.11. 20:29:33 - ID: 244, Schweregrad 6 - Musterhausen - Subgruppe(n): MUSTERHAUSEN_PAGER_VOLLALARM - S01*FUNKTIONSPROBE";
+            //List<SubGroupViewModel> allSubGroups = subGroupService.GetAll();
+            //var alertText = "03.11. 20:29:33 - ID: 244, Schweregrad 6 - Musterhausen - Subgruppe(n): MUSTERHAUSEN_PAGER_VOLLALARM - S01*FUNKTIONSPROBE";
             //List<SubGroupViewModel> detectedSubGroups1 = subGroupService.GetSubGroupsFromAlertText(alertText);
 
-            var severityLevelService = new SeverityLevelService(mapper, settingsService);
-            var severityLevel = severityLevelService.GetSeverityLevelFromAlertText(alertText);
+            //var severityLevelService = new SeverityLevelService(mapper, settingsService);
+            //var severityLevel = severityLevelService.GetSeverityLevelFromAlertText(alertText);
+
+            var alertService = new AlertService(mapper);
+            AlertViewModel alert = alertService.GetById(2);
+
+            var qualificationService = new QualificationService(mapper, settingsService);
+            var calloutEmailNotificationService = new CalloutEmailNotificationService(qualificationService);
+            calloutEmailNotificationService.SendEmail(alert, CalloutNotificationType.NewAlert);
 
 
 
