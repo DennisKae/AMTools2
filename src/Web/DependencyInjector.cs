@@ -85,6 +85,7 @@ namespace AMTools.Web
                 services.AddSingleton<ICalloutNotificationService, CalloutNotificationService>();
                 services.AddSingleton<ISubscriberService, SubscriberService>();
                 services.AddSingleton<IUserResponseService, UserResponseService>();
+                services.AddSingleton<ICalloutEmailNotificationService, CalloutEmailNotificationService>();
 
                 // Facades
                 services.AddSingleton<IVirtualDesktopFacade, VirtualDesktopFacade>();

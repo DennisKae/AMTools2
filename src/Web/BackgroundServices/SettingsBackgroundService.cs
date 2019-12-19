@@ -35,6 +35,10 @@ namespace AMTools.Web.BackgroundServices
             return Task.CompletedTask;
         }
 
+        protected override void OnExceptionAfterFileChange()
+        {
+        }
+
         protected override void OnFileChange()
         {
             _settingsSyncService.Sync();

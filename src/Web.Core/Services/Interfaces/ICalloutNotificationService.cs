@@ -6,7 +6,7 @@ namespace AMTools.Web.Core.Services.Interfaces
 {
     public interface ICalloutNotificationService
     {
-        void SendAlertNotifications(List<AlertIdentification> alertIdentifications);
+        void SendNewAlertNotifications(List<AlertIdentification> alertIdentifications);
         void SendNewUserResponseNotifications(List<DbUserResponse> userResponses);
     }
 }

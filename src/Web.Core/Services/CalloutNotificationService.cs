@@ -19,35 +19,50 @@ namespace AMTools.Web.Core.Services
         private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly ILogService _logService;
         private readonly IAlertService _alertService;
+        private readonly ICalloutEmailNotificationService _calloutEmailNotificationService;
 
         public CalloutNotificationService(
             IConfigurationFileRepository configurationFileRepository,
             ILogService logService,
-            IAlertService alertService
+            IAlertService alertService,
+            ICalloutEmailNotificationService calloutEmailNotificationService
             )
         {
             _configurationFileRepository = configurationFileRepository;
             _logService = logService;
             _alertService = alertService;
+            _calloutEmailNotificationService = calloutEmailNotificationService;
         }
 
         /// <summary>Versendet Benachrichtigungen über neue Alarmierungen.</summary>
-        public void SendAlertNotifications(List<AlertIdentification> alertIdentifications)
+        public void SendNewAlertNotifications(List<AlertIdentification> alertIdentifications)
         {
             if (alertIdentifications == null || alertIdentifications.Count == 0)
             {
                 return;
             }
+            AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
 
-            try
+            foreach (AlertIdentification alertIdentification in alertIdentifications)
             {
-                AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
-                Guard.IsNotNull(alarmKonfiguration, nameof(AlarmKonfiguration));
-                alertIdentifications.ForEach(x => SendAlertNotification(x, alarmKonfiguration));
-            }
-            catch (Exception exception)
-            {
-                _logService.Exception(exception, "@" + nameof(SendAlertNotifications));
+                try
+                {
+                    Guard.IsNotNull(alarmKonfiguration, nameof(AlarmKonfiguration));
+
+                    AlertViewModel alert = _alertService.GetByAlertIdentification(alertIdentification);
+                    if (alert == null)
+                    {
+                        _logService.Error(nameof(SendNewAlertNotifications) + ": Kein alert zu dieser Identifikation gefunden: " + alertIdentification?.ToString());
+                        return;
+                    }
+                    var test = alertIdentification?.ToString();
+
+                    _calloutEmailNotificationService.SendEmail(alert, CalloutNotificationType.NewAlert);
+                }
+                catch (Exception exception)
+                {
+                    _logService.Exception(exception, "@" + nameof(SendNewAlertNotifications) + ": AlertIdentificaton " + alertIdentification?.ToString());
+                }
             }
         }
 
@@ -59,48 +74,27 @@ namespace AMTools.Web.Core.Services
                 return;
             }
 
-            try
+            AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
+            Guard.IsNotNull(alarmKonfiguration, nameof(AlarmKonfiguration));
+            List<int> alertIds = userResponses.Select(x => x.AlertId).Distinct().OrderByDescending(x => x).ToList();
+            foreach (int alertId in alertIds)
             {
-                AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
-                Guard.IsNotNull(alarmKonfiguration, nameof(AlarmKonfiguration));
-                List<int> alertIds = userResponses.Select(x => x.AlertId).Distinct().OrderByDescending(x => x).ToList();
+                try
+                {
+                    AlertViewModel alert = _alertService.GetById(alertId);
+                    if (alert == null)
+                    {
+                        _logService.Error(nameof(SendNewUserResponseNotifications) + ": Kein alert zu dieser AlertId gefunden: " + alertId);
+                        return;
+                    }
 
-                alertIds.ForEach(x => SendNewUserResponseNotification(x, alarmKonfiguration));
+                    _calloutEmailNotificationService.SendEmail(alert, CalloutNotificationType.NewUserResponse);
+                }
+                catch (Exception exception)
+                {
+                    _logService.Exception(exception, "@" + nameof(SendNewUserResponseNotifications) + ": AlertId " + alertId);
+                }
             }
-            catch (Exception exception)
-            {
-                _logService.Exception(exception, "@" + nameof(SendNewUserResponseNotifications));
-            }
-        }
-
-        private void SendAlertNotification(AlertIdentification alertIdentification, AlarmKonfiguration alarmKonfiguration)
-        {
-            // Quasi das Gleiche wie bei neuen UserResponses nur mit anderem Betreff
-
-            AlertViewModel alert = _alertService.GetByAlertIdentification(alertIdentification);
-            if (alert == null)
-            {
-                _logService.Error(nameof(CalloutNotificationService) + "." + nameof(SendAlertNotification) + ": Kein alert zu dieser Identifikation gefunden: " + alertIdentification?.ToString());
-                return;
-            }
-            var test = alertIdentification?.ToString();
-            var headline = "Neue Alarmierung - " + alert.Text;
-        }
-
-        private void SendNewUserResponseNotification(int alertId, AlarmKonfiguration alarmKonfiguration)
-        {
-            // var dbAlert =
-            // Als Header/Einleitung die allgemeinen Infos zur Alarmierung
-            // Darunter eine Übersicht mit den zurückgemeldeten Qualifizierungen und deren Anzahlen
-            // Darunter eine Tabelle mit den Rückmeldungen (durchnummeriert, nach Timestamp absteigend sortiert)
-
-            AlertViewModel alert = _alertService.GetById(alertId);
-        }
-
-
-        private void SendCalloutSummaryEmail(AlertViewModel alert, string headline)
-        {
-
         }
     }
 }
