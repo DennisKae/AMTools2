@@ -10,9 +10,7 @@ namespace AMTools.Web.Core.ViewModels
     {
         public string Issi { get; set; }
 
-        public string Name { get; set; }
-
-        public List<QualificationViewModel> Qualifications { get; set; }
+        public SubscriberViewModel Subscriber { get; set; }
 
         public bool Accept { get; set; }
 

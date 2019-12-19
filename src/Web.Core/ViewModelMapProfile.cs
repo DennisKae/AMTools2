@@ -30,8 +30,13 @@ namespace AMTools.Web.Core
                 .ReverseMap();
 
             CreateMap<Setting, QualificationViewModel>()
-                .AfterMap<QualificationMappingAction>()
-                .ReverseMap();
+                .AfterMap<QualificationMappingAction>();
+
+            CreateMap<Setting, SubGroupViewModel>()
+                .AfterMap<SubGroupMappingAction>();
+
+            CreateMap<Setting, SeverityLevelViewModel>()
+                .AfterMap<SeverityLevelMappingAction>();
         }
     }
 }

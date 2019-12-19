@@ -18,6 +18,8 @@ namespace AMTools.Web.Data.Database.Repositories
 
         public DbSubscriber GetByIssi(string issi) => _databaseContext.Subscriber.FirstOrDefault(x => x.Issi == issi);
 
+        public DbSubscriber GetByName(string name) => _databaseContext.Subscriber.FirstOrDefault(x => x.Name == name);
+
         public List<DbSubscriber> GetAll() => _databaseContext.Subscriber.ToList();
 
         public void Insert(DbSubscriber subscriber) => _databaseContext.Add(subscriber);

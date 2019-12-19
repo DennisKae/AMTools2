@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace AMTools.Web.Core.ViewModels
 {
-    public class QualificationViewModel
+    public class SeverityLevelViewModel
     {
+        public int Nummer { get; set; }
+
         public string Bezeichnung { get; set; }
 
-        public string Abkuerzung { get; set; }
+        public string Farbe { get; set; }
     }
 }

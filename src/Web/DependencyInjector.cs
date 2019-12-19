@@ -19,6 +19,8 @@ using AMTools.Web.Core.Services;
 using AMTools.Web.Core.Services.DataSynchronization;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.Services.Settings;
+using AMTools.Web.Core.Services.Settings.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Files.Repositories;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
@@ -68,6 +70,12 @@ namespace AMTools.Web
                 services.AddHostedService<SubscriberBackgroundService>();
                 services.AddHostedService<CalloutBackgroundService>();
 
+                // Setting Services
+                services.AddSingleton<IQualificationService, QualificationService>();
+                services.AddSingleton<ISettingsService, SettingsService>();
+                services.AddSingleton<ISeverityLevelService, SeverityLevelService>();
+                services.AddSingleton<ISubGroupService, SubGroupService>();
+
                 // Andere Services
                 services.AddSingleton<ITerminalService, TerminalService>();
                 services.AddSingleton<IVirtualDesktopVersionService, VirtualDesktopVersionService>();
@@ -75,8 +83,6 @@ namespace AMTools.Web
                 services.AddSingleton<IVirtualDesktopService, VirtualDesktopService>();
                 services.AddSingleton<IAlertService, AlertService>();
                 services.AddSingleton<ICalloutNotificationService, CalloutNotificationService>();
-                services.AddSingleton<ISettingsService, SettingsService>();
-                services.AddSingleton<IQualificationService, QualificationService>();
                 services.AddSingleton<ISubscriberService, SubscriberService>();
                 services.AddSingleton<IUserResponseService, UserResponseService>();
 

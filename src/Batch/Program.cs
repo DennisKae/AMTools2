@@ -5,7 +5,10 @@ using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Repositories;
 using AMTools.Shared.Core.Services.Logging;
+using AMTools.Web.Core;
 using AMTools.Web.Core.Services.DataSynchronization;
+using AMTools.Web.Core.Services.Settings;
+using AMTools.Web.Core.ViewModels;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
 using AMTools.Web.Data.Files;
@@ -20,6 +23,8 @@ namespace AMTools.Batch
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "<Pending>")]
         public static void Main()
         {
+            // TODO: DI nutzen https://andrewlock.net/using-dependency-injection-in-a-net-core-console-application/
+
             IMapper mapper = GetMapper();
             ILogService logService = GetLogService();
             /**
@@ -51,14 +56,28 @@ namespace AMTools.Batch
              * Sync Services
              */
 
-            var settingsSyncService = new SettingsSyncService(logService, settingsFileRepo, mapper);
-            settingsSyncService.Sync();
+            //var settingsSyncService = new SettingsSyncService(logService, settingsFileRepo, mapper);
+            //settingsSyncService.Sync();
 
-            var subscriberSyncService = new SubscriberSyncService(subscriberFileRepo, mapper);
-            subscriberSyncService.Sync();
+            //var subscriberSyncService = new SubscriberSyncService(subscriberFileRepo, mapper);
+            //subscriberSyncService.Sync();
 
-            var availabilityStatusSyncService = new AvailabilityStatusSyncService(availabilityFileRepo, mapper);
-            availabilityStatusSyncService.Sync();
+            //var availabilityStatusSyncService = new AvailabilityStatusSyncService(availabilityFileRepo, mapper);
+            //availabilityStatusSyncService.Sync();
+
+
+            var settingsService = new SettingsService(mapper);
+            var subGroupService = new SubGroupService(mapper, settingsService);
+            List<SubGroupViewModel> allSubGroups = subGroupService.GetAll();
+            var alertText = "03.11. 20:29:33 - ID: 244, Schweregrad 6 - Musterhausen - Subgruppe(n): MUSTERHAUSEN_PAGER_VOLLALARM - S01*FUNKTIONSPROBE";
+            //List<SubGroupViewModel> detectedSubGroups1 = subGroupService.GetSubGroupsFromAlertText(alertText);
+
+            var severityLevelService = new SeverityLevelService(mapper, settingsService);
+            var severityLevel = severityLevelService.GetSeverityLevelFromAlertText(alertText);
+
+
+
+
 
 
             /*
@@ -72,19 +91,19 @@ namespace AMTools.Batch
 
             if (newAlerts?.Count > 0)
             {
-                // TODO: Bildschirm umschalten
+                // Bildschirm umschalten
 
 
                 // Neue Alerts importieren
                 alertSyncService.ImportAlerts(newAlerts);
 
-                // TODO: Benachrichtigungen versenden
+                // Benachrichtigungen versenden
             }
 
             // UserResponse Updates verarbeiten
             var userResponseSyncService = new UserResponseSyncService(mapper, calloutFileRepo);
             List<DbUserResponse> newUserResponses = userResponseSyncService.SyncAndGetNewUserResponses();
-            // TODO: Benachrichtigungen über neue UserResponses versenden
+            // Benachrichtigungen über neue UserResponses versenden
 
             // Obsolete Alerts deaktivieren
             alertSyncService.DisableObsoleteAlerts();
@@ -97,6 +116,7 @@ namespace AMTools.Batch
             {
                 cfg.AddProfile<FileImportMapProfile>();
                 cfg.AddProfile<DatabaseMapProfile>();
+                cfg.AddProfile<ViewModelMapProfile>();
             });
 
             return new Mapper(config);

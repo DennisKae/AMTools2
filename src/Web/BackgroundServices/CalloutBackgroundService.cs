@@ -49,14 +49,33 @@ namespace AMTools.Web.BackgroundServices
             return Task.CompletedTask;
         }
 
+        protected override void OnExceptionAfterFileChange()
+        {
+            AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
+            if (alarmKonfiguration == null)
+            {
+                _logService.Error($"Keine {nameof(AlarmKonfiguration)} gefunden! Es wird stattdessen eine Fallbackkonfiguration verwendet.");
+                alarmKonfiguration = FallbackKonfigurationen.AlarmKonfiguration;
+            }
+            SwitchWithTimeout(alarmKonfiguration);
+        }
+
         protected override void OnFileChange()
         {
+            AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
+
+            if (CalloutFileIsEmpty())
+            {
+                // Wenn die Datei leer ist: Loggen und abbrechen
+                _logService.Info(nameof(CalloutBackgroundService) + ": Die überwachte Datei ist leer. Es findet keine weitere Verarbeitung statt.");
+                return;
+            }
+
             // Neue Alerts identifizieren
             List<AlertIdentification> newAlerts = _alertSyncService.GetNewAlerts();
 
             if (newAlerts?.Count > 0)
             {
-                AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
                 if (alarmKonfiguration == null)
                 {
                     _logService.Error($"Keine {nameof(AlarmKonfiguration)} gefunden! Es wird stattdessen eine Fallbackkonfiguration verwendet.");
@@ -73,7 +92,7 @@ namespace AMTools.Web.BackgroundServices
                 _calloutNotificationService.SendAlertNotifications(newAlerts);
             }
 
-            // UserResponse Updates verarbeiten
+            // UserResponse Updates verarbeiten TODO: Sync XML Prop in der Alert Tabelle
             List<DbUserResponse> newUserResponses = _userResponseSyncService.SyncAndGetNewUserResponses();
 
             // Benachrichtigungen über neue UserResponses versenden
@@ -86,10 +105,14 @@ namespace AMTools.Web.BackgroundServices
             _alertSyncService.DisableObsoleteAlerts();
         }
 
+        private bool CalloutFileIsEmpty()
+        {
+            return true;
+        }
 
         private void SwitchWithTimeout(AlarmKonfiguration alarmKonfiguration)
         {
-            _virtualDesktopService.Switch(alarmKonfiguration.AlarmierungsDesktop - 1);
+            _virtualDesktopService.Switch(alarmKonfiguration?.AlarmierungsDesktop ?? 1 - 1);
 
             //TODO: Timeout starten und anschließend wieder auf den Standby-Monitor zurückswitchen
         }

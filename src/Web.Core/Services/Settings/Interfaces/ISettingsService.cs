@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AMTools.Shared.Core.Models;
 
-namespace AMTools.Web.Core.Services.Interfaces
+namespace AMTools.Web.Core.Services.Settings.Interfaces
 {
     public interface ISettingsService
     {
