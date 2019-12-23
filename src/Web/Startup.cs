@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AMTools.Web.Core;
 using AMTools.Web.Data.Database;
+using AMTools.Web.Data.Files;
+using AMTools.Web.ExtensionMethods;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,6 +56,8 @@ namespace AMTools.Web
             services.AddAutoMapper(GetOwnAssemblies());
 
             services.InjectDependencies();
+
+            services.AddMemoryCache(action => { action.CompactionPercentage = .25; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +86,8 @@ namespace AMTools.Web
             });
 
             serviceProvider.EnsureMigrationOfContext<DatabaseContext>();
+
+            serviceProvider.ValidateConfigurations();
         }
 
         private List<Assembly> GetOwnAssemblies()

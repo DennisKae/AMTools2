@@ -19,6 +19,7 @@ namespace AMTools.Web.Core.Mappings
         private readonly ISubscriberService _subscriberService;
         private readonly ISubGroupService _subGroupService;
         private readonly ISeverityLevelService _severityLevelService;
+        private readonly IAlertService _alertService;
         private readonly IMapper _mapper;
 
         public AlertMappingAction(
@@ -26,12 +27,14 @@ namespace AMTools.Web.Core.Mappings
             ISubscriberService subscriberService,
             ISubGroupService subGroupService,
             ISeverityLevelService severityLevelService,
+            IAlertService alertService,
             IMapper mapper)
         {
             _userResponseService = userResponseService;
             _subscriberService = subscriberService;
             _subGroupService = subGroupService;
             _severityLevelService = severityLevelService;
+            _alertService = alertService;
             _mapper = mapper;
         }
 
@@ -46,6 +49,9 @@ namespace AMTools.Web.Core.Mappings
             destination.SchweregradText = _severityLevelService.GetSeverityLevelTextFromAlertText(source.Text);
             destination.Schweregrad = _severityLevelService.GetSeverityLevelFromAlertText(source.Text);
             destination.SubGroups = _subGroupService.GetSubGroupsFromAlertText(source.Text);
+            destination.TargetSubscriber = _subscriberService.GetFromAlertText(source.Text);
+            destination.Alarmierungstext = _alertService.GetCalloutReasonFromAlertText(source.Text);
+            // TODO: Fill TargetText
         }
 
         public void Process(DbAlert source, AlertViewModel destination, ResolutionContext context)
@@ -57,6 +63,7 @@ namespace AMTools.Web.Core.Mappings
             destination.Schweregrad = _severityLevelService.GetSeverityLevelFromAlertText(source.Text);
             destination.SubGroups = _subGroupService.GetSubGroupsFromAlertText(source.Text);
             destination.TargetSubscriber = _subscriberService.GetFromAlertText(source.Text);
+            destination.Alarmierungstext = _alertService.GetCalloutReasonFromAlertText(source.Text);
         }
     }
 }

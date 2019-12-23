@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AMTools.Web
+namespace AMTools.Web.ExtensionMethods
 {
     public static class EnsureMigration
     {

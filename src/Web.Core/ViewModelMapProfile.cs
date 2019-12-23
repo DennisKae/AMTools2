@@ -29,6 +29,13 @@ namespace AMTools.Web.Core
                 .AfterMap<UserResponseMappingAction>()
                 .ReverseMap();
 
+            CreateMap<DbSubscriber, SubscriberViewModel>()
+                .AfterMap<SubscriberMappingAction>()
+                .ReverseMap();
+            CreateMap<Subscriber, SubscriberViewModel>()
+                .AfterMap<SubscriberMappingAction>()
+                .ReverseMap();
+
             CreateMap<Setting, QualificationViewModel>()
                 .AfterMap<QualificationMappingAction>();
 

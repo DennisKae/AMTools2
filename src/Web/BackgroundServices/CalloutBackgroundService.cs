@@ -13,6 +13,7 @@ using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Data.Database.Models;
+using AutoMapper;
 
 namespace AMTools.Web.BackgroundServices
 {
@@ -82,7 +83,7 @@ namespace AMTools.Web.BackgroundServices
                 }
 
                 // Bildschirm umschalten
-                //SwitchWithTimeout(alarmKonfiguration);
+                SwitchWithTimeout(alarmKonfiguration);
 
                 // Neue Alerts importieren
                 _alertSyncService.ImportAlerts(newAlerts);
@@ -112,7 +113,7 @@ namespace AMTools.Web.BackgroundServices
 
         private void SwitchWithTimeout(AlarmKonfiguration alarmKonfiguration)
         {
-            _virtualDesktopService.Switch(alarmKonfiguration?.AlarmierungsDesktop ?? 1 - 1);
+            //_virtualDesktopService.Switch(alarmKonfiguration?.AlarmierungsDesktop ?? 1 - 1);
 
             //TODO: Timeout starten und anschließend wieder auf den Standby-Monitor zurückswitchen
         }

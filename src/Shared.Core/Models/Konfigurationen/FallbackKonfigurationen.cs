@@ -14,5 +14,10 @@ namespace AMTools.Shared.Core.Models.Konfigurationen
             StandbyDesktop = 1,
             SperrfristInMinuten = 45
         };
+
+        public static readonly CacheKonfiguration CacheKonfiguration = new CacheKonfiguration
+        {
+            DauerInMinuten = 10
+        };
     }
 }

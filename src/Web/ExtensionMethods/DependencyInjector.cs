@@ -26,7 +26,7 @@ using AMTools.Web.Data.Files.Repositories;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AMTools.Web
+namespace AMTools.Web.ExtensionMethods
 {
     public static class DependencyInjector
     {
@@ -78,6 +78,7 @@ namespace AMTools.Web
 
                 // Andere Services
                 services.AddSingleton<ITerminalService, TerminalService>();
+                services.AddSingleton<IEmailService, EmailService>();
                 services.AddSingleton<IVirtualDesktopVersionService, VirtualDesktopVersionService>();
                 services.AddSingleton<IVirtualDesktopWrapperService, VirtualDesktopWrapperService>();
                 services.AddSingleton<IVirtualDesktopService, VirtualDesktopService>();
