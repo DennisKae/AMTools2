@@ -31,6 +31,31 @@ namespace AMTools.Web.Core.Services
             }
         }
 
+        /// <summary>Liefert den Anlass der Alarmierung aus dem Alarmierungstext</summary>
+        public string GetCalloutReasonFromAlertText(string alertText)
+        {
+            if (string.IsNullOrWhiteSpace(alertText) || !alertText.Contains('-'))
+            {
+                return null;
+            }
+
+            // 03.11. 20:29:33 - ID: 244, Schweregrad 6 - Musterhausen - Subgruppe(n): MUSTERHAUSEN_PAGER_VOLLALARM - S01*FUNKTIONSPROBE
+
+            string[] splittedAlertText = alertText.Split('-');
+            if (splittedAlertText.Length < 5)
+            {
+                return null;
+            }
+
+            var result = splittedAlertText[4].Trim();
+            if (!string.IsNullOrWhiteSpace(splittedAlertText[4]))
+            {
+                return result;
+            }
+
+            return null;
+        }
+
         public AlertViewModel GetById(int alertId)
         {
             using (var unit = new UnitOfWork())

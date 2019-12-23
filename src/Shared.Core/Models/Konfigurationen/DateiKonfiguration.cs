@@ -1,21 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AMTools.Shared.Core.Models.Konfigurationen.Interfaces;
 
 namespace AMTools.Shared.Core.Models.Konfigurationen
 {
-    public class DateiKonfiguration : IDateiKonfiguration
+    public class DateiKonfiguration
     {
+        [Required]
         public string SettingsDatei { get; set; }
+
+        [Required]
         public string SubscriberDatei { get; set; }
+
+        [Required]
         public string AvailabilityDatei { get; set; }
+
+        [Required]
         public string CalloutDatei { get; set; }
 
+        [Required]
         public string Datenbankordner { get; set; }
+
         public string Datenbankpfad
         {
             get

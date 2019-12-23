@@ -16,6 +16,7 @@ using AMTools.Web.Data.Files;
 using AMTools.Web.Data.Files.Repositories;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AMTools.Batch
 {
@@ -66,8 +67,8 @@ namespace AMTools.Batch
             //var availabilityStatusSyncService = new AvailabilityStatusSyncService(availabilityFileRepo, mapper);
             //availabilityStatusSyncService.Sync();
 
-
-            var settingsService = new SettingsService(mapper);
+            var memoryCache = new MemoryCache(null); // Geht das?
+            var settingsService = new SettingsService(mapper, configFileRepo, memoryCache);
             var subGroupService = new SubGroupService(mapper, settingsService);
             //List<SubGroupViewModel> allSubGroups = subGroupService.GetAll();
             //var alertText = "03.11. 20:29:33 - ID: 244, Schweregrad 6 - Musterhausen - Subgruppe(n): MUSTERHAUSEN_PAGER_VOLLALARM - S01*FUNKTIONSPROBE";
@@ -80,8 +81,8 @@ namespace AMTools.Batch
             AlertViewModel alert = alertService.GetById(2);
 
             var qualificationService = new QualificationService(mapper, settingsService);
-            var calloutEmailNotificationService = new CalloutEmailNotificationService(qualificationService);
-            calloutEmailNotificationService.SendEmail(alert, CalloutNotificationType.NewAlert);
+            //var calloutEmailNotificationService = new CalloutEmailNotificationService(qualificationService, configFileRepo, logService);
+            //calloutEmailNotificationService.SendEmail(alert, CalloutNotificationType.NewAlert);
 
 
 

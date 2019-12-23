@@ -65,9 +65,9 @@ namespace AMTools.Web.Core.Facades
             Guard.IsNotNull(alarmKonfiguration, nameof(AlarmKonfiguration));
 
             double minutenSeitLetzterAlarmierung = Math.Round((DateTime.Now - latestAlert.AlertTimestamp).TotalMinutes, 2);
-            if (minutenSeitLetzterAlarmierung < alarmKonfiguration.SperrfristInMinuten)
+            if (minutenSeitLetzterAlarmierung < alarmKonfiguration.SperrfristInMinuten.Value)
             {
-                double endeDerSperrfristInMinuten = alarmKonfiguration.SperrfristInMinuten - minutenSeitLetzterAlarmierung;
+                double endeDerSperrfristInMinuten = alarmKonfiguration.SperrfristInMinuten.Value - minutenSeitLetzterAlarmierung;
                 _logService.Info($"Kein Desktopwechsel erlaubt: Seit der letzten Alarmierung sind erst {minutenSeitLetzterAlarmierung} Minuten vergangen. Der nächste Wechsel ist erst in {endeDerSperrfristInMinuten} Minuten erlaubt.");
                 return false;
             }

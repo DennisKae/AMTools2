@@ -8,6 +8,7 @@ namespace AMTools.Web.Core.Services.Interfaces
         void Disable(int alertId);
         AlertViewModel GetByAlertIdentification(AlertIdentification alertIdentification);
         AlertViewModel GetById(int alertId);
+        string GetCalloutReasonFromAlertText(string alertText);
         Alert GetLatestEnabledAlert();
     }
 }

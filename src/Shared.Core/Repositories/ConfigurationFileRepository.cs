@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,10 @@ namespace AMTools.Shared.Core.Repositories
 
             var result = Activator.CreateInstance<T>();
             configuration.Bind(result);
+
+            // Validierung der Konfigurationen
+            var validationContext = new ValidationContext(result);
+            Validator.ValidateObject(result, validationContext);
 
             return result;
         }

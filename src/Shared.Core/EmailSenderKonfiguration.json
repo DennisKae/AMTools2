@@ -1,0 +1,9 @@
+{
+  "Name": "Alarmmonitor",
+  "Address": "",
+  "Password": "",
+  "Hostname": "smtp.ionos.de",
+  "Port": 465,
+  "UseSsl": true,
+  "GetEmailsInCopy": true
+}
