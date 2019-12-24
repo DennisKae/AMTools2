@@ -64,7 +64,7 @@ namespace AMTools.Web.Core.Services
             using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var subscriberRepo = unit.GetRepository<SubscriberDbRepository>();
-                return _mapper.Map<SubscriberViewModel>(subscriberRepo.GetByName(subscriberName));
+                return _mapper.Map<SubscriberViewModel>(subscriberRepo.GetByName(targetText));
             }
         }
     }
