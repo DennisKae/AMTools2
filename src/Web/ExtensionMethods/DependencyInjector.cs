@@ -37,12 +37,13 @@ namespace AMTools.Web.ExtensionMethods
             // Scoped means an instance is created once per scope. A scope is created on every request to the application, thus any components registered as Scoped will be created once per request.
             // Transient components are created every time they are requested and are never shared.
 
-            ILogFactory logFactory = GetLogFactory();
+            var configurationFileRepository = new ConfigurationFileRepository();
+            ILogFactory logFactory = GetLogFactory(configurationFileRepository);
 
             try
             {
                 services.AddDbContext<DatabaseContext>();
-                services.AddSingleton<IConfigurationFileRepository, ConfigurationFileRepository>();
+                services.AddSingleton<IConfigurationFileRepository>(serviceProvider => configurationFileRepository);
 
                 services.AddSingleton(logFactory);
                 services.AddSingleton<ILogService>(serviceProvider =>
@@ -97,11 +98,11 @@ namespace AMTools.Web.ExtensionMethods
             }
         }
 
-        private static ILogFactory GetLogFactory()
+        private static ILogFactory GetLogFactory(IConfigurationFileRepository configurationFileRepository)
         {
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
             var consoleLogService = new ConsoleLogService(assemblyName, null);
-            var dbLogService = new DbLogService(assemblyName, null, consoleLogService);
+            var dbLogService = new DbLogService(configurationFileRepository, assemblyName, null, consoleLogService);
 
             var result = new LogFactory(consoleLogService, assemblyName, null);
             result.LoggingServices.Add(dbLogService);

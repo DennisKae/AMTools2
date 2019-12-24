@@ -49,7 +49,7 @@ namespace AMTools.Batch
             var settingsFileRepo = new SettingsFileRepository(logService, configFileRepo, mapper);
             //var allSettings = settingsFileRepo.GetAllSettings();
 
-            using (var context = new DatabaseContext())
+            using (var context = new DatabaseContext(configFileRepo))
             {
                 context.Database.Migrate();
             }
@@ -77,7 +77,7 @@ namespace AMTools.Batch
             //var severityLevelService = new SeverityLevelService(mapper, settingsService);
             //var severityLevel = severityLevelService.GetSeverityLevelFromAlertText(alertText);
 
-            var alertService = new AlertService(mapper);
+            var alertService = new AlertService(configFileRepo, mapper);
             AlertViewModel alert = alertService.GetById(2);
 
             var qualificationService = new QualificationService(mapper, settingsService);
@@ -93,7 +93,7 @@ namespace AMTools.Batch
              * Alert-Simulation
              */
 
-            var alertSyncService = new AlertSyncService(calloutFileRepo, mapper);
+            var alertSyncService = new AlertSyncService(calloutFileRepo, configFileRepo, mapper);
 
             // Neue Alerts identifizieren
             List<AlertIdentification> newAlerts = alertSyncService.GetNewAlerts();
@@ -110,7 +110,7 @@ namespace AMTools.Batch
             }
 
             // UserResponse Updates verarbeiten
-            var userResponseSyncService = new UserResponseSyncService(mapper, calloutFileRepo);
+            var userResponseSyncService = new UserResponseSyncService(configFileRepo, mapper, calloutFileRepo);
             List<DbUserResponse> newUserResponses = userResponseSyncService.SyncAndGetNewUserResponses();
             // Benachrichtigungen über neue UserResponses versenden
 

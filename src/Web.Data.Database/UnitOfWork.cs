@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Data.Database.Repositories;
 
 namespace AMTools.Web.Data.Database
@@ -11,9 +12,10 @@ namespace AMTools.Web.Data.Database
         private readonly DatabaseContext _databaseContext;
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
-        public UnitOfWork()
+        public UnitOfWork(
+            IConfigurationFileRepository configurationFileRepository)
         {
-            _databaseContext = new DatabaseContext();
+            _databaseContext = new DatabaseContext(configurationFileRepository);
         }
 
         /// <summary>Liefert eine Instanz des Repositories mit dem angegebenen Typ (Caching inklusive).</summary>

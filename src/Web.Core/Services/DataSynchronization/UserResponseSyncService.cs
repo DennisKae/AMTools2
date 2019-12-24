@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
@@ -15,11 +16,16 @@ namespace AMTools.Web.Core.Services.DataSynchronization
 {
     public class UserResponseSyncService : IUserResponseSyncService
     {
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
         private readonly ICalloutFileRepository _calloutFileRepository;
 
-        public UserResponseSyncService(IMapper mapper, ICalloutFileRepository calloutFileRepository)
+        public UserResponseSyncService(
+            IConfigurationFileRepository configurationFileRepository,
+            IMapper mapper,
+            ICalloutFileRepository calloutFileRepository)
         {
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
             _calloutFileRepository = calloutFileRepository;
         }
@@ -37,7 +43,7 @@ namespace AMTools.Web.Core.Services.DataSynchronization
                 return result;
             }
 
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var alertRepo = unit.GetRepository<AlertDbRepository>();
                 var userResponseRepo = unit.GetRepository<UserResponseDbRepository>();

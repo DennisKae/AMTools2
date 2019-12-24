@@ -20,6 +20,7 @@ namespace AMTools.Shared.Core.Models.Konfigurationen
         public string AvailabilityDatei { get; set; }
 
         [Required]
+        [IsExistingFile]
         public string CalloutDatei { get; set; }
 
         [Required]

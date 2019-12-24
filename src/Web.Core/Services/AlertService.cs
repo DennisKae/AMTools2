@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Core.ViewModels;
 using AMTools.Web.Data.Database;
@@ -14,17 +15,20 @@ namespace AMTools.Web.Core.Services
 {
     public class AlertService : IAlertService
     {
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
         public AlertService(
+            IConfigurationFileRepository configurationFileRepository,
             IMapper mapper)
         {
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
         }
 
         public Alert GetLatestEnabledAlert()
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var alertRepo = unit.GetRepository<AlertDbRepository>();
                 return _mapper.Map<Alert>(alertRepo.GetLatestEnabledAlert());
@@ -58,7 +62,7 @@ namespace AMTools.Web.Core.Services
 
         public AlertViewModel GetById(int alertId)
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var alertRepo = unit.GetRepository<AlertDbRepository>();
                 return _mapper.Map<AlertViewModel>(alertRepo.GetById(alertId));
@@ -67,7 +71,7 @@ namespace AMTools.Web.Core.Services
 
         public AlertViewModel GetByAlertIdentification(AlertIdentification alertIdentification)
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var alertRepo = unit.GetRepository<AlertDbRepository>();
                 return _mapper.Map<AlertViewModel>(alertRepo.GetByAlertIdentification(alertIdentification));
@@ -76,7 +80,7 @@ namespace AMTools.Web.Core.Services
 
         public void Disable(int alertId)
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var alertRepo = unit.GetRepository<AlertDbRepository>();
                 alertRepo.Disable(alertId);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Core.ViewModels;
 using AMTools.Web.Data.Database;
@@ -14,16 +15,20 @@ namespace AMTools.Web.Core.Services
 {
     public class SubscriberService : ISubscriberService
     {
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
-        public SubscriberService(IMapper mapper)
+        public SubscriberService(
+            IConfigurationFileRepository configurationFileRepository,
+            IMapper mapper)
         {
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
         }
 
         public List<SubscriberViewModel> GetAll()
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var subscriberRepo = unit.GetRepository<SubscriberDbRepository>();
                 return _mapper.Map<List<SubscriberViewModel>>(subscriberRepo.GetAll());
@@ -37,7 +42,7 @@ namespace AMTools.Web.Core.Services
                 return null;
             }
 
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var subscriberRepo = unit.GetRepository<SubscriberDbRepository>();
                 return _mapper.Map<SubscriberViewModel>(subscriberRepo.GetByIssi(issi));
@@ -65,7 +70,7 @@ namespace AMTools.Web.Core.Services
                 return null;
             }
 
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var subscriberRepo = unit.GetRepository<SubscriberDbRepository>();
                 return _mapper.Map<SubscriberViewModel>(subscriberRepo.GetByName(subscriberName));
