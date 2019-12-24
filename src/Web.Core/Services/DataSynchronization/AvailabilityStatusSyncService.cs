@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
@@ -16,20 +17,23 @@ namespace AMTools.Web.Core.Services.DataSynchronization
     public class AvailabilityStatusSyncService : IAvailabilityStatusSyncService
     {
         private readonly IAvailabilityFileRepository _availabilityFileRepository;
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
         public AvailabilityStatusSyncService(
             IAvailabilityFileRepository availabilityFileRepository,
+            IConfigurationFileRepository configurationFileRepository,
             IMapper mapper)
         {
             _availabilityFileRepository = availabilityFileRepository;
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
         }
 
         public void Sync()
         {
             List<AvailabilityStatus> fileStatusses = _availabilityFileRepository.GetAllAvailabilities();
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var dbRepo = unit.GetRepository<AvailabilityStatusDbRepository>();
 

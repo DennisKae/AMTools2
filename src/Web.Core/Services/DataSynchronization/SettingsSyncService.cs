@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
@@ -18,15 +19,18 @@ namespace AMTools.Web.Core.Services.DataSynchronization
     {
         private readonly ILogService _logService;
         private readonly ISettingsFileRepository _settingsFileRepository;
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
         public SettingsSyncService(
             ILogService logService,
             ISettingsFileRepository settingsFileRepository,
+            IConfigurationFileRepository configurationFileRepository,
             IMapper mapper)
         {
             _logService = logService;
             _settingsFileRepository = settingsFileRepository;
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
         }
 
@@ -34,7 +38,7 @@ namespace AMTools.Web.Core.Services.DataSynchronization
         {
             List<Setting> fileSettings = _settingsFileRepository.GetAllSettings();
 
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var dbSettingsRepo = unit.GetRepository<SettingDbRepository>();
 

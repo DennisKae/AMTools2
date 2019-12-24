@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
@@ -16,13 +17,16 @@ namespace AMTools.Web.Core.Services.DataSynchronization
     public class AlertSyncService : IAlertSyncService
     {
         private readonly ICalloutFileRepository _calloutFileRepository;
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
         public AlertSyncService(
             ICalloutFileRepository calloutFileRepository,
+            IConfigurationFileRepository configurationFileRepository,
             IMapper mapper)
         {
             _calloutFileRepository = calloutFileRepository;
+            _configurationFileRepository = configurationFileRepository;
             _mapper = mapper;
         }
 
@@ -39,7 +43,7 @@ namespace AMTools.Web.Core.Services.DataSynchronization
                 return result;
             }
 
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var dbRepo = unit.GetRepository<AlertDbRepository>();
 
@@ -66,7 +70,7 @@ namespace AMTools.Web.Core.Services.DataSynchronization
 
         public void DisableAllAlerts()
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var dbRepo = unit.GetRepository<AlertDbRepository>();
                 dbRepo.DisableAll();
@@ -81,7 +85,7 @@ namespace AMTools.Web.Core.Services.DataSynchronization
                 return;
             }
 
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var dbRepo = unit.GetRepository<AlertDbRepository>();
                 bool hasInserts = false;
@@ -119,7 +123,7 @@ namespace AMTools.Web.Core.Services.DataSynchronization
         /// <summary>Deaktiviert DB-Alerts, die nicht mehr im Alert-File vorhanden sind</summary>
         public void DisableObsoleteAlerts()
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var alertDbRepo = unit.GetRepository<AlertDbRepository>();
                 List<DbAlert> activeDbAlerts = alertDbRepo.GetEnabledAlerts();

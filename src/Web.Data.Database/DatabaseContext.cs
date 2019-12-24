@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AMTools.Shared.Core;
+using AMTools.Shared.Core.Models.Konfigurationen;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Web.Data.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,6 +16,8 @@ namespace AMTools.Web.Data.Database
 {
     public class DatabaseContext : AuditBaseDatabaseContext
     {
+        private readonly IConfigurationFileRepository _configurationFileRepository;
+
         public DbSet<DbAppLog> AppLog { get; set; }
 
         public DbSet<DbAuditLog> AuditLog { get; set; }
@@ -27,14 +32,19 @@ namespace AMTools.Web.Data.Database
 
         public DbSet<DbSetting> Setting { get; set; }
 
-        public DatabaseContext() : base(true)
+        public DatabaseContext(
+            IConfigurationFileRepository configurationFileRepository) : base(true)
         {
+            _configurationFileRepository = configurationFileRepository;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=" + @"C:\install\AMTools2\AMTools2.db");
-            // TODO: Auf FileKonfiguration umbauen
+            var dateiKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<DateiKonfiguration>();
+            Guard.IsNotNull(dateiKonfiguration, nameof(DateiKonfiguration));
+            Guard.IsNotNull(dateiKonfiguration.Datenbankpfad, nameof(dateiKonfiguration.Datenbankpfad));
+
+            optionsBuilder.UseSqlite("Data Source=" + dateiKonfiguration.Datenbankpfad);
             // TODO: Vacuum/Verkleinerung der DB einbauen: https://stackoverflow.com/questions/31127676/vacuum-sqlite-database-with-entityframework-6-1
         }
 

@@ -33,7 +33,7 @@ namespace AMTools.Web.Core.Services.Settings
 
         public List<Setting> GetAll()
         {
-            using (var unit = new UnitOfWork())
+            using (var unit = new UnitOfWork(_configurationFileRepository))
             {
                 var settingsRepo = unit.GetRepository<SettingDbRepository>();
                 return _mapper.Map<List<Setting>>(settingsRepo.GetAll());
@@ -52,7 +52,7 @@ namespace AMTools.Web.Core.Services.Settings
                 CacheKonfiguration cacheKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<CacheKonfiguration>() ?? FallbackKonfigurationen.CacheKonfiguration;
                 entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(cacheKonfiguration.DauerInMinuten.GetValueOrDefault()));
 
-                using (var unit = new UnitOfWork())
+                using (var unit = new UnitOfWork(_configurationFileRepository))
                 {
                     var settingsRepo = unit.GetRepository<SettingDbRepository>();
                     return _mapper.Map<List<Setting>>(settingsRepo.GetByCategoryName(categoryName));

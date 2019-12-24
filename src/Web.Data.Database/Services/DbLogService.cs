@@ -1,5 +1,6 @@
 ﻿using System;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Shared.Core.Services.Logging;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
@@ -9,12 +10,18 @@ namespace AMTools.Core.Services.Logging
 {
     public class DbLogService : LogServiceBase
     {
+        private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly string _assemblyName;
         private readonly string _batchCommand;
         private readonly ILogService _fallbackLogService;
 
-        public DbLogService(string assemblyName, string batchCommand, ILogService fallbackLogService) : base(assemblyName, batchCommand)
+        public DbLogService(
+            IConfigurationFileRepository configurationFileRepository,
+            string assemblyName,
+            string batchCommand,
+            ILogService fallbackLogService) : base(assemblyName, batchCommand)
         {
+            _configurationFileRepository = configurationFileRepository;
             _assemblyName = assemblyName;
             _batchCommand = batchCommand;
             _fallbackLogService = fallbackLogService;
@@ -33,7 +40,7 @@ namespace AMTools.Core.Services.Logging
 
             try
             {
-                using (var unit = new UnitOfWork())
+                using (var unit = new UnitOfWork(_configurationFileRepository))
                 {
                     var logDbRepo = unit.GetRepository<AppLogDbRepository>();
                     logDbRepo.Insert(logEntry);
