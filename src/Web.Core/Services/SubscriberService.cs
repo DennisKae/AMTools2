@@ -16,13 +16,16 @@ namespace AMTools.Web.Core.Services
     public class SubscriberService : ISubscriberService
     {
         private readonly IConfigurationFileRepository _configurationFileRepository;
+        private readonly IAlertService _alertService;
         private readonly IMapper _mapper;
 
         public SubscriberService(
             IConfigurationFileRepository configurationFileRepository,
+            IAlertService alertService,
             IMapper mapper)
         {
             _configurationFileRepository = configurationFileRepository;
+            _alertService = alertService;
             _mapper = mapper;
         }
 
@@ -51,21 +54,9 @@ namespace AMTools.Web.Core.Services
 
         public SubscriberViewModel GetFromAlertText(string alertText)
         {
-            if (string.IsNullOrWhiteSpace(alertText))
-            {
-                return null;
-            }
+            string targetText = _alertService.GetTargetTextFromAlertText(alertText);
 
-            // 01.11. 21:22 - ID: 4, Schweregrad 1 - Jonas Färber -  - Funktionsprobe!
-
-            string[] splittedAlertText = alertText.Split('-');
-            if (splittedAlertText.Length < 3)
-            {
-                return null;
-            }
-
-            string subscriberName = splittedAlertText[2].Trim();
-            if (string.IsNullOrWhiteSpace(subscriberName))
+            if (string.IsNullOrWhiteSpace(targetText))
             {
                 return null;
             }

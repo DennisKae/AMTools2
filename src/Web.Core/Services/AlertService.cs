@@ -60,6 +60,30 @@ namespace AMTools.Web.Core.Services
             return null;
         }
 
+        public string GetTargetTextFromAlertText(string alertText)
+        {
+            if (string.IsNullOrWhiteSpace(alertText))
+            {
+                return null;
+            }
+
+            // 01.11. 21:22 - ID: 4, Schweregrad 1 - Jonas Färber -  - Funktionsprobe!
+
+            string[] splittedAlertText = alertText.Split('-');
+            if (splittedAlertText.Length < 3)
+            {
+                return null;
+            }
+
+            string alertTarget = splittedAlertText[2].Trim();
+            if (string.IsNullOrWhiteSpace(alertTarget))
+            {
+                return null;
+            }
+
+            return alertTarget;
+        }
+
         public AlertViewModel GetById(int alertId)
         {
             using (var unit = new UnitOfWork(_configurationFileRepository))

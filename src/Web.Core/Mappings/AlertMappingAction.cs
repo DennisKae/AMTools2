@@ -51,7 +51,7 @@ namespace AMTools.Web.Core.Mappings
             destination.SubGroups = _subGroupService.GetSubGroupsFromAlertText(source.Text);
             destination.TargetSubscriber = _subscriberService.GetFromAlertText(source.Text);
             destination.Alarmierungstext = _alertService.GetCalloutReasonFromAlertText(source.Text);
-            // TODO: Fill TargetText
+            destination.TargetText = _alertService.GetTargetTextFromAlertText(source.Text);
         }
 
         public void Process(DbAlert source, AlertViewModel destination, ResolutionContext context)
@@ -64,6 +64,7 @@ namespace AMTools.Web.Core.Mappings
             destination.SubGroups = _subGroupService.GetSubGroupsFromAlertText(source.Text);
             destination.TargetSubscriber = _subscriberService.GetFromAlertText(source.Text);
             destination.Alarmierungstext = _alertService.GetCalloutReasonFromAlertText(source.Text);
+            destination.TargetText = _alertService.GetTargetTextFromAlertText(source.Text);
         }
     }
 }
