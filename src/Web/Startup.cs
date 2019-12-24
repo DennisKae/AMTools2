@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AMTools.Web.BackgroundServices;
 using AMTools.Web.Core;
+using AMTools.Web.Core.ExtensionMethods;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Files;
-using AMTools.Web.ExtensionMethods;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,7 +56,9 @@ namespace AMTools.Web
 
             services.AddAutoMapper(GetOwnAssemblies());
 
-            services.InjectDependencies();
+            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+            services.InjectDependencies(assemblyName);
+            services.InjectBackgroundServices();
 
             services.AddMemoryCache(action => { action.CompactionPercentage = .25; });
         }

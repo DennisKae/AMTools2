@@ -8,7 +8,7 @@ using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models.Konfigurationen;
 using AMTools.Shared.Core.Repositories.Interfaces;
 
-namespace AMTools.Web.ExtensionMethods
+namespace AMTools.Web.Core.ExtensionMethods
 {
     public static class ConfigurationValidator
     {
@@ -33,6 +33,7 @@ namespace AMTools.Web.ExtensionMethods
             catch (Exception exception)
             {
                 logService.Exception(exception, typeof(T).Name + ": Die Konfiguration ist ungültig.");
+                throw;
             }
         }
     }

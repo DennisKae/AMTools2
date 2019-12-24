@@ -12,7 +12,6 @@ using AMTools.Shared.Core.Services.Interfaces;
 using AMTools.Shared.Core.Services.Logging;
 using AMTools.Shared.Core.Services.VirtualDesktops;
 using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
-using AMTools.Web.BackgroundServices;
 using AMTools.Web.Core.Facades;
 using AMTools.Web.Core.Facades.Interfaces;
 using AMTools.Web.Core.Services;
@@ -26,19 +25,22 @@ using AMTools.Web.Data.Files.Repositories;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AMTools.Web.ExtensionMethods
+namespace AMTools.Web.Core.ExtensionMethods
 {
     public static class DependencyInjector
     {
         /// <summary>Injiziert alle benötigten Dependencies</summary>
-        public static void InjectDependencies(this IServiceCollection services)
+        public static void InjectDependencies(this IServiceCollection services, string appPart) => InjectDependencies(services, appPart, null);
+
+        /// <summary>Injiziert alle benötigten Dependencies</summary>
+        public static void InjectDependencies(this IServiceCollection services, string appPart, string batchCommand)
         {
             // Singleton means only a single instance will ever be created. That instance is shared between all components that require it. The same instance is thus used always.
             // Scoped means an instance is created once per scope. A scope is created on every request to the application, thus any components registered as Scoped will be created once per request.
             // Transient components are created every time they are requested and are never shared.
 
             var configurationFileRepository = new ConfigurationFileRepository();
-            ILogFactory logFactory = GetLogFactory(configurationFileRepository);
+            ILogFactory logFactory = GetLogFactory(configurationFileRepository, appPart, batchCommand);
 
             try
             {
@@ -48,8 +50,8 @@ namespace AMTools.Web.ExtensionMethods
                 services.AddSingleton(logFactory);
                 services.AddSingleton<ILogService>(serviceProvider =>
                 {
-                    ILogFactory logFactory = serviceProvider.GetService<ILogFactory>();
-                    return logFactory;
+                    ILogFactory retrievedLogFactory = serviceProvider.GetService<ILogFactory>();
+                    return retrievedLogFactory;
                 });
 
                 // FileRepositories
@@ -64,12 +66,6 @@ namespace AMTools.Web.ExtensionMethods
                 services.AddSingleton<ISettingsSyncService, SettingsSyncService>();
                 services.AddSingleton<ISubscriberSyncService, SubscriberSyncService>();
                 services.AddSingleton<IUserResponseSyncService, UserResponseSyncService>();
-
-                // BackgroundServices
-                services.AddHostedService<SettingsBackgroundService>();
-                services.AddHostedService<AvailabilityStatusBackgroundService>();
-                services.AddHostedService<SubscriberBackgroundService>();
-                services.AddHostedService<CalloutBackgroundService>();
 
                 // Setting Services
                 services.AddSingleton<IQualificationService, QualificationService>();
@@ -88,6 +84,8 @@ namespace AMTools.Web.ExtensionMethods
                 services.AddSingleton<ISubscriberService, SubscriberService>();
                 services.AddSingleton<IUserResponseService, UserResponseService>();
                 services.AddSingleton<ICalloutEmailNotificationService, CalloutEmailNotificationService>();
+                services.AddSingleton<ILogCleanupService, LogCleanupService>();
+                services.AddSingleton<IStartupService, StartupService>();
 
                 // Facades
                 services.AddSingleton<IVirtualDesktopFacade, VirtualDesktopFacade>();
@@ -98,13 +96,12 @@ namespace AMTools.Web.ExtensionMethods
             }
         }
 
-        private static ILogFactory GetLogFactory(IConfigurationFileRepository configurationFileRepository)
+        private static ILogFactory GetLogFactory(IConfigurationFileRepository configurationFileRepository, string appPart, string batchCommand)
         {
-            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-            var consoleLogService = new ConsoleLogService(assemblyName, null);
-            var dbLogService = new DbLogService(configurationFileRepository, assemblyName, null, consoleLogService);
+            var consoleLogService = new ConsoleLogService(appPart, batchCommand);
+            var dbLogService = new DbLogService(configurationFileRepository, appPart, batchCommand, consoleLogService);
 
-            var result = new LogFactory(consoleLogService, assemblyName, null);
+            var result = new LogFactory(consoleLogService, appPart, batchCommand);
             result.LoggingServices.Add(dbLogService);
             return result;
         }
