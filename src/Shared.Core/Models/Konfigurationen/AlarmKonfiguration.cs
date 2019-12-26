@@ -10,7 +10,7 @@ namespace AMTools.Shared.Core.Models.Konfigurationen
     public class AlarmKonfiguration
     {
         [Required]
-        public int? SperrfristInMinuten { get; set; }
+        public double? SperrfristInMinuten { get; set; }
 
         /// <summary>Virtueller Desktop, auf dem die Rückmeldungen im Alarmfall angezeigt werden. Nicht 0-basiert!</summary>
         [Required]

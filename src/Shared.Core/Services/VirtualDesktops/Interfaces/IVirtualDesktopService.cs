@@ -12,5 +12,9 @@
         bool Switch(int targetDesktopIndex);
         bool SwitchLeft();
         bool SwitchRight();
+        void SwitchWithMultipleAttempts(int targetDesktopNumber, string targetDesktopDescription, int maxAttemptCount = 10);
+        void SwitchWithMultipleAttempts(int targetDesktopNumber, string targetDesktopDescription);
+        void SwitchWithMultipleAttempts(int targetDesktopNumber, int maxAttemptCount);
+        void SwitchWithMultipleAttempts(int targetDesktopNumber);
     }
 }

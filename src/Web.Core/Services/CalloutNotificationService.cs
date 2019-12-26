@@ -41,6 +41,7 @@ namespace AMTools.Web.Core.Services
             {
                 return;
             }
+
             AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
 
             foreach (AlertIdentification alertIdentification in alertIdentifications)
@@ -53,9 +54,10 @@ namespace AMTools.Web.Core.Services
                     if (alert == null)
                     {
                         _logService.Error(nameof(SendNewAlertNotifications) + ": Kein alert zu dieser Identifikation gefunden: " + alertIdentification?.ToString());
-                        return;
+                        continue;
                     }
-                    var test = alertIdentification?.ToString();
+
+                    _logService.Info($"Neue Alarmierung: #{alert.Id}@{alert.AlertTimestamp} - {alert.SchweregradText} - {alert.Alarmierungstext}");
 
                     _calloutEmailNotificationService.SendEmail(alert, CalloutNotificationType.NewAlert);
                 }
@@ -67,16 +69,25 @@ namespace AMTools.Web.Core.Services
         }
 
         /// <summary>Versendet Benachrichtigungen über neue UserResponses.</summary>
-        public void SendNewUserResponseNotifications(List<DbUserResponse> userResponses)
+        public void SendNewUserResponseNotifications(List<DbUserResponse> newUserResponses)
         {
-            if (userResponses == null || userResponses.Count == 0)
+            if (newUserResponses == null || newUserResponses.Count == 0)
             {
                 return;
             }
 
+            string GetLogMessage(DbUserResponse userResponse)
+            {
+                string responseText = userResponse.Accept ? "akzeptiert" : "abgelehnt";
+
+                return $"Neue Rückmeldung zu Alarmierung #{userResponse.AlertId}: ISSI {userResponse.Issi} {responseText}";
+            }
+
+            newUserResponses.ForEach(x => _logService.Info(GetLogMessage(x)));
+
             AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
             Guard.IsNotNull(alarmKonfiguration, nameof(AlarmKonfiguration));
-            List<int> alertIds = userResponses.Select(x => x.AlertId).Distinct().OrderByDescending(x => x).ToList();
+            List<int> alertIds = newUserResponses.Select(x => x.AlertId).Distinct().OrderByDescending(x => x).ToList();
             foreach (int alertId in alertIds)
             {
                 try
@@ -85,7 +96,7 @@ namespace AMTools.Web.Core.Services
                     if (alert == null)
                     {
                         _logService.Error(nameof(SendNewUserResponseNotifications) + ": Kein alert zu dieser AlertId gefunden: " + alertId);
-                        return;
+                        continue;
                     }
 
                     _calloutEmailNotificationService.SendEmail(alert, CalloutNotificationType.NewUserResponse);

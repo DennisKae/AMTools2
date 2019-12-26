@@ -36,7 +36,7 @@ namespace AMTools.Shared.Core.Services
 
                 result.DetectedOsVersion = Environment.OSVersion.VersionString;
 
-                bool isWindows = result.DetectedOsVersion.ToLower().Contains("windows");
+                bool isWindows = result.DetectedOsVersion.ToLowerInvariant().Contains("windows");
                 if (isWindows)
                 {
                     startInfo.FileName = "cmd.exe";

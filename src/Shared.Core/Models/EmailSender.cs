@@ -24,8 +24,5 @@ namespace AMTools.Shared.Core.Models
         public int? Port { get; set; }
 
         public bool UseSsl { get; set; }
-
-        /// <summary>Soll der Absender die versendeten Emails in Kopie erhalten?</summary>
-        public bool GetEmailsInCopy { get; set; }
     }
 }

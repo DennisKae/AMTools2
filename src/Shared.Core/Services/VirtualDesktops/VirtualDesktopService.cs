@@ -89,6 +89,34 @@ namespace AMTools.Shared.Core.Services.VirtualDesktops
             return !terminalResult.ErrorOccured;
         }
 
+        public void SwitchWithMultipleAttempts(int targetDesktopNumber) => SwitchWithMultipleAttempts(targetDesktopNumber, null);
+
+        public void SwitchWithMultipleAttempts(int targetDesktopNumber, int maxAttemptCount) => SwitchWithMultipleAttempts(targetDesktopNumber, null, maxAttemptCount);
+
+        public void SwitchWithMultipleAttempts(int targetDesktopNumber, string targetDesktopDescription) => SwitchWithMultipleAttempts(targetDesktopNumber, targetDesktopDescription, 10);
+
+        public void SwitchWithMultipleAttempts(int targetDesktopNumber, string targetDesktopDescription, int maxAttemptCount)
+        {
+            if (string.IsNullOrWhiteSpace(targetDesktopDescription))
+            {
+                targetDesktopDescription = "Desktop " + targetDesktopNumber;
+            }
+
+            bool hasSwitched = Switch(targetDesktopNumber - 1);
+            int attemptCounter = 1;
+            while (!hasSwitched && attemptCounter <= maxAttemptCount)
+            {
+                _logService.Error($"Beim Umschalten auf den {targetDesktopDescription} ({targetDesktopNumber}) trat ein Fehler auf. Die Umschaltung wird zum {attemptCounter + 1}. mal erneut versucht...");
+                hasSwitched = Switch(targetDesktopNumber - 1);
+                attemptCounter++;
+            }
+
+            if (!hasSwitched)
+            {
+                _logService.Exception($"Es wurde {maxAttemptCount} mal erfolglos versucht auf den {targetDesktopDescription} (Desktop {targetDesktopNumber}) umzuschalten.");
+            }
+        }
+
         /// <summary>Wechselt zum ausgewählten Desktop. Liefert true, wenn der Vorgang erfolgreich war.</summary>
         public bool Switch(int targetDesktopIndex)
         {

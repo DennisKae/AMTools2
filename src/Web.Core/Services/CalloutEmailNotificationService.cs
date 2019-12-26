@@ -122,15 +122,13 @@ namespace AMTools.Web.Core.Services
 
             if (!string.IsNullOrWhiteSpace(prefix))
             {
-                resultBuilder.Append(": " + prefix);
+                resultBuilder.Append($"#{alert.Id}: " + prefix);
             }
 
             if (!string.IsNullOrWhiteSpace(alert.Alarmierungstext))
             {
                 resultBuilder.Append(" - " + alert.Alarmierungstext);
             }
-
-            resultBuilder.Append(" - #" + alert.Id);
 
             return resultBuilder.ToString();
         }
