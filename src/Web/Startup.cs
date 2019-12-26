@@ -4,11 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AMTools.Web.BackgroundServices;
-using AMTools.Web.Core;
 using AMTools.Web.Core.ExtensionMethods;
 using AMTools.Web.Data.Database;
-using AMTools.Web.Data.Files;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -54,8 +51,6 @@ namespace AMTools.Web
             });
             services.AddSwaggerGenNewtonsoftSupport();
 
-            services.AddAutoMapper(GetOwnAssemblies());
-
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
             services.InjectDependencies(assemblyName);
             services.InjectBackgroundServices();
@@ -91,25 +86,6 @@ namespace AMTools.Web
             serviceProvider.EnsureMigrationOfContext<DatabaseContext>();
 
             serviceProvider.ValidateConfigurations();
-        }
-
-        private List<Assembly> GetOwnAssemblies()
-        {
-            var result = new List<Assembly>();
-
-            var mainAsssembly = Assembly.GetEntryAssembly();
-            result.Add(mainAsssembly);
-
-            foreach (AssemblyName referencedAssemblyName in mainAsssembly.GetReferencedAssemblies())
-            {
-                if (!referencedAssemblyName.Name.StartsWith("amtools", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    continue;
-                }
-
-                result.Add(Assembly.Load(referencedAssemblyName));
-            }
-            return result;
         }
     }
 }

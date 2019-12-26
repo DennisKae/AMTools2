@@ -4,6 +4,5 @@
   "Password": "fooooo",
   "Hostname": "smtp.ionos.de",
   "Port": 465,
-  "UseSsl": true,
-  "GetEmailsInCopy": true
+  "UseSsl": true
 }

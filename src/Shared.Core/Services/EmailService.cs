@@ -51,11 +51,6 @@ namespace AMTools.Shared.Core.Services
 
             message.To.AddRange(recipients.Select(x => new MailboxAddress(x)).ToList());
 
-            if (emailSender.GetEmailsInCopy)
-            {
-                message.Cc.Add(new MailboxAddress(emailSender.Address));
-            }
-
             message.Subject = subject;
 
             message.Body = new TextPart(textFormat)

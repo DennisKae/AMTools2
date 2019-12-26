@@ -23,6 +23,7 @@ using AMTools.Web.Core.Services.Settings.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Files.Repositories;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AMTools.Web.Core.ExtensionMethods
@@ -44,6 +45,8 @@ namespace AMTools.Web.Core.ExtensionMethods
 
             try
             {
+                services.AddAutoMapper(GetOwnAssemblies());
+
                 services.AddDbContext<DatabaseContext>();
                 services.AddSingleton<IConfigurationFileRepository>(serviceProvider => configurationFileRepository);
 
@@ -103,6 +106,27 @@ namespace AMTools.Web.Core.ExtensionMethods
 
             var result = new LogFactory(consoleLogService, appPart, batchCommand);
             result.LoggingServices.Add(dbLogService);
+            return result;
+        }
+
+        private static List<Assembly> GetOwnAssemblies()
+        {
+            var result = new List<Assembly>();
+
+            // Wichtig: Die hier ausgewählte "mainAssembly" muss über Referenzen auf alle benötigten Assemblies besitzen.
+            // Assembly mainAsssembly = Assembly.GetEntryAssembly(); // Das ist die Assembly, die 
+            Assembly mainAsssembly = typeof(DependencyInjector).Assembly;
+            result.Add(mainAsssembly);
+            var referencedAssemblies = mainAsssembly.GetReferencedAssemblies();
+            foreach (AssemblyName referencedAssemblyName in mainAsssembly.GetReferencedAssemblies())
+            {
+                if (!referencedAssemblyName.Name.StartsWith("amtools", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    continue;
+                }
+
+                result.Add(Assembly.Load(referencedAssemblyName));
+            }
             return result;
         }
     }

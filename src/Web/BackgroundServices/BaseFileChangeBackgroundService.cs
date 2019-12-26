@@ -12,11 +12,14 @@ namespace AMTools.Web.BackgroundServices
 {
     public abstract class BaseFileChangeBackgroundService : BackgroundService
     {
+        protected bool IsInitialized { get; private set; } = false;
+
         private readonly ILogService _logService;
 
         private FileSystemWatcher _fileSystemWatcher;
 
         private string _targetFilepath;
+
 
         public BaseFileChangeBackgroundService(
             ILogService logService)
@@ -61,10 +64,12 @@ namespace AMTools.Web.BackgroundServices
                 _logService.Info(GetType().Name + " mit folgendem Pfad initialisiert: " + Environment.NewLine + filepath);
 
                 ExecuteOnFileChange();
+                IsInitialized = true;
             }
             catch (Exception exception)
             {
                 _logService.Exception(exception, GetType().Name + ": Bei der Initialisierung trat eine Exception auf.");
+                IsInitialized = false;
             }
         }
 
