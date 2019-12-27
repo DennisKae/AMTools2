@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>AMTools.Batch</AssemblyName>
     <RootNamespace>AMTools.Batch</RootNamespace>
   </PropertyGroup>
@@ -22,6 +22,24 @@
     <ProjectReference Include="..\Web.Core\Web.Core.csproj" />
     <ProjectReference Include="..\Web.Data.Database\Web.Data.Database.csproj" />
     <ProjectReference Include="..\Web.Data.FileImport\Web.Data.Files.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="_Skripte\Desktop 1 anzeigen.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="_Skripte\Desktop 2 anzeigen.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="_Skripte\Startkonfiguration ausführen.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="_Skripte\Startkonfiguration überprüfen.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="_Skripte\Log aufräumen.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
