@@ -51,6 +51,7 @@ namespace AMTools.Web
             });
             services.AddSwaggerGenNewtonsoftSupport();
 
+            services.EnsureMigrationOfDatabaseContext();
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
             services.InjectDependencies(assemblyName);
             services.InjectBackgroundServices();
@@ -82,8 +83,6 @@ namespace AMTools.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetExecutingAssembly().GetName().Name + " API V1");
             });
-
-            serviceProvider.EnsureMigrationOfContext<DatabaseContext>();
 
             serviceProvider.ValidateConfigurations();
         }

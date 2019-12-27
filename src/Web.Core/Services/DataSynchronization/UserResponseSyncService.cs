@@ -91,6 +91,15 @@ namespace AMTools.Web.Core.Services.DataSynchronization
                         result.Add(mappedResponse);
                         saveChanges = true;
                     }
+
+                    // XML-Property des Alert-Datensatzes aktualisieren
+                    Alert fileAlert = _calloutFileRepository.GetAlert(alertIdentification);
+                    if (!string.IsNullOrWhiteSpace(fileAlert?.Xml) && dbAlert.Xml != fileAlert.Xml)
+                    {
+                        dbAlert.Xml = fileAlert.Xml;
+                        dbAlert.SysStampUp = DateTime.Now;
+                        saveChanges = true;
+                    }
                 }
 
                 if (saveChanges)
