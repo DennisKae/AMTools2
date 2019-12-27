@@ -24,7 +24,7 @@ namespace AMTools.Shared.Core.Services
 
         private void StartOrValidate(bool isValidation)
         {
-            // TODO
+            // TODO Prio 2: StartupService implementieren
 
             if (isValidation)
             {

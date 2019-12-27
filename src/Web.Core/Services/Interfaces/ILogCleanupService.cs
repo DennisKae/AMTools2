@@ -1,4 +1,4 @@
-﻿namespace AMTools.Shared.Core.Services.Interfaces
+﻿namespace AMTools.Web.Core.Services.Interfaces
 {
     public interface ILogCleanupService
     {

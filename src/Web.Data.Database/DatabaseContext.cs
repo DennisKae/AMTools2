@@ -38,6 +38,11 @@ namespace AMTools.Web.Data.Database
             _configurationFileRepository = configurationFileRepository;
         }
 
+        public void Shrink()
+        {
+            // TODO Prio 6: Vacuum/Verkleinerung der DB einbauen: https://stackoverflow.com/questions/31127676/vacuum-sqlite-database-with-entityframework-6-1
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var dateiKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<DateiKonfiguration>();
@@ -45,7 +50,6 @@ namespace AMTools.Web.Data.Database
             Guard.IsNotNull(dateiKonfiguration.Datenbankpfad, nameof(dateiKonfiguration.Datenbankpfad));
 
             optionsBuilder.UseSqlite("Data Source=" + dateiKonfiguration.Datenbankpfad);
-            // TODO: Vacuum/Verkleinerung der DB einbauen: https://stackoverflow.com/questions/31127676/vacuum-sqlite-database-with-entityframework-6-1
         }
 
         protected override bool ObjectIsInstanceOfForbiddenClass(object target)
