@@ -6,6 +6,7 @@ using System.Reflection;
 using AMTools.Web.BackgroundServices;
 using AMTools.Web.Core.ExtensionMethods;
 using AMTools.Web.Data.Database;
+using AMTools.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -81,6 +82,7 @@ namespace AMTools.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<AvailabilityHub>("/availability");
             });
 
 
