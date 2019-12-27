@@ -9,10 +9,12 @@ using AMTools.Web.Data.Database;
 using AMTools.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace AMTools.Web
 {
@@ -38,6 +40,24 @@ namespace AMTools.Web
                     options.JsonSerializerOptions.WriteIndented = true;
                 });
 
+            // SignalR
+            services
+                .AddSignalR()
+                .AddJsonProtocol(options =>
+                {
+                    // Necessary to disable lowerCamelCasing and use PascalCasing for SignalR responses
+                    options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+                    options.PayloadSerializerOptions.WriteIndented = true;
+                });
+
+            // Static files
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "wwwroot";
+            });
+
+            // Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -52,12 +72,17 @@ namespace AMTools.Web
             });
             services.AddSwaggerGenNewtonsoftSupport();
 
+            // Injections
             services.EnsureMigrationOfDatabaseContext();
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
             services.InjectDependencies(assemblyName);
             services.InjectBackgroundServices();
 
+            // MemoryCache injection
             services.AddMemoryCache(action => { action.CompactionPercentage = .25; });
+
+            // TODO Prio 96: HealthChecks?
+            // services.AddHealthChecks();
 
             // TODO Prio 4: Frontend hinzufügen
             // Fernsteuerungsseite mit Pfeilen <-- -->
@@ -93,8 +118,27 @@ namespace AMTools.Web
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetExecutingAssembly().GetName().Name + " API V1");
             });
 
+#if DEBUG
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
+#endif
+
             serviceProvider.ValidateConfigurations();
             hostApplicationLifetime.LogAppStatusChanges(serviceProvider);
+
+            app.UseSpaStaticFiles();
+
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "Frontend";
+
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseAngularCliServer(npmScript: "start");
+                //}
+            });
         }
     }
 }
