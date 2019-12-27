@@ -15,7 +15,7 @@ namespace AMTools.Web.Data.Database
         {
             CreateMap<DbAlert, Alert>().ReverseMap();
 
-            // TODO: Anfrage-URL zum DbAppLog hinzufügen
+            // TODO Prio 7: Anfrage-URL zum DbAppLog hinzufügen
             // https://docs.automapper.org/en/stable/Before-and-after-map-actions.html
 
             CreateMap<DbAppLog, AppLog>().ReverseMap();

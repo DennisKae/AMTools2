@@ -1,4 +1,6 @@
-﻿//using System;
+﻿// TODO Prio 1: EmailLogService implementieren
+
+//using System;
 //using AMTools.Core.Models;
 //using AMTools.Core.Models.Configurations;
 //using AMTools.Core.Models.Configurations.Interfaces;

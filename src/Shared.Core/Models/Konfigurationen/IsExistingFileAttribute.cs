@@ -14,7 +14,7 @@ namespace AMTools.Shared.Core.Models.Konfigurationen
         {
 
         }
-        // TODO: Das funktioniert nicht
+        // TODO Prio 99: Configüberprüfung via custom validation attribute geht nicht
         public override bool IsValid(object value)
         {
             string stringValue = value as string;

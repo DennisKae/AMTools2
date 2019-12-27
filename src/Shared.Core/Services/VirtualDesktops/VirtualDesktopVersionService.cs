@@ -53,7 +53,7 @@ namespace AMTools.Shared.Core.Services.VirtualDesktops
 
         public int? GetWindowsReleaseId()
         {
-            // TODO: Fix
+            // TODO Prio 98: Fix get Windows-Release-ID / Evtl. beim App-Startup hinzufügen
             return 1903;
             //try
             //{
