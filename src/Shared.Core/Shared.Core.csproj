@@ -30,6 +30,9 @@
     <None Update="LoggingKonfiguration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="StartKonfiguration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="VirtualDesktop.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

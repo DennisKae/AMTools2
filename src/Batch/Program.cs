@@ -5,10 +5,9 @@ using System.Reflection;
 using System.Text;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
-using AMTools.Shared.Core.Services.Interfaces;
-using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Core.ExtensionMethods;
 using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
 using McMaster.Extensions.CommandLineUtils;
@@ -58,7 +57,7 @@ namespace AMTools.Batch
                     command.OnExecute(() => Execute(command, (IServiceProvider serviceProvider) =>
                     {
                         var service = serviceProvider.GetService<IStartupService>();
-                        service.ValidateStartupConfiguration();
+                        service.ValidateStartKonfiguration();
                     }));
                 }, throwOnUnexpectedArg: false);
 

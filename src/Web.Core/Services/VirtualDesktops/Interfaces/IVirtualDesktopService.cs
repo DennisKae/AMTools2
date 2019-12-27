@@ -1,4 +1,4 @@
-﻿namespace AMTools.Shared.Core.Services.VirtualDesktops.Interfaces
+﻿namespace AMTools.Web.Core.Services.VirtualDesktops.Interfaces
 {
     public interface IVirtualDesktopService
     {
@@ -10,6 +10,7 @@
         int GetIndexOfCurrentDesktop();
         void MoveByWindowTitle(string windowTitle, int targetDesktopIndex);
         bool Switch(int targetDesktopIndex);
+        bool SwitchingIsAllowed();
         bool SwitchLeft();
         bool SwitchRight();
         void SwitchWithMultipleAttempts(int targetDesktopNumber, string targetDesktopDescription, int maxAttemptCount = 10);

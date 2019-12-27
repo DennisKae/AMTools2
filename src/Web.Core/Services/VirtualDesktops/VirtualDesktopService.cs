@@ -4,27 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
+using AMTools.Shared.Core;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Models.Konfigurationen;
+using AMTools.Shared.Core.Repositories.Interfaces;
 using AMTools.Shared.Core.Services.Interfaces;
-using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
+using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.Services.VirtualDesktops.Interfaces;
 
-namespace AMTools.Shared.Core.Services.VirtualDesktops
+namespace AMTools.Web.Core.Services.VirtualDesktops
 {
     public class VirtualDesktopService : IVirtualDesktopService
     {
         private readonly ILogService _logService;
         private readonly IVirtualDesktopWrapperService _virtualDesktopService;
         private readonly ITerminalService _terminalService;
+        private readonly IAlertService _alertService;
+        private readonly IConfigurationFileRepository _configurationFileRepository;
 
         public VirtualDesktopService(
             ILogService logService,
             IVirtualDesktopWrapperService virtualDesktopWrapperService,
-            ITerminalService terminalService
+            ITerminalService terminalService,
+            IAlertService alertService,
+            IConfigurationFileRepository configurationFileRepository
             )
         {
             _logService = logService;
             _virtualDesktopService = virtualDesktopWrapperService;
             _terminalService = terminalService;
+            _alertService = alertService;
+            _configurationFileRepository = configurationFileRepository;
         }
 
         public bool SwitchRight()
@@ -256,6 +266,28 @@ namespace AMTools.Shared.Core.Services.VirtualDesktops
             }
         }
 
+        public bool SwitchingIsAllowed()
+        {
+            Alert latestAlert = _alertService.GetLatestEnabledAlert();
+            if (latestAlert == null)
+            {
+                return true;
+            }
+
+            AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
+            Guard.IsNotNull(alarmKonfiguration, nameof(AlarmKonfiguration));
+
+            double minutenSeitLetzterAlarmierung = Math.Round((DateTime.Now - latestAlert.AlertTimestamp).TotalMinutes, 2);
+            if (minutenSeitLetzterAlarmierung < alarmKonfiguration.SperrfristInMinuten.Value)
+            {
+                double endeDerSperrfristInMinuten = alarmKonfiguration.SperrfristInMinuten.Value - minutenSeitLetzterAlarmierung;
+                _logService.Info($"Kein Desktopwechsel erlaubt: Seit der letzten Alarmierung sind erst {minutenSeitLetzterAlarmierung} Minuten vergangen. Der nächste Wechsel ist erst in {endeDerSperrfristInMinuten} Minuten erlaubt.");
+                return false;
+            }
+
+            return true;
+        }
+
         private int GetIntFromKeyValueString(char separator, string input)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -272,5 +304,6 @@ namespace AMTools.Shared.Core.Services.VirtualDesktops
 
             return default;
         }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AMTools.Shared.Core.Services.VirtualDesktops.Interfaces
+﻿namespace AMTools.Web.Core.Services.VirtualDesktops.Interfaces
 {
     public interface IVirtualDesktopVersionService
     {
