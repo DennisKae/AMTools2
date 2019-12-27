@@ -88,6 +88,7 @@ namespace AMTools.Web.Core.ExtensionMethods
                 services.AddSingleton<ICalloutEmailNotificationService, CalloutEmailNotificationService>();
                 services.AddSingleton<ILogCleanupService, LogCleanupService>();
                 services.AddSingleton<IStartupService, StartupService>();
+                services.AddSingleton<IGuiVisibilityService, GuiVisibilityService>();
 
                 // Facades
                 services.AddSingleton<IVirtualDesktopFacade, VirtualDesktopFacade>();
