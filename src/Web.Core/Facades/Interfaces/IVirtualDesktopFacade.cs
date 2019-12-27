@@ -2,7 +2,7 @@
 {
     public interface IVirtualDesktopFacade
     {
-        void SwitchLeft();
-        void SwitchRight();
+        void SwitchLeft(bool force);
+        void SwitchRight(bool force);
     }
 }

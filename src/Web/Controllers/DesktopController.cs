@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
-using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Core.Facades.Interfaces;
 using AMTools.Web.Data.Database.Models;
 using Microsoft.AspNetCore.Http;
@@ -26,26 +25,28 @@ namespace AMTools.Web.Controllers
         }
 
         /// <summary>Wechselt zum nächsten Desktop auf der linken Seite.</summary>
+        /// <param name="force">Erzwingt den Desktopwechsel</param>
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(List<AppLog>), StatusCodes.Status200OK)]
-        public IActionResult SwitchLeft()
+        public IActionResult SwitchLeft(bool force)
         {
             return Execute(() =>
             {
-                _virtualDesktopFacade.SwitchLeft();
+                _virtualDesktopFacade.SwitchLeft(force);
 
                 return GetTemporaryAppLogEntries();
             });
         }
 
         /// <summary>Wechselt zum nächsten Desktop auf der rechten Seite.</summary>
+        /// <param name="force">Erzwingt den Desktopwechsel</param>
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(List<AppLog>), StatusCodes.Status200OK)]
-        public IActionResult SwitchRight()
+        public IActionResult SwitchRight(bool force)
         {
             return Execute(() =>
             {
-                _virtualDesktopFacade.SwitchRight();
+                _virtualDesktopFacade.SwitchRight(force);
 
                 return GetTemporaryAppLogEntries();
             });

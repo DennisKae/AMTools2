@@ -63,7 +63,11 @@ namespace AMTools.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            IServiceProvider serviceProvider,
+            IHostApplicationLifetime hostApplicationLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -88,6 +92,7 @@ namespace AMTools.Web
             });
 
             serviceProvider.ValidateConfigurations();
+            hostApplicationLifetime.LogAppStatusChanges(serviceProvider);
         }
     }
 }

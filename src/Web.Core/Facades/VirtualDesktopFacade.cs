@@ -33,9 +33,9 @@ namespace AMTools.Web.Core.Facades
             _configurationFileRepository = configurationFileRepository;
         }
 
-        public void SwitchRight()
+        public void SwitchRight(bool force)
         {
-            if (!_virtualDesktopService.SwitchingIsAllowed())
+            if (!force && !_virtualDesktopService.SwitchingIsAllowed())
             {
                 return;
             }
@@ -43,9 +43,9 @@ namespace AMTools.Web.Core.Facades
             _virtualDesktopService.SwitchRight();
         }
 
-        public void SwitchLeft()
+        public void SwitchLeft(bool force)
         {
-            if (!_virtualDesktopService.SwitchingIsAllowed())
+            if (!force && !_virtualDesktopService.SwitchingIsAllowed())
             {
                 return;
             }

@@ -10,10 +10,8 @@ namespace AMTools.Shared.Core.Models.Konfigurationen
 {
     public class LoggingKonfiguration
     {
-        [Required]
         public AppLogSeverity? EmailSchwelle { get; set; }
 
-        [Required]
         public List<string> EmailEmpfaenger { get; set; }
     }
 }
