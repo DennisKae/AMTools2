@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AMTools.Web.Core.ViewModels
+namespace AMTools.Web.Core.ViewModels.Settings
 {
-    public class SubGroupViewModel
+    public class AvailabilityStatusSettingViewModel
     {
-        public int Nummer { get; set; }
+        public string Nummer { get; set; }
 
         public string Bezeichnung { get; set; }
+
+        public string Farbe { get; set; }
     }
 }

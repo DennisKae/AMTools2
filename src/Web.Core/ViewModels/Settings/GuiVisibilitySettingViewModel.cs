@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AMTools.Web.Core.ViewModels
+namespace AMTools.Web.Core.ViewModels.Settings
 {
-    public class GuiVisibilityViewModel
+    public class GuiVisibilitySettingViewModel
     {
         public bool ShowAvailabilityTimestamp { get; set; }
 

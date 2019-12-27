@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
 using AMTools.Web.Core.Mappings;
+using AMTools.Web.Core.Mappings.Settings;
 using AMTools.Web.Core.ViewModels;
+using AMTools.Web.Core.ViewModels.Settings;
 using AMTools.Web.Data.Database.Models;
 using AutoMapper;
 
@@ -36,14 +38,23 @@ namespace AMTools.Web.Core
                 .AfterMap<SubscriberMappingAction>()
                 .ReverseMap();
 
-            CreateMap<Setting, QualificationViewModel>()
-                .AfterMap<QualificationMappingAction>();
+            CreateMap<Setting, QualificationSettingViewModel>()
+                .AfterMap<QualificationSettingMappingAction>();
 
-            CreateMap<Setting, SubGroupViewModel>()
-                .AfterMap<SubGroupMappingAction>();
+            CreateMap<Setting, SubGroupSettingViewModel>()
+                .AfterMap<SubGroupSettingMappingAction>();
 
-            CreateMap<Setting, SeverityLevelViewModel>()
-                .AfterMap<SeverityLevelMappingAction>();
+            CreateMap<Setting, SeverityLevelSettingViewModel>()
+                .AfterMap<SeverityLevelSettingMappingAction>();
+
+            CreateMap<Setting, AvailabilityStatusSettingViewModel>()
+                .AfterMap<AvailabilityStatusSettingMappingAction>();
+
+            CreateMap<DbAvailabilityStatus, AvailabilityStatusViewModel>()
+                .AfterMap<AvailabilityStatusMappingAction>();
+
+            CreateMap<AvailabilityStatus, AvailabilityStatusViewModel>()
+                .AfterMap<AvailabilityStatusMappingAction>();
         }
     }
 }

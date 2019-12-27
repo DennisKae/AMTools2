@@ -11,13 +11,14 @@ using AMTools.Shared.Core.Services.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Core.Services.Settings.Interfaces;
 using AMTools.Web.Core.ViewModels;
+using AMTools.Web.Core.ViewModels.Settings;
 using MimeKit.Text;
 
 namespace AMTools.Web.Core.Services
 {
     public class CalloutEmailNotificationService : ICalloutEmailNotificationService
     {
-        private readonly IQualificationService _qualificationService;
+        private readonly IQualificationSettingService _qualificationService;
         private readonly IEmailService _emailService;
         private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly ILogService _logService;
@@ -46,7 +47,7 @@ namespace AMTools.Web.Core.Services
 ";
 
         public CalloutEmailNotificationService(
-            IQualificationService qualificationService,
+            IQualificationSettingService qualificationService,
             IEmailService emailService,
             IConfigurationFileRepository configurationFileRepository,
             ILogService logService)
@@ -188,7 +189,7 @@ namespace AMTools.Web.Core.Services
             // Key = Abkürzung der Qualification, Value = Anzahl
             var resultValues = new Dictionary<string, int>();
 
-            List<QualificationViewModel> allQualifications = userResponseViewModels.Select(x => x.Subscriber).SelectMany(x => x.Qualifications).ToList();
+            List<QualificationSettingViewModel> allQualifications = userResponseViewModels.Select(x => x.Subscriber).SelectMany(x => x.Qualifications).ToList();
             if (allQualifications?.Count > 0)
             {
                 resultValues = allQualifications.GroupBy(x => x.Abkuerzung)
@@ -196,7 +197,7 @@ namespace AMTools.Web.Core.Services
                                         .ToDictionary(x => x.Key, x => x.Value);
             }
 
-            List<QualificationViewModel> allQualificationsFromDb = _qualificationService.GetAll();
+            List<QualificationSettingViewModel> allQualificationsFromDb = _qualificationService.GetAll();
 
             StringBuilder resultBuilder = new StringBuilder();
             resultBuilder.AppendLine("<h3>Qualifikationen der Rückmeldungen</h3>");
@@ -205,7 +206,7 @@ namespace AMTools.Web.Core.Services
             resultBuilder.AppendLine("</thead><tbody>");
             if (allQualificationsFromDb != null)
             {
-                foreach (QualificationViewModel qualificationFromDB in allQualificationsFromDb)
+                foreach (QualificationSettingViewModel qualificationFromDB in allQualificationsFromDb)
                 {
                     int anzahl = resultValues.TryGetValue(qualificationFromDB.Abkuerzung, out int parsedAnzahl) ? parsedAnzahl : 0;
                     resultBuilder.AppendLine($"<tr><td>{qualificationFromDB.Bezeichnung}</td><td class='text-center'>{anzahl}</td></tr>");
