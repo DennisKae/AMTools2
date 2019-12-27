@@ -74,7 +74,7 @@ namespace AMTools.Batch
                         var service = serviceProvider.GetService<IVirtualDesktopService>();
                         if (int.TryParse(desktopOption.Value(), out int parsedDesktopNummer))
                         {
-                            service.Switch(parsedDesktopNummer);
+                            service.Switch(parsedDesktopNummer - 1);
                         }
                         else
                         {

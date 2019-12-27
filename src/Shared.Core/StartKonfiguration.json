@@ -4,20 +4,20 @@
 	"DesktopNachDemStart": 2,
 	"Desktopinhalte": [
 		{
-			"Befehl": ".\\RUN Einsatz Monitor.bat",
-			"Desktop": 1,
-			"Anzeigetext": "Einsatz Monitor",
-			"Prozessbezeichnung": "EinsatzMonitorWpf"
-		},
-		{
 			"Befehl": "notepad",
-			"Desktop": 2,
+			"Desktop": 1,
 			"Anzeigetext": "Editor / Notepad",
 			"Prozessbezeichnung": "notepad"
 		},
 		{
 			"Befehl": "mspaint",
-			"Desktop": 2
+			"Desktop": 1
+		},
+		{
+			"Befehl": ".\\RUN Einsatz Monitor.bat",
+			"Desktop": 2,
+			"Anzeigetext": "Einsatz Monitor",
+			"Prozessbezeichnung": "EinsatzMonitorWpf"
 		}
 	]
 }

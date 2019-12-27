@@ -28,7 +28,7 @@ namespace AMTools.Web.Core.ExtensionMethods
         {
             try
             {
-                // Im Repo erfolgt bereits eine Validierung
+                // Das Repository übernimmt die Validierung
                 var config = configurationFileRepository.GetConfigFromJsonFile<T>();
             }
             catch (Exception exception)
