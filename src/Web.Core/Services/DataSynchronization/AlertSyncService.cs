@@ -102,7 +102,6 @@ namespace AMTools.Web.Core.Services.DataSynchronization
                     if (dbAlert != null)
                     {
                         // Alert existiert bereits in der DB
-                        // TODO: Xml-Property aktualisieren
                         continue;
                     }
 

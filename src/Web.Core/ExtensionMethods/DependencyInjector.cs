@@ -47,7 +47,6 @@ namespace AMTools.Web.Core.ExtensionMethods
             {
                 services.AddAutoMapper(GetOwnAssemblies());
 
-                services.AddDbContext<DatabaseContext>();
                 services.AddSingleton<IConfigurationFileRepository>(serviceProvider => configurationFileRepository);
 
                 services.AddSingleton(logFactory);

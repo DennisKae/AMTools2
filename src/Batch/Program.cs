@@ -118,6 +118,7 @@ namespace AMTools.Batch
             string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
             var serviceCollection = new ServiceCollection();
+            serviceCollection.EnsureMigrationOfDatabaseContext();
             serviceCollection.InjectDependencies(assemblyName, command.Name);
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
@@ -128,7 +129,6 @@ namespace AMTools.Batch
             var allCommandsMessageBuilder = new StringBuilder();
             try
             {
-                serviceProvider.EnsureMigrationOfContext<DatabaseContext>();
                 serviceProvider.ValidateConfigurations();
 
                 var errors = new List<string>();

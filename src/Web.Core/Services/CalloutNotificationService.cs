@@ -80,7 +80,7 @@ namespace AMTools.Web.Core.Services
             {
                 string responseText = userResponse.Accept ? "akzeptiert" : "abgelehnt";
 
-                return $"Neue Rückmeldung zu Alarmierung #{userResponse.AlertId}: ISSI {userResponse.Issi} {responseText}";
+                return $"Neue Rückmeldung zu Alarmierung #{userResponse.AlertId}: ISSI {userResponse.Issi} => {responseText}";
             }
 
             newUserResponses.ForEach(x => _logService.Info(GetLogMessage(x)));
