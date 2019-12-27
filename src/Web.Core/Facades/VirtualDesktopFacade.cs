@@ -8,9 +8,9 @@ using AMTools.Shared.Core;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Models.Konfigurationen;
 using AMTools.Shared.Core.Repositories.Interfaces;
-using AMTools.Shared.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Core.Facades.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.Services.VirtualDesktops.Interfaces;
 
 namespace AMTools.Web.Core.Facades
 {
@@ -35,7 +35,7 @@ namespace AMTools.Web.Core.Facades
 
         public void SwitchRight()
         {
-            if (!SwitchingIsAllowed())
+            if (!_virtualDesktopService.SwitchingIsAllowed())
             {
                 return;
             }
@@ -45,34 +45,12 @@ namespace AMTools.Web.Core.Facades
 
         public void SwitchLeft()
         {
-            if (!SwitchingIsAllowed())
+            if (!_virtualDesktopService.SwitchingIsAllowed())
             {
                 return;
             }
 
             _virtualDesktopService.SwitchLeft();
-        }
-
-        private bool SwitchingIsAllowed()
-        {
-            Alert latestAlert = _alertService.GetLatestEnabledAlert();
-            if (latestAlert == null)
-            {
-                return true;
-            }
-
-            AlarmKonfiguration alarmKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<AlarmKonfiguration>();
-            Guard.IsNotNull(alarmKonfiguration, nameof(AlarmKonfiguration));
-
-            double minutenSeitLetzterAlarmierung = Math.Round((DateTime.Now - latestAlert.AlertTimestamp).TotalMinutes, 2);
-            if (minutenSeitLetzterAlarmierung < alarmKonfiguration.SperrfristInMinuten.Value)
-            {
-                double endeDerSperrfristInMinuten = alarmKonfiguration.SperrfristInMinuten.Value - minutenSeitLetzterAlarmierung;
-                _logService.Info($"Kein Desktopwechsel erlaubt: Seit der letzten Alarmierung sind erst {minutenSeitLetzterAlarmierung} Minuten vergangen. Der nächste Wechsel ist erst in {endeDerSperrfristInMinuten} Minuten erlaubt.");
-                return false;
-            }
-
-            return true;
         }
     }
 }
