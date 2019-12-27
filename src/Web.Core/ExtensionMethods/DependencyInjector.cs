@@ -101,10 +101,15 @@ namespace AMTools.Web.Core.ExtensionMethods
         private static ILogFactory GetLogFactory(IConfigurationFileRepository configurationFileRepository, string appPart, string batchCommand)
         {
             var consoleLogService = new ConsoleLogService(appPart, batchCommand);
+            var result = new LogFactory(consoleLogService, appPart, batchCommand);
+
             var dbLogService = new DbLogService(configurationFileRepository, appPart, batchCommand, consoleLogService);
 
-            var result = new LogFactory(consoleLogService, appPart, batchCommand);
+            var emailService = new EmailService(result);
+            var emailLogService = new EmailLogService(emailService, dbLogService, configurationFileRepository, appPart, batchCommand);
+
             result.LoggingServices.Add(dbLogService);
+            result.LoggingServices.Add(emailLogService);
             return result;
         }
 
