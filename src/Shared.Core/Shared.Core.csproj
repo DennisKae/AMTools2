@@ -27,6 +27,9 @@
     <None Update="EmailSenderKonfiguration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="LoggingKonfiguration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="VirtualDesktop.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

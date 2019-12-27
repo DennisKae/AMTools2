@@ -21,6 +21,7 @@ namespace AMTools.Web.Core.ExtensionMethods
             ValidateKonfiguration<CacheKonfiguration>(configFileRepo, logService);
             ValidateKonfiguration<DateiKonfiguration>(configFileRepo, logService);
             ValidateKonfiguration<EmailSenderKonfiguration>(configFileRepo, logService);
+            ValidateKonfiguration<LoggingKonfiguration>(configFileRepo, logService);
         }
 
         private static void ValidateKonfiguration<T>(IConfigurationFileRepository configurationFileRepository, ILogService logService)
