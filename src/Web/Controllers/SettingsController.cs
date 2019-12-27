@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Web.Core.Services.Settings.Interfaces;
-using AMTools.Web.Core.ViewModels;
+using AMTools.Web.Core.ViewModels.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,13 +14,13 @@ namespace AMTools.Web.Controllers
     [ApiController]
     public class SettingsController : BaseController
     {
-        private readonly IQualificationService _qualificationService;
-        private readonly IGuiVisibilityService _guiVisibilityService;
+        private readonly IQualificationSettingService _qualificationService;
+        private readonly IGuiVisibilitySettingService _guiVisibilityService;
 
         public SettingsController(
             ILogFactory logFactory,
-            IQualificationService qualificationService,
-            IGuiVisibilityService guiVisibilityService) : base(logFactory)
+            IQualificationSettingService qualificationService,
+            IGuiVisibilitySettingService guiVisibilityService) : base(logFactory)
         {
             _qualificationService = qualificationService;
             _guiVisibilityService = guiVisibilityService;
@@ -28,7 +28,7 @@ namespace AMTools.Web.Controllers
 
         /// <summary>Liefert alle konfigurierten Qualifications.</summary>
         [HttpGet("[action]")]
-        [ProducesResponseType(typeof(List<QualificationViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<QualificationSettingViewModel>), StatusCodes.Status200OK)]
         public IActionResult Qualifications()
         {
             return Execute(() =>
@@ -39,7 +39,7 @@ namespace AMTools.Web.Controllers
 
         /// <summary>Liefert ein ViewModel mit Informationen zur Darstellung der Verfügbarkeiten.</summary>
         [HttpGet("[action]")]
-        [ProducesResponseType(typeof(GuiVisibilityViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GuiVisibilitySettingViewModel), StatusCodes.Status200OK)]
         public IActionResult GuiVisibility()
         {
             return Execute(() =>

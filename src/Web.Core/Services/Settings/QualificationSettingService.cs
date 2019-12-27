@@ -5,18 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
 using AMTools.Web.Core.Services.Settings.Interfaces;
-using AMTools.Web.Core.ViewModels;
+using AMTools.Web.Core.ViewModels.Settings;
 using AutoMapper;
 
 namespace AMTools.Web.Core.Services.Settings
 {
-    public class QualificationService : IQualificationService
+    public class QualificationSettingService : IQualificationSettingService
     {
         private readonly char _qualificationStringSeparator = ',';
         private readonly IMapper _mapper;
         private readonly ISettingsService _settingsService;
 
-        public QualificationService(
+        public QualificationSettingService(
             IMapper mapper,
             ISettingsService settingsService)
         {
@@ -24,21 +24,21 @@ namespace AMTools.Web.Core.Services.Settings
             _settingsService = settingsService;
         }
 
-        public List<QualificationViewModel> GetAll()
+        public List<QualificationSettingViewModel> GetAll()
         {
-            return _mapper.Map<List<QualificationViewModel>>(_settingsService.GetByCategoryName(SettingCategoryNames.Qualifications));
+            return _mapper.Map<List<QualificationSettingViewModel>>(_settingsService.GetByCategoryName(SettingCategoryNames.Qualifications));
         }
 
         /// <summary>Liefert die Qualifikationen eines strings im Format "AGT,DEFAULT"</summary>
-        public List<QualificationViewModel> GetByReferenceString(string referenceString)
+        public List<QualificationSettingViewModel> GetByReferenceString(string referenceString)
         {
-            var result = new List<QualificationViewModel>();
+            var result = new List<QualificationSettingViewModel>();
             if (string.IsNullOrWhiteSpace(referenceString))
             {
                 return result;
             }
 
-            List<QualificationViewModel> allPossibleQualifications = GetAll();
+            List<QualificationSettingViewModel> allPossibleQualifications = GetAll();
             if (allPossibleQualifications == null || allPossibleQualifications.Count == 0)
             {
                 return result;

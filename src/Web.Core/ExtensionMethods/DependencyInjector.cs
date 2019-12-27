@@ -70,10 +70,12 @@ namespace AMTools.Web.Core.ExtensionMethods
                 services.AddSingleton<IUserResponseSyncService, UserResponseSyncService>();
 
                 // Setting Services
-                services.AddSingleton<IQualificationService, QualificationService>();
+                services.AddSingleton<IQualificationSettingService, QualificationSettingService>();
                 services.AddSingleton<ISettingsService, SettingsService>();
-                services.AddSingleton<ISeverityLevelService, SeverityLevelService>();
-                services.AddSingleton<ISubGroupService, SubGroupService>();
+                services.AddSingleton<ISeverityLevelSettingService, SeverityLevelSettingService>();
+                services.AddSingleton<ISubGroupSettingService, SubGroupSettingService>();
+                services.AddSingleton<IGuiVisibilitySettingService, GuiVisibilitySettingService>();
+                services.AddSingleton<IAvailabilityStatusSettingService, AvailabilityStatusSettingService>();
 
                 // Andere Services
                 services.AddSingleton<ITerminalService, TerminalService>();
@@ -88,7 +90,7 @@ namespace AMTools.Web.Core.ExtensionMethods
                 services.AddSingleton<ICalloutEmailNotificationService, CalloutEmailNotificationService>();
                 services.AddSingleton<ILogCleanupService, LogCleanupService>();
                 services.AddSingleton<IStartupService, StartupService>();
-                services.AddSingleton<IGuiVisibilityService, GuiVisibilityService>();
+                services.AddSingleton<IAvailabilityStatusService, AvailabilityStatusService>();
 
                 // Facades
                 services.AddSingleton<IVirtualDesktopFacade, VirtualDesktopFacade>();
@@ -122,7 +124,6 @@ namespace AMTools.Web.Core.ExtensionMethods
             // Assembly mainAsssembly = Assembly.GetEntryAssembly(); // Das ist die Assembly, die 
             Assembly mainAsssembly = typeof(DependencyInjector).Assembly;
             result.Add(mainAsssembly);
-            var referencedAssemblies = mainAsssembly.GetReferencedAssemblies();
             foreach (AssemblyName referencedAssemblyName in mainAsssembly.GetReferencedAssemblies())
             {
                 if (!referencedAssemblyName.Name.StartsWith("amtools", StringComparison.InvariantCultureIgnoreCase))

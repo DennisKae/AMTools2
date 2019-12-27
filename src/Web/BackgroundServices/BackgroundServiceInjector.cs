@@ -15,6 +15,8 @@ namespace AMTools.Web.BackgroundServices
             services.AddHostedService<AvailabilityStatusBackgroundService>();
             services.AddHostedService<SubscriberBackgroundService>();
             services.AddHostedService<CalloutBackgroundService>();
+            // TODO Prio 97: LicenseExpirationWarningBackgroundService hinzufügen: Sofort und täglich um Mitternacht überprüfen und bei X Tagen vor Ablauf warnen
+            // Category=License	Key=expirationDate
         }
     }
 }

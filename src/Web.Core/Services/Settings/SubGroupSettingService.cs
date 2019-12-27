@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
 using AMTools.Web.Core.Services.Settings.Interfaces;
-using AMTools.Web.Core.ViewModels;
+using AMTools.Web.Core.ViewModels.Settings;
 using AutoMapper;
 
 namespace AMTools.Web.Core.Services.Settings
 {
-    public class SubGroupService : ISubGroupService
+    public class SubGroupSettingService : ISubGroupSettingService
     {
         private readonly char _subGroupNameSeparator = ',';
 
         private readonly IMapper _mapper;
         private readonly ISettingsService _settingsService;
 
-        public SubGroupService(
+        public SubGroupSettingService(
             IMapper mapper,
             ISettingsService settingsService)
         {
@@ -25,7 +25,7 @@ namespace AMTools.Web.Core.Services.Settings
             _settingsService = settingsService;
         }
 
-        public List<SubGroupViewModel> GetAll() => _mapper.Map<List<SubGroupViewModel>>(_settingsService.GetByCategoryName(SettingCategoryNames.SubGroups));
+        public List<SubGroupSettingViewModel> GetAll() => _mapper.Map<List<SubGroupSettingViewModel>>(_settingsService.GetByCategoryName(SettingCategoryNames.SubGroups));
 
         public List<string> GetSubGroupNamesFromAlertText(string alertText)
         {
@@ -50,16 +50,16 @@ namespace AMTools.Web.Core.Services.Settings
             return subGroupNames;
         }
 
-        public List<SubGroupViewModel> GetSubGroupsFromAlertText(string alertText)
+        public List<SubGroupSettingViewModel> GetSubGroupsFromAlertText(string alertText)
         {
-            var result = new List<SubGroupViewModel>();
+            var result = new List<SubGroupSettingViewModel>();
             List<string> subGroupNames = GetSubGroupNamesFromAlertText(alertText);
             if (subGroupNames == null || subGroupNames.Count == 0)
             {
                 return result;
             }
 
-            List<SubGroupViewModel> allSubGroups = GetAll();
+            List<SubGroupSettingViewModel> allSubGroups = GetAll();
             if (allSubGroups == null || allSubGroups.Count == 0)
             {
                 return result;
@@ -67,7 +67,7 @@ namespace AMTools.Web.Core.Services.Settings
 
             foreach (string subGroupName in subGroupNames)
             {
-                SubGroupViewModel matchingGroup = allSubGroups.FirstOrDefault(x => x.Bezeichnung.Equals(subGroupName, StringComparison.InvariantCultureIgnoreCase));
+                SubGroupSettingViewModel matchingGroup = allSubGroups.FirstOrDefault(x => x.Bezeichnung.Equals(subGroupName, StringComparison.InvariantCultureIgnoreCase));
                 if (matchingGroup != null)
                 {
                     result.Add(matchingGroup);

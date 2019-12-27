@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
 using AMTools.Web.Core.Services.Settings.Interfaces;
-using AMTools.Web.Core.ViewModels;
+using AMTools.Web.Core.ViewModels.Settings;
 using AutoMapper;
 
 namespace AMTools.Web.Core.Services.Settings
 {
-    public class SeverityLevelService : ISeverityLevelService
+    public class SeverityLevelSettingService : ISeverityLevelSettingService
     {
         private readonly IMapper _mapper;
         private readonly ISettingsService _settingsService;
 
-        public SeverityLevelService(
+        public SeverityLevelSettingService(
             IMapper mapper,
             ISettingsService settingsService)
         {
@@ -23,7 +23,7 @@ namespace AMTools.Web.Core.Services.Settings
             _settingsService = settingsService;
         }
 
-        public List<SeverityLevelViewModel> GetAll() => _mapper.Map<List<SeverityLevelViewModel>>(_settingsService.GetByCategoryName(SettingCategoryNames.SeverityLevels));
+        public List<SeverityLevelSettingViewModel> GetAll() => _mapper.Map<List<SeverityLevelSettingViewModel>>(_settingsService.GetByCategoryName(SettingCategoryNames.SeverityLevels));
 
         public string GetSeverityLevelTextFromAlertText(string alertText)
         {
@@ -49,20 +49,20 @@ namespace AMTools.Web.Core.Services.Settings
             return null;
         }
 
-        public SeverityLevelViewModel GetSeverityLevelFromAlertText(string alertText)
+        public SeverityLevelSettingViewModel GetSeverityLevelFromAlertText(string alertText)
         {
             string severityLevelText = GetSeverityLevelTextFromAlertText(alertText);
             if (string.IsNullOrWhiteSpace(severityLevelText))
             {
                 return null;
             }
-            List<SeverityLevelViewModel> allSeverityLevels = GetAll();
+            List<SeverityLevelSettingViewModel> allSeverityLevels = GetAll();
             if (allSeverityLevels == null || allSeverityLevels.Count == 0)
             {
                 return null;
             }
 
-            SeverityLevelViewModel matchingSeverityLevel = allSeverityLevels.FirstOrDefault(x => x.Bezeichnung.Equals(severityLevelText, StringComparison.InvariantCultureIgnoreCase));
+            SeverityLevelSettingViewModel matchingSeverityLevel = allSeverityLevels.FirstOrDefault(x => x.Bezeichnung.Equals(severityLevelText, StringComparison.InvariantCultureIgnoreCase));
             if (matchingSeverityLevel != null)
             {
                 return matchingSeverityLevel;

@@ -5,23 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
 using AMTools.Web.Core.Services.Settings.Interfaces;
-using AMTools.Web.Core.ViewModels;
+using AMTools.Web.Core.ViewModels.Settings;
 
 namespace AMTools.Web.Core.Services.Settings
 {
-    public class GuiVisibilityService : IGuiVisibilityService
+    public class GuiVisibilitySettingService : IGuiVisibilitySettingService
     {
         private readonly ISettingsService _settingsService;
 
-        public GuiVisibilityService(
+        public GuiVisibilitySettingService(
             ISettingsService settingsService)
         {
             _settingsService = settingsService;
         }
 
-        public GuiVisibilityViewModel GetGuiVisibility()
+        public GuiVisibilitySettingViewModel GetGuiVisibility()
         {
-            return new GuiVisibilityViewModel
+            return new GuiVisibilitySettingViewModel
             {
                 ShowAvailabilityTimestamp = _settingsService.GetByCategoryName(SettingCategoryNames.ShowAvailabilityTimestamp)?.FirstOrDefault()?.Value?.ToLowerInvariant() == "true",
                 SortSubscribersByName = _settingsService.GetByCategoryName(SettingCategoryNames.SortSubscribersByName)?.FirstOrDefault()?.Value?.ToLowerInvariant() == "true",

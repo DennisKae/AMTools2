@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AMTools.Web.Core.ViewModels
+namespace AMTools.Web.Core.ViewModels.Settings
 {
-    public class SeverityLevelViewModel
+    public class QualificationSettingViewModel
     {
-        public int Nummer { get; set; }
-
         public string Bezeichnung { get; set; }
 
-        public string Farbe { get; set; }
+        public string Abkuerzung { get; set; }
     }
 }

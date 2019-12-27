@@ -17,16 +17,16 @@ namespace AMTools.Web.Core.Mappings
     {
         private readonly IUserResponseService _userResponseService;
         private readonly ISubscriberService _subscriberService;
-        private readonly ISubGroupService _subGroupService;
-        private readonly ISeverityLevelService _severityLevelService;
+        private readonly ISubGroupSettingService _subGroupService;
+        private readonly ISeverityLevelSettingService _severityLevelService;
         private readonly IAlertService _alertService;
         private readonly IMapper _mapper;
 
         public AlertMappingAction(
             IUserResponseService userResponseService,
             ISubscriberService subscriberService,
-            ISubGroupService subGroupService,
-            ISeverityLevelService severityLevelService,
+            ISubGroupSettingService subGroupService,
+            ISeverityLevelSettingService severityLevelService,
             IAlertService alertService,
             IMapper mapper)
         {

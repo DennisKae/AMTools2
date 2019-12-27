@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
+using AMTools.Web.Core.ViewModels.Settings;
 
 namespace AMTools.Web.Core.ViewModels
 {
@@ -34,7 +35,7 @@ namespace AMTools.Web.Core.ViewModels
 
         public string SchweregradText { get; set; }
 
-        public SeverityLevelViewModel Schweregrad { get; set; }
+        public SeverityLevelSettingViewModel Schweregrad { get; set; }
 
         /// <summary>z.B. "Jonas Färber" oder "Musterhausen"</summary>
         public string TargetText { get; set; }
@@ -42,7 +43,7 @@ namespace AMTools.Web.Core.ViewModels
         /// <summary>Wird nur dann gefüllt, wenn keine SubGroups vorhanden sind.</summary>
         public SubscriberViewModel TargetSubscriber { get; set; }
 
-        public List<SubGroupViewModel> SubGroups { get; set; }
+        public List<SubGroupSettingViewModel> SubGroups { get; set; }
 
         public string Alarmierungstext { get; set; }
     }
