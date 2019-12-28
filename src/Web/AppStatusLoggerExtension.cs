@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace AMTools.Web
 {
-    public static class AppStatusLogger
+    public static class AppStatusLoggerExtension
     {
         public static void LogAppStatusChanges(this IHostApplicationLifetime hostApplicationLifetime, IServiceProvider serviceProvider)
         {

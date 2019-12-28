@@ -1,0 +1,10 @@
+/* Tabs */
+.nav-tabs.nav-tabs-custom .nav-link.active {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important; /* shadow-sm */
+  border-radius: 0 !important; /* rounded-0 */
+}
+
+.tab-content.tab-content-custom {
+  height: 100%; /* Fallback */
+  height: calc(100% - 41px); /* 41px is the height of the nav-tabs*/
+}
