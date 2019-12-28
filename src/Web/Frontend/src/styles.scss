@@ -1,0 +1,43 @@
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css";
+@import '~ngx-toastr/toastr.css';
+//@import '~ngx-toastr/toastr-bs4-alert';
+
+
+$fa-font-path: "../node_modules/@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+
+
+@import "styles/_variables.scss";
+@import "styles/Cards.scss";
+@import "styles/Cards-Responsive.scss";
+@import "styles/Tabs.scss";
+@import "styles/Utilities.scss";
+@import "styles/Navigation.scss";
+@import "styles/Buttons.scss";
+
+.bg-dark-transparent, .card-custom{
+    background-color: rgba(0,0,0,0.5);
+}
+
+.card-custom:hover{
+    background-color: rgba(0,0,0,0.75);
+}
+
+#content-container{
+    color: #f5f5f5
+}
+
+.hover-shadow:hover{
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+
+.subscriber{
+    border-left: 13px solid white;
+    line-height: 1.2;
+    padding: 0px 5px;
+}

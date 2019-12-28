@@ -1,0 +1,18 @@
+<h3 class="p-3 mb-0 bg-dark-transparent c-pointer" (click)="toggleNavigationBar()">
+    Verfügbarkeiten
+    <small class="float-right" *ngIf="lastUpdate">
+        Letzte Aktualisierung:
+        {{lastUpdate|date:'dd.MM.yyyy HH:mm:ss'}}
+    </small>
+</h3>
+
+{{visibility|json}}
+
+<div class="row mx-0" *ngIf="subscribers && subscribers.length > 0">
+
+    <div class="col-sm-4 col-lg-2" *ngFor="let subscriber of subscribers">
+        <app-display-subscriber [subscriber]="subscriber">
+        </app-display-subscriber>
+    </div>
+
+</div>

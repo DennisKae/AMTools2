@@ -9,6 +9,7 @@ using AMTools.Web.Data.Database;
 using AMTools.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -85,7 +86,6 @@ namespace AMTools.Web
             // services.AddHealthChecks();
 
             // TODO Prio 4: Frontend hinzufügen
-            // Fernsteuerungsseite mit Pfeilen <-- -->
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,12 +104,17 @@ namespace AMTools.Web
 
             app.UseAuthorization();
 
+#if DEBUG
+            // CORS
+            // Achtung: Die Reihenfolge (vor UseEndpoints) ist wichtig!
+            app.UseCorsMiddleware();
+#endif
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapHub<AvailabilityHub>("/availability");
+                endpoints.MapControllers();
             });
-
 
             app.UseSwagger();
 
@@ -117,10 +122,6 @@ namespace AMTools.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", Assembly.GetExecutingAssembly().GetName().Name + " API V1");
             });
-
-#if DEBUG
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowCredentials().AllowAnyHeader().AllowAnyMethod());
-#endif
 
             serviceProvider.ValidateConfigurations();
             hostApplicationLifetime.LogAppStatusChanges(serviceProvider);

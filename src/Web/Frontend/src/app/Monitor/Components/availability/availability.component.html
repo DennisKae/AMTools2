@@ -1,0 +1,41 @@
+<h3 class="p-3 text-center mb-0" *ngIf="loading">
+    <i class="fas fa-fw fa-3x fa-spinner fa-pulse"></i>
+</h3>
+<h3 class="p-3 text-center mb-0" [style.background-color]="colorConfiguration.AccentColor"
+    [style.color]="colorConfiguration.AccentTextColor" *ngIf="!loading && (!subscribers || subscribers.length === 0)">
+    Es stehen keine Verfügbarkeiten zur Anzeige zur Verfügung.
+</h3>
+<h3 class="p-3 text-center" [style.background-color]="colorConfiguration.AccentColor"
+    [style.color]="colorConfiguration.AccentTextColor" *ngIf="!loading && errorText">
+    <span *ngIf="errorText">{{errorText}}</span>
+</h3>
+<pre>{{subscribers|json}}</pre>
+<!-- <div *ngFor="let dto of dtos">
+
+    <h5 class="px-2 py-1 mb-0" [style.background-color]="colorConfiguration.AccentColor"
+        [style.color]="colorConfiguration.AccentTextColor">
+        {{dto.Qualification.Value}} <span *ngIf="dto.Qualification.Key !== 'DEFAULT'">({{dto.Qualification.Key}})</span>
+    </h5>
+
+    <div class="row mx-0">
+
+        <div class="col-sm-4 col-lg-2" *ngFor="let subscriber of dto.Subscribers">
+
+            <div class="subscriber my-1 bg-white text-dark" [style.border-left-color]="subscriber.Availability.Color">
+                <div>
+                    <strong>{{subscriber.Name}}</strong>
+                    <small class="float-right">{{subscriber.Availability.Timestamp|date:'dd.MM. HH:mm'}}</small>
+                </div>
+                <div class="pl-2">
+                    {{subscriber.ISSI}}
+                </div>
+                <div *ngIf="subscriber.Availability">
+                    {{subscriber.Availability.Value}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div> -->
