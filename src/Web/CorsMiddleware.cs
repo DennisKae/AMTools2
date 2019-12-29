@@ -21,6 +21,9 @@ namespace AMTools.Web
 
         public Task Invoke(HttpContext httpContext)
         {
+            // Dies ist nur ein Dummy zu Demonstrationszwecken
+            // Diese Middleware unterstützt nicht SignalR!
+
             httpContext.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:4200");
             httpContext.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
             httpContext.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Date, X-Api-Version, X-File-Name");
