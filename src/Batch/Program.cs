@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
+using AMTools.Shared.Core.Services.Interfaces;
 using AMTools.Web.Core.ExtensionMethods;
 using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Core.Services.VirtualDesktops.Interfaces;
@@ -29,15 +30,17 @@ namespace AMTools.Batch
         public const string ValidateStartupCommandName = "validate-startup";
         public const string SwitchDesktopCommandName = "switch-desktop";
         public const string CleanLogsCommandName = "clean-log";
+        public const string RebootCommandName = "reboot";
 
         public static int Main(string[] args)
         {
             using (var app = new CommandLineApplication(throwOnUnexpectedArg: false) { Name = "AMTools Batch" })
             {
+                app.HelpOption(HelpTemplate);
 
                 app.Command(StartupCommandName, command =>
                 {
-                    command.Description = "Führt die StartupConfig aus.";
+                    command.Description = "Führt die StartKonfiguration aus.";
                     command.HelpOption(HelpTemplate);
                     CommandOption dontCloseOption = command.Option(DontCloseOptionTemplate, DontCloseOptionDescription, CommandOptionType.NoValue);
 
@@ -50,7 +53,7 @@ namespace AMTools.Batch
 
                 app.Command(ValidateStartupCommandName, command =>
                 {
-                    command.Description = "Validiert die StartupConfig.";
+                    command.Description = "Validiert die StartKonfiguration.";
                     command.HelpOption(HelpTemplate);
                     CommandOption dontCloseOption = command.Option(DontCloseOptionTemplate, DontCloseOptionDescription, CommandOptionType.NoValue);
 
@@ -99,6 +102,22 @@ namespace AMTools.Batch
 
                 }, throwOnUnexpectedArg: false);
 
+                app.Command(RebootCommandName, command =>
+                {
+                    command.Description = "Führt einen Neustart durch.";
+                    command.HelpOption(HelpTemplate);
+
+                    command.OnExecute(() => Execute(command, (IServiceProvider serviceProvider) =>
+                    {
+                        var logService = serviceProvider.GetService<ILogService>();
+                        logService?.Info("Ein Neustart des Computers wird eingeleitet.");
+
+                        var terminalService = serviceProvider.GetService<ITerminalService>();
+                        terminalService.Execute("shutdown /r");
+                    }));
+
+                }, throwOnUnexpectedArg: false);
+
 
                 app.OnExecute(() =>
                 {
@@ -134,8 +153,8 @@ namespace AMTools.Batch
                 var errors = new List<string>();
                 if (command.Options?.Count >= 1)
                 {
-                    allCommandsMessageBuilder.AppendLine("Der Anwendung wurden folgende Argumente übergeben/nicht übergeben: ");
-                    allCommandsMessageBuilder.AppendLine("- CommandName: " + command.Name);
+                    allCommandsMessageBuilder.AppendLine("Die Anwendung wird mit folgendem Befehl und den folgenden Argumenten ausgeführt: ");
+                    allCommandsMessageBuilder.AppendLine("- Befehl: " + command.Name);
                     foreach (CommandOption commandOption in command.Options)
                     {
                         allCommandsMessageBuilder.AppendLine($"- {commandOption.LongName}: " + commandOption.Value());
@@ -147,6 +166,7 @@ namespace AMTools.Batch
                         }
                     }
                 }
+                logFactory.Info(allCommandsMessageBuilder.ToString());
 
                 if (errors.Count >= 1)
                 {
