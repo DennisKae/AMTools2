@@ -84,8 +84,6 @@ namespace AMTools.Web
 
             // TODO Prio 96: HealthChecks?
             // services.AddHealthChecks();
-
-            // TODO Prio 4: Frontend hinzufügen
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
