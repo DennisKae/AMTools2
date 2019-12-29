@@ -10,6 +10,8 @@ export class DisplaySubscriberComponent implements OnInit {
 
   @Input() subscriber: SubscriberViewModel;
 
+  @Input() showAvailabilityTimestamp = true;
+
   constructor() { }
 
   ngOnInit() {

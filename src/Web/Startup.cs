@@ -100,15 +100,24 @@ namespace AMTools.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
 #if DEBUG
             // CORS
             // Achtung: Die Reihenfolge (vor UseEndpoints) ist wichtig!
-            app.UseCorsMiddleware();
+            // https://docs.microsoft.com/de-de/aspnet/core/signalr/security?view=aspnetcore-3.1
+            //app.UseCorsMiddleware();
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    //.WithHeaders("Content-Type", "X-CSRF-Token", "X-Requested-With", "Accept", "Accept-Version", "Content-Length", "Content-MD5", "Date", "X-Api-Version", "X-File-Name")
+                    .WithMethods("POST", "GET", "PUT", "PATCH", "DELETE", "OPTIONS")
+                    .AllowCredentials();
+            });
 #endif
+
+            app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

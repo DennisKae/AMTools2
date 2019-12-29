@@ -17,15 +17,12 @@ namespace AMTools.Web.Data.Files.Repositories
     public class SettingsFileRepository : FileImportRepositoryBase, ISettingsFileRepository
     {
         private readonly IConfigurationFileRepository _configurationFileRepository;
-        private readonly IMapper _mapper;
 
         public SettingsFileRepository(
             ILogService logService,
-            IConfigurationFileRepository configurationFileRepository,
-            IMapper mapper) : base(logService)
+            IConfigurationFileRepository configurationFileRepository) : base(logService)
         {
             _configurationFileRepository = configurationFileRepository;
-            _mapper = mapper;
         }
 
         private Setting GetImportModelFromValue(string value, string settingName)
@@ -112,11 +109,13 @@ namespace AMTools.Web.Data.Files.Repositories
             return result;
         }
 
+        public List<string> GetAllSettingNames() => typeof(SettingCategoryNames).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => x.GetValue(null) as string).ToList();
+
         public List<Setting> GetAllSettings()
         {
             var result = new List<Setting>();
 
-            List<string> settingNames = typeof(SettingCategoryNames).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => x.GetValue(null) as string).ToList();
+            List<string> settingNames = GetAllSettingNames();
 
             if (settingNames == null || settingNames.Count == 0)
             {

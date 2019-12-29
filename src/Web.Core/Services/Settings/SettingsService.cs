@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
@@ -31,6 +32,8 @@ namespace AMTools.Web.Core.Services.Settings
             _memoryCache = memoryCache;
         }
 
+        public List<string> GetAllSettingNames() => typeof(SettingCategoryNames).GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => x.GetValue(null) as string).ToList();
+
         public List<Setting> GetAll()
         {
             using (var unit = new UnitOfWork(_configurationFileRepository))
@@ -47,7 +50,7 @@ namespace AMTools.Web.Core.Services.Settings
                 return new List<Setting>();
             }
 
-            return _memoryCache.GetOrCreate(_cachePrefix + categoryName.ToLower(), entry =>
+            List<Setting> result = _memoryCache.GetOrCreate(_cachePrefix + categoryName, entry =>
             {
                 CacheKonfiguration cacheKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<CacheKonfiguration>() ?? FallbackKonfigurationen.CacheKonfiguration;
                 entry.SetAbsoluteExpiration(TimeSpan.FromMinutes(cacheKonfiguration.DauerInMinuten.GetValueOrDefault()));
@@ -58,6 +61,18 @@ namespace AMTools.Web.Core.Services.Settings
                     return _mapper.Map<List<Setting>>(settingsRepo.GetByCategoryName(categoryName));
                 }
             });
+
+            return result;
+        }
+
+        public void ClearMemoryCache()
+        {
+            List<string> allSettingNames = GetAllSettingNames();
+            if (allSettingNames == null || allSettingNames.Count == 0)
+            {
+                return;
+            }
+            allSettingNames.ForEach(x => _memoryCache.Remove(_cachePrefix + x));
         }
     }
 }

@@ -1,14 +1,23 @@
 <div *ngIf="subscriber">
-    <div class="subscriber my-1 bg-dark-transparent" [style.border-left-color]="subscriber.AvailabilityStatus && subscriber.AvailabilityStatus.Setting ? subscriber.AvailabilityStatus.Setting.Farbe : 'white'">
-        <div>
+    <div class="subscriber my-1 bg-dark-transparent"
+        [style.border-left-color]="subscriber.AvailabilityStatus && subscriber.AvailabilityStatus.Setting ? subscriber.AvailabilityStatus.Setting.Farbe : 'white'">
+        <h5 class="mb-0">
             <strong>{{subscriber.Name}}</strong>
-            <small class="float-right">{{subscriber.AvailabilityStatus.Timestamp|date:'dd.MM. HH:mm'}}</small>
-        </div>
+        </h5>
         <div class="pl-2">
             {{subscriber.Issi}}
         </div>
-        <div *ngIf="subscriber.AvailabilityStatus && subscriber.AvailabilityStatus.Setting">
-            {{subscriber.AvailabilityStatus.Setting.Bezeichnung}}
-        </div>
+        <h5 class="mb-0">
+            <span *ngIf="subscriber.AvailabilityStatus && subscriber.AvailabilityStatus.Setting">
+                {{subscriber.AvailabilityStatus.Setting.Bezeichnung}}
+            </span>
+            <span *ngIf="!subscriber.AvailabilityStatus || !subscriber.AvailabilityStatus.Setting">
+                <em>Kein Status vorhanden</em>
+            </span>
+            <small class="float-right" *ngIf="showAvailabilityTimestamp && subscriber.AvailabilityStatus">
+                {{subscriber.AvailabilityStatus.Timestamp|date:'dd.MM. HH:mm'}}
+            </small>
+        </h5>
+
     </div>
 </div>
