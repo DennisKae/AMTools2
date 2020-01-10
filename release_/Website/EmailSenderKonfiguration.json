@@ -1,8 +1,0 @@
-{
-  "Name": "Alarmmonitor",
-  "Address": "foo@bar123321.com",
-  "Password": "fooooo",
-  "Hostname": "smtp.ionos.de",
-  "Port": 465,
-  "UseSsl": true
-}
