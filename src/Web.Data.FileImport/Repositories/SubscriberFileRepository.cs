@@ -44,8 +44,10 @@ namespace AMTools.Web.Data.Files.Repositories
                 subscriberNodes = rootNode.SelectNodes("Subscriber");
             }
 
+            int counter = 0;
             foreach (XmlNode subscriberNode in subscriberNodes)
             {
+                counter++;
                 string nodeValue = subscriberNode?.InnerText;
                 if (string.IsNullOrWhiteSpace(nodeValue) || !nodeValue.Contains('|'))
                 {
@@ -56,6 +58,7 @@ namespace AMTools.Web.Data.Files.Repositories
                 string[] secondSplit = firstSplit[0].Split('=');
 
                 var newSubscriber = new Subscriber();
+                newSubscriber.Reihenfolge = counter;
                 newSubscriber.Issi = secondSplit[0].Trim();
                 if (secondSplit.Length > 1)
                 {

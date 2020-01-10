@@ -14,6 +14,7 @@ namespace AMTools.Web.Data.Database.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        public int Reihenfolge { get; set; }
 
         public string Issi { get; set; }
 

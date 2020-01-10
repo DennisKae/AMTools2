@@ -109,6 +109,7 @@ namespace AMTools.Web.Core.Services.DataSynchronization
 
             return
                 source.Issi == target.Issi &&
+                source.Reihenfolge == target.Reihenfolge &&
                 source.Name == target.Name &&
                 source.Qualification == target.Qualification;
         }
