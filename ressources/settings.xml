@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <setting name="ComPort">
+    <value>COM3</value>
+  </setting>
+  <setting name="Language">
+    <value>DE</value>
+  </setting>
+  <setting name="License">
+    <value>user=Feuerwehr Musterhausen</value>
+    <value>expirationDate=20.11.2019</value>
+    <value>registeredTerminal=T111111111111111</value>
+    <value>sender=true</value>
+    <value>licenseKey=A1A1AA111111111A11A1AA11111A1111A1111111</value>
+  </setting>
+  <setting name="Logging">
+    <value>True</value>
+  </setting>
+  <setting name="ScreenResolution">
+    <value>LOW</value>
+  </setting>
+  <setting name="AlertTextLines">
+    <value>6</value>
+  </setting>
+  <setting name="SubscriberDetails">
+    <value>FULL</value>
+  </setting>
+  <setting name="SortSubscribersByName">
+    <value>False</value>
+  </setting>
+  <setting name="ShowOnlyAcceptingSubscribers">
+    <value>False</value>
+  </setting>
+  <setting name="UpdateSignalQualityTimer">
+    <value>60</value>
+  </setting>
+  <setting name="UpdateBatteryTimer">
+    <value>600</value>
+  </setting>
+  <setting name="ClearCalloutTimer">
+    <value>1800</value>
+  </setting>
+  <setting name="ShowSdsOnMonitorTimer">
+    <value>0</value>
+  </setting>
+  <setting name="IgnoreAlertRepetitionTimer">
+    <value>300</value>
+  </setting>
+  <setting name="AvailabilityValidityTimer">
+    <value>0|0</value>
+  </setting>
+  <setting name="ShowAvailabilityTimestamp">
+    <value>True</value>
+  </setting>
+  <setting name="CheckServerStatusTimer">
+    <value>1800</value>
+  </setting>
+  <setting name="ShowAlertsOnTerminal">
+    <value>True</value>
+  </setting>
+  <setting name="RequestedSdsReportType">
+    <value>NONE</value>
+  </setting>
+  <setting name="MultipartSdsSegmentWaitTime">
+    <value>60</value>
+  </setting>
+  <setting name="EvaluationModule">
+    <value>False</value>
+  </setting>
+  <setting name="AdditionalSenderGroups" />
+  <setting name="Availability">
+    <value>0=nicht verfügbar|#E31E30</value>
+    <value>15=verfügbar|#A6CE39</value>
+  </setting>
+  <setting name="SeverityLevels">
+    <value>0=Schweregrad 0|#FFFF39</value>
+    <value>1=Schweregrad 1|#FDF038</value>
+    <value>2=Schweregrad 2|#FBE138</value>
+    <value>3=Schweregrad 3|#F9D237</value>
+    <value>4=Schweregrad 4|#F8C337</value>
+    <value>5=Schweregrad 5|#F6B436</value>
+    <value>6=Schweregrad 6|#F4A535</value>
+    <value>7=Schweregrad 7|#F29635</value>
+    <value>8=Schweregrad 8|#F08734</value>
+    <value>9=Schweregrad 9|#EE7834</value>
+    <value>10=Schweregrad 10|#EC6933</value>
+    <value>11=Schweregrad 11|#EA5A32</value>
+    <value>12=Schweregrad 12|#E94B32</value>
+    <value>13=Schweregrad 13|#E73C31</value>
+    <value>14=Schweregrad 14|#E52D31</value>
+    <value>15=Schweregrad 15|#E31E30</value>
+  </setting>
+  <setting name="UserResponsesStatus">
+    <value>12368=akzeptiert|#A6CE39</value>
+    <value>12369=abgelehnt|#E31E30</value>
+    <value>12370=warten|#FFFF39</value>
+    <value>12371=Test OK|#FFFF39</value>
+  </setting>
+  <setting name="UserResponsesText">
+    <value>akzeptiert|#A6CE39</value>
+    <value>abgelehnt|#E31E30</value>
+    <value>warten|#FFFF39</value>
+  </setting>
+  <setting name="SubGroupsEnabled">
+    <value>True</value>
+  </setting>
+  <setting name="SubGroups">
+    <value>1=MUSTERHAUSEN_PAGER_VOLLALARM</value>
+    <value>20=MUSTERHAUSEN_PAGER_VOLLALARM</value>
+    <value>21=MUSTERHAUSEN_FÜHRUNGSGRUPPE</value>
+    <value>23=MUSTERHAUSEN_ATEMSCHUTZGERÄTETRÄGER</value>
+    <value>29=MUSTERHAUSEN_KATS-ZUG_MUSTERHAUSEN-MUSTERHAUSENTAL</value>
+    <value>34=MUSTERHAUSEN_WÄRMEBILDKAMERA</value>
+    <value>36=NI_1-11-1 (ELW 1)</value>
+    <value>49=MUSTERHAUSEN_NOTARZTZUBRINGER</value>
+    <value>50=MUSTERHAUSEN_SIRENE_VOLLALARM</value>
+    <value>51=MUSTERHAUSEN_SIRENE_VOLLALARM</value>
+  </setting>
+  <setting name="LinkedSubGroups" />
+  <setting name="LinkedAlertAlterationTimer">
+    <value>10</value>
+  </setting>
+  <setting name="UseSubGroupInfoElement">
+    <value>False</value>
+  </setting>
+  <setting name="FilterSubscribersAccordingSubGroups">
+    <value>False</value>
+  </setting>
+  <setting name="IgnoreAlarmsForUnknownSubGroups">
+    <value>True</value>
+  </setting>
+  <setting name="AbbrevationsEnabled">
+    <value>False</value>
+  </setting>
+  <setting name="Abbrevations">
+    <value>1=Abkürzung 1</value>
+  </setting>
+  <setting name="GroupSubscribersByQualification">
+    <value>True</value>
+  </setting>
+  <setting name="Qualifications">
+    <value>GBI=Gemeindebrandinspektoren</value>
+    <value>EF=Einheitsführer</value>
+    <value>AGT=Atemschutzgeräteträger</value>
+    <value>MA=Maschinist</value>
+    <value>DEFAULT=Einsatzkraft</value>
+  </setting>
+  <setting name="SubscriberLists" />
+  <setting name="ServerIP">
+    <value>localhost</value>
+  </setting>
+  <setting name="AlertHistoryLength">
+    <value>7</value>
+  </setting>
+  <setting name="SDSHistoryLength">
+    <value>7</value>
+  </setting>
+  <setting name="UserResponseSummarySds" />
+  <setting name="ExternalAlarmApplication" />
+  <setting name="ExternalUserResponseApplication" />
+  <setting name="ExternalAvailabilityApplication" />
+  <setting name="ExternalSdsApplication" />
+</settings>
