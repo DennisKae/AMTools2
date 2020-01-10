@@ -1,6 +1,10 @@
 @echo off
 
+echo Wiederherstellung von nuget-Paketen...
+echo.
+
 nuget.exe restore ..\src\AMTools.sln
+echo.
 
 CALL "Release Batch.bat" nopause
 

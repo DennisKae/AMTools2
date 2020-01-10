@@ -7,17 +7,17 @@
         <div class="pl-2">
             {{subscriber.Issi}}
         </div>
-        <h5 class="mb-0">
+        <div>
             <span *ngIf="subscriber.AvailabilityStatus && subscriber.AvailabilityStatus.Setting">
                 {{subscriber.AvailabilityStatus.Setting.Bezeichnung}}
             </span>
             <span *ngIf="!subscriber.AvailabilityStatus || !subscriber.AvailabilityStatus.Setting">
-                <em>Kein Status vorhanden</em>
+                <em>Kein Status</em>
             </span>
             <small class="float-right" *ngIf="showAvailabilityTimestamp && subscriber.AvailabilityStatus">
                 {{subscriber.AvailabilityStatus.Timestamp|date:'dd.MM. HH:mm'}}
             </small>
-        </h5>
+        </div>
 
     </div>
 </div>
