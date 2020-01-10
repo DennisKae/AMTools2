@@ -1,0 +1,67 @@
+<h1 class="p-3 mb-0 bg-dark-transparent">Fernsteuerung</h1>
+
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="row justify-content-center equal-height">
+                <div class="col-6 col-sm-3">
+                    <div class="card card-custom c-pointer hover-shadow hover-underline mt-2 mt-lg-5"
+                        (click)="switchLeft()">
+                        <div class="card-body text-center">
+
+                            <span class="d-inline-block d-md-none">
+                                <i class="fas fa-fw fa-arrow-left fa-3x"></i>
+                                <br>
+                                <h5>
+                                    Linker Desktop
+                                    <div class="spinner-border" role="status" *ngIf="switchLeftLoading">
+                                    </div>
+                                </h5>
+                            </span>
+
+                            <span class="d-none d-md-inline-block">
+                                <i class="fas fa-fw fa-arrow-left  fa-7x"></i>
+                                <br>
+                                <h4>
+                                    Linker Desktop
+                                    <div class="spinner-border" role="status" *ngIf="switchLeftLoading">
+                                    </div>
+                                </h4>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-sm-3">
+                    <div class="card card-custom c-pointer hover-shadow hover-underline mt-2 mt-lg-5"
+                        (click)="switchRight()">
+                        <div class="card-body text-center">
+
+                            <span class="d-inline-block d-md-none">
+                                <i class="fas fa-fw fa-arrow-right fa-3x"></i>
+                                <br>
+                                <h5>
+                                    Rechter Desktop
+                                    <div class="spinner-border" role="status" *ngIf="switchRightLoading">
+                                    </div>
+                                </h5>
+                            </span>
+
+                            <span class="d-none d-md-inline-block">
+                                <i class="fas fa-fw fa-arrow-right fa-7x"></i>
+                                <br>
+                                <h4>
+                                    Rechter Desktop
+                                    <div class="spinner-border" role="status" *ngIf="switchRightLoading">
+                                    </div>
+                                </h4>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>

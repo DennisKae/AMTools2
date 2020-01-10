@@ -1,0 +1,65 @@
+<div class="wrapper">
+  <!-- Sidebar -->
+  <nav id="sidebar" [class.disabled]="showLeftNavigationBar === false" [class.d-none]="showLeftNavigationBar === false">
+    <div class="sidebar-header">
+      <a routerLink="/">
+        <h4>
+          Alarmmonitor
+        </h4>
+      </a>
+    </div>
+
+    <ul class="list-unstyled components">
+
+      <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="">Fernsteuerung</a>
+      </li>
+
+      <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="/monitor/availability/true">
+          Verfügbarkeiten <i class="fas fa-fw fa-users float-right"></i>
+        </a>
+      </li>
+
+      <li>
+        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Monitore</a>
+
+        <ul class="collapse show list-unstyled" id="pageSubmenu">
+          <li [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}">
+            <a routerLink="/monitor/availability">Verfügbarkeiten <i class="fas fa-fw fa-users float-right"></i></a>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+
+  </nav>
+
+
+  <!-- Page Content -->
+  <div id="content">
+
+    <nav class="navbar navbar-expand-md navbar-light text-right d-md-none" id="navbar-top"
+      [class.d-none]="showTopNavigationBar === false">
+
+      <a class="navbar-brand d-md-none" [class.d-md-inline-block]="showLeftNavigationBar === false" routerLink="">
+        Alarm Monitor
+      </a>
+
+      <button type="button" class="navbar-toggler ml-2 sidebarCollapse">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <button type="button" id="sidebar-close-button" class="navbar-toggler ml-auto sidebarCollapse">
+        <i class="fas fa-times"></i>
+      </button>
+
+    </nav>
+
+    <div id="content-container">
+
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AMTools.Web</name>
+    </assembly>
+    <members>
+        <member name="M:AMTools.Web.BackgroundServices.BaseFileChangeBackgroundService.InitializeBackgroundService(System.String)">
+            <summary>
+            Initialisiert den BackgroundService:
+            <para>- Erstellt den FileSystemWatcher</para>
+            <para>- Löst das Event einmalig aus</para>
+            </summary>
+        </member>
+        <member name="M:AMTools.Web.Controllers.DesktopController.SwitchLeft(System.Boolean)">
+            <summary>Wechselt zum nächsten Desktop auf der linken Seite.</summary>
+            <param name="force">Erzwingt den Desktopwechsel</param>
+        </member>
+        <member name="M:AMTools.Web.Controllers.DesktopController.SwitchRight(System.Boolean)">
+            <summary>Wechselt zum nächsten Desktop auf der rechten Seite.</summary>
+            <param name="force">Erzwingt den Desktopwechsel</param>
+        </member>
+        <member name="M:AMTools.Web.Controllers.SettingsController.Qualifications">
+            <summary>Liefert alle konfigurierten Qualifications.</summary>
+        </member>
+        <member name="M:AMTools.Web.Controllers.SettingsController.GuiVisibility">
+            <summary>Liefert ein ViewModel mit Informationen zur Darstellung der Verfügbarkeiten.</summary>
+        </member>
+        <member name="M:AMTools.Web.Controllers.SubscriberController.GetAll">
+            <summary>Liefert alle Subscriber</summary>
+        </member>
+    </members>
+</doc>
