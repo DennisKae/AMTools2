@@ -1,0 +1,1 @@
+forfiles /P "C:\Users\Dennis\Desktop" /M "*.appref-ms" /C "cmd /C start \"\" @path"

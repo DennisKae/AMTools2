@@ -1,0 +1,54 @@
+<h3 class="p-3 mb-0 bg-dark-transparent border-bottom c-pointer" (click)="toggleNavigationBar()">
+    Verfügbarkeiten
+    <small class="float-right" *ngIf="lastUpdate">
+        Letzte Aktualisierung:
+        {{lastUpdate|date:'dd.MM.yyyy HH:mm:ss'}}
+    </small>
+</h3>
+
+<h3 class="p-3 text-center mb-0" *ngIf="loading">
+    <div class="spinner-border spinner-border-3x" role="status">
+    </div><br />
+    Die Daten werden geladen...
+</h3>
+
+<h3 class="p-3 text-center mb-0 bg-dark-transparent border-bottom"
+    *ngIf="!loading && !errorText && (!subscribers || subscribers.length === 0)">
+    Es stehen keine Verfügbarkeiten zur Anzeige zur Verfügung.
+</h3>
+<h3 class="p-3 text-center bg-dark-transparent border-bottom" *ngIf="!loading && errorText">
+    {{errorText}}
+</h3>
+
+<div class="row mx-0"
+    *ngIf="!loading && subscribers && subscribers.length > 0 && (!visibility || !visibility.GroupSubscribersByQualification)">
+
+    <div class="col-sm-4 col-lg-2" *ngFor="let subscriber of subscribers">
+        <app-display-subscriber [subscriber]="subscriber"
+            [showAvailabilityTimestamp]="!visibility || visibility && visibility.ShowAvailabilityTimestamp">
+        </app-display-subscriber>
+    </div>
+</div>
+
+<div
+    *ngIf="!loading  && visibility && visibility.GroupSubscribersByQualification && qualificationDisplayModels && qualificationDisplayModels.length > 0">
+    <div *ngFor="let qualificationDisplayModel of qualificationDisplayModels">
+        <!-- TODO: Qualification fett -->
+        <h4 class="px-2 py-1 mb-0 bg-dark-transparent border-bottom">
+            <span *ngIf="qualificationDisplayModel.Qualification">
+                {{qualificationDisplayModel.Qualification.Bezeichnung}}
+            </span>
+        </h4>
+        <div class="row mx-0"
+            *ngIf="qualificationDisplayModel.Subscribers && qualificationDisplayModel.Subscribers.length > 0">
+            <div class="col-sm-4 col-lg-2" *ngFor="let subscriber of qualificationDisplayModel.Subscribers">
+                <app-display-subscriber [subscriber]="subscriber"
+                    [showAvailabilityTimestamp]="!visibility || visibility && visibility.ShowAvailabilityTimestamp">
+                </app-display-subscriber>
+            </div>
+        </div>
+        <h5 class="p-2 mb-0" *ngIf="!qualificationDisplayModel.Subscribers || qualificationDisplayModel.Subscribers.length === 0">
+            <em>Keine Einsatzkräfte mit dieser Qualifikation vorhanden</em>
+        </h5>
+    </div>
+</div>
