@@ -1,7 +1,7 @@
 {
-  "Name": "Alarmmonitor - Feuerwehr Nieste",
-  "Address": "info@feuerwehr-nieste.de",
-  "Password": "Zz1&1C-CFFNieste",
+  "Name": "Alarmmonitor",
+  "Address": "foo@bar123321.com",
+  "Password": "fooooo",
   "Hostname": "smtp.ionos.de",
   "Port": 465,
   "UseSsl": true
