@@ -17,6 +17,7 @@ namespace AMTools.Web.Data.Database
     public class DatabaseContext : AuditBaseDatabaseContext
     {
         private readonly IConfigurationFileRepository _configurationFileRepository;
+        private readonly string _datenbankPfad;
 
         public DbSet<DbAppLog> AppLog { get; set; }
 
@@ -32,6 +33,11 @@ namespace AMTools.Web.Data.Database
 
         public DbSet<DbSetting> Setting { get; set; }
 
+        public DatabaseContext(string datenbankPfad) : base(true)
+        {
+            _datenbankPfad = datenbankPfad;
+        }
+
         public DatabaseContext(
             IConfigurationFileRepository configurationFileRepository) : base(true)
         {
@@ -45,11 +51,16 @@ namespace AMTools.Web.Data.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var dateiKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<DateiKonfiguration>();
-            Guard.IsNotNull(dateiKonfiguration, nameof(DateiKonfiguration));
-            Guard.IsNotNull(dateiKonfiguration.Datenbankpfad, nameof(dateiKonfiguration.Datenbankpfad));
+            string datenbankPfad = _datenbankPfad;
+            if (string.IsNullOrWhiteSpace(datenbankPfad))
+            {
+                var dateiKonfiguration = _configurationFileRepository.GetConfigFromJsonFile<DateiKonfiguration>();
+                Guard.IsNotNull(dateiKonfiguration, nameof(DateiKonfiguration));
+                Guard.IsNotNull(dateiKonfiguration.Datenbankpfad, nameof(dateiKonfiguration.Datenbankpfad));
+                datenbankPfad = dateiKonfiguration.Datenbankpfad;
+            }
 
-            optionsBuilder.UseSqlite("Data Source=" + dateiKonfiguration.Datenbankpfad);
+            optionsBuilder.UseSqlite("Data Source=" + datenbankPfad);
         }
 
         protected override bool ObjectIsInstanceOfForbiddenClass(object target)

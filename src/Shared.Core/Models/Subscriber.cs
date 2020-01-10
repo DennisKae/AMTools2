@@ -9,6 +9,8 @@ namespace AMTools.Shared.Core.Models
 {
     public class Subscriber
     {
+        public int Reihenfolge { get; set; }
+
         public string Issi { get; set; }
 
         public string Name { get; set; }
