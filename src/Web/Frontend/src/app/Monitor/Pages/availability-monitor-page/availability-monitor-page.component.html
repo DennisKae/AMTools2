@@ -33,7 +33,8 @@
 <div
     *ngIf="!loading  && visibility && visibility.GroupSubscribersByQualification && qualificationDisplayModels && qualificationDisplayModels.length > 0">
     <div *ngFor="let qualificationDisplayModel of qualificationDisplayModels">
-        <h4 class="px-2 py-1 mb-0 bg-dark-transparent border-top border-bottom">
+        <!-- TODO: Qualification fett -->
+        <h4 class="px-2 py-1 mb-0 bg-dark-transparent border-bottom">
             <span *ngIf="qualificationDisplayModel.Qualification">
                 {{qualificationDisplayModel.Qualification.Bezeichnung}}
             </span>

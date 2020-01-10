@@ -17,8 +17,14 @@ namespace AMTools.Shared.Core.Services
             _loggingService = loggingService;
         }
 
+        /// <summary>Führt einen Befehl mit einem Fenster aus.</summary>
+        public TerminalResult ExecuteWithWindow(string command) => Execute(command, true);
+
+        /// <summary>Führt einen Befehl ohne Fenster aus.</summary>
+        public TerminalResult Execute(string command) => Execute(command, false);
+
         /// <summary>Führt den Befehl aus.</summary>
-        public TerminalResult Execute(string command)
+        public TerminalResult Execute(string command, bool createWindow)
         {
             var result = new TerminalResult { Command = command };
 
@@ -31,7 +37,8 @@ namespace AMTools.Shared.Core.Services
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
-                    CreateNoWindow = true,
+                    CreateNoWindow = !createWindow,
+                    WindowStyle = ProcessWindowStyle.Maximized
                 };
 
                 result.DetectedOsVersion = Environment.OSVersion.VersionString;

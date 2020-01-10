@@ -43,7 +43,11 @@ namespace AMTools.Web
 
             // SignalR
             services
-                .AddSignalR()
+                .AddSignalR(config =>
+                {
+                    config.ClientTimeoutInterval = TimeSpan.FromHours(24);
+                    config.EnableDetailedErrors = true;
+                })
                 .AddJsonProtocol(options =>
                 {
                     // Necessary to disable lowerCamelCasing and use PascalCasing for SignalR responses

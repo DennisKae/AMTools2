@@ -30,7 +30,7 @@
     <None Update="LoggingKonfiguration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="RUN Einsatz Monitor.bat">
+    <None Update="RUN EinsatzMonitor.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="StartKonfiguration.json">

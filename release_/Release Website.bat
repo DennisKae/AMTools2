@@ -24,7 +24,7 @@ echo.
 
 cd ..\..\release_
 
-echo Entferne unnötigen Frontend-Ordner im Ausgabeverzeichnis...
+echo Entferne unnoetigen Frontend-Ordner im Ausgabeverzeichnis...
 echo.
 
 RMDIR /S /Q .\Website\Frontend

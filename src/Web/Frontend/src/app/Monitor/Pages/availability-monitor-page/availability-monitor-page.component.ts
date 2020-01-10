@@ -73,7 +73,8 @@ export class AvailabilityMonitorPageComponent implements OnInit {
 
   initializeHubConnection() {
     this.hubConnection = new HubConnectionBuilder().withUrl(this.util.getAbsoluteUrlFromRelativeUrl("availability")).build();
-
+    // Timeout 1440000ms = 24h
+    this.hubConnection.serverTimeoutInMilliseconds = 1440000;
     this.hubConnection
       .start()
       .then(() => {
@@ -147,7 +148,7 @@ export class AvailabilityMonitorPageComponent implements OnInit {
       let newResultItem = new QualificationDisplayModel();
       newResultItem.Qualification = qualification;
       newResultItem.Subscribers = allSubscribers.filter(x => !this.util.isNullOrUndefined(x.Qualifications) && x.Qualifications.some(y => y.Abkuerzung === qualification.Abkuerzung));
-      
+
       result.push(newResultItem);
 
       if (!this.util.isNullOrUndefined(newResultItem.Subscribers) && newResultItem.Subscribers.length > 0) {

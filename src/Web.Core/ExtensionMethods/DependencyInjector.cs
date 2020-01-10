@@ -91,6 +91,7 @@ namespace AMTools.Web.Core.ExtensionMethods
                 services.AddSingleton<ILogCleanupService, LogCleanupService>();
                 services.AddSingleton<IStartupService, StartupService>();
                 services.AddSingleton<IAvailabilityStatusService, AvailabilityStatusService>();
+                services.AddSingleton<IBatchCalloutImportService, BatchCalloutImportService>();
 
                 // Facades
                 services.AddSingleton<IVirtualDesktopFacade, VirtualDesktopFacade>();

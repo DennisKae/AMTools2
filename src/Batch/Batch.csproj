@@ -28,6 +28,9 @@
     <None Update="_Skripte\Desktop 1 anzeigen.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="_Skripte\Computer neustarten.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="_Skripte\Desktop 2 anzeigen.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

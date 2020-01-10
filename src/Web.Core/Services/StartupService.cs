@@ -10,6 +10,7 @@ using AMTools.Shared.Core;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Models.Konfigurationen;
 using AMTools.Shared.Core.Repositories.Interfaces;
+using AMTools.Shared.Core.Services.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Core.Services.VirtualDesktops.Interfaces;
 
@@ -21,17 +22,20 @@ namespace AMTools.Web.Core.Services
         private readonly IAlertService _alertService;
         private readonly IVirtualDesktopService _virtualDesktopService;
         private readonly IConfigurationFileRepository _configurationFileRepository;
+        private readonly ITerminalService _terminalService;
 
         public StartupService(
             ILogService logService,
             IAlertService alertService,
             IVirtualDesktopService virtualDesktopService,
-            IConfigurationFileRepository configurationFileRepository)
+            IConfigurationFileRepository configurationFileRepository,
+            ITerminalService terminalService)
         {
             _logService = logService;
             _alertService = alertService;
             _virtualDesktopService = virtualDesktopService;
             _configurationFileRepository = configurationFileRepository;
+            _terminalService = terminalService;
         }
 
         public void ValidateStartKonfiguration()
@@ -93,11 +97,23 @@ namespace AMTools.Web.Core.Services
 
                 _logService.Info($"Der folgende Befehl wird auf Desktop {desktopinhalt.Desktop.Value} ausgeführt: " + Environment.NewLine + desktopinhalt.Befehl);
 
-                ProcessStartInfo startInfo = new ProcessStartInfo(desktopinhalt.Befehl)
-                {
-                    WindowStyle = ProcessWindowStyle.Maximized
-                };
-                Process startedProcess = Process.Start(startInfo);
+                Process process = Process.Start(desktopinhalt.Befehl);
+                //_logService.Info("Debug: Process.Start wurde verwendet.");
+
+                // TODO: Anhand des WindowHandles kann der virtuelle Desktop sicherer überprüft werden
+                //var handle = process.MainWindowHandle;
+
+                //TerminalResult terminalResult = _terminalService.ExecuteWithWindow(desktopinhalt.Befehl);
+
+                //if (terminalResult.ErrorOccured)
+                //{
+                //    _terminalService.WriteResultToLog(terminalResult, "Beim Ausführen eines Befehls ist ein Fehler aufgetreten: ");
+                //}
+                //ProcessStartInfo startInfo = new ProcessStartInfo(desktopinhalt.Befehl)
+                //{
+                //    WindowStyle = ProcessWindowStyle.Maximized
+                //};
+                //Process startedProcess = Process.Start(startInfo);
             }
 
             // Manche Anwendungen brauchen zum Starten länger, daher muss die Konfiguration abschließend überprüft werden.
@@ -131,8 +147,14 @@ namespace AMTools.Web.Core.Services
 
             foreach (Desktopinhalt desktopinhalt in startKonfiguration?.Desktopinhalte)
             {
-                if (!DesktopinhaltIsValid(desktopinhalt) || string.IsNullOrWhiteSpace(desktopinhalt?.Prozessbezeichnung))
+                if (!DesktopinhaltIsValid(desktopinhalt))
                 {
+                    continue;
+                }
+
+                if (string.IsNullOrWhiteSpace(desktopinhalt?.Prozessbezeichnung))
+                {
+                    _logService.Info($"Der folgende {nameof(Desktopinhalt)} kann nicht überprüft werden, da keine Prozessbezeichnung hinterlegt wurde: " + desktopinhalt.Anzeigetext ?? desktopinhalt.Befehl);
                     continue;
                 }
 

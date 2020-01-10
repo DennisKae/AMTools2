@@ -14,7 +14,7 @@
 			"Desktop": 1
 		},
 		{
-			"Befehl": ".\\RUN Einsatz Monitor.bat",
+			"Befehl": ".\\RUN EinsatzMonitor.bat",
 			"Desktop": 2,
 			"Anzeigetext": "Einsatz Monitor",
 			"Prozessbezeichnung": "EinsatzMonitorWpf"

@@ -18,19 +18,26 @@ namespace AMTools.Batch
 {
     public static class Program
     {
-        public const string HelpTemplate = "-? | -h | --help";
+        public const string HelpTemplate = "--help";
 
-        public const string DesktopOptionTemplate = "-d | -desktop | --desktop";
+        public const string DesktopOptionTemplate = "--desktop";
         public const string DesktopOptionDescription = "Nummer des Ziel-Desktops";
 
-        public const string DontCloseOptionTemplate = "-dc | -dontclose | --dontclose";
+        public const string DontCloseOptionTemplate = "--dontclose";
         public const string DontCloseOptionDescription = "Lässt das Konsolenfenster offen, nachdem die Anwendung ausgeführt wurde.";
+
+        public const string InputDirectoryOptionTemplate = "--input-directory";
+        public const string InputDirectoryOptionDescription = "Pfad zum Ordner, aus dem heraus importiert werden soll.";
+
+        public const string PatternOptionTemplate = "--pattern";
+        public const string PatternOptionDescription = "Muster, z.B. für die Identifizierung von Dateinamen";
 
         public const string StartupCommandName = "startup";
         public const string ValidateStartupCommandName = "validate-startup";
         public const string SwitchDesktopCommandName = "switch-desktop";
         public const string CleanLogsCommandName = "clean-log";
         public const string RebootCommandName = "reboot";
+        public const string CalloutImportCommandName = "callout-import";
 
         public static int Main(string[] args)
         {
@@ -114,6 +121,23 @@ namespace AMTools.Batch
 
                         var terminalService = serviceProvider.GetService<ITerminalService>();
                         terminalService.Execute("shutdown /r");
+                    }));
+
+                }, throwOnUnexpectedArg: false);
+
+                app.Command(CalloutImportCommandName, command =>
+                {
+                    command.Description = "Importiert existierende Callout-Dateien.";
+                    command.HelpOption(HelpTemplate);
+
+                    CommandOption dontCloseOption = command.Option(DontCloseOptionTemplate, DontCloseOptionDescription, CommandOptionType.NoValue);
+                    CommandOption inputDirectoryOption = command.Option(InputDirectoryOptionTemplate, InputDirectoryOptionDescription, CommandOptionType.SingleValue);
+                    CommandOption patternOption = command.Option(PatternOptionTemplate, PatternOptionDescription, CommandOptionType.SingleValue);
+
+                    command.OnExecute(() => Execute(command, (IServiceProvider serviceProvider) =>
+                    {
+                        var service = serviceProvider.GetService<IBatchCalloutImportService>();
+                        service.Import(inputDirectoryOption.Value(), patternOption.Value());
                     }));
 
                 }, throwOnUnexpectedArg: false);
