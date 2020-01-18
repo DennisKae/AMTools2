@@ -9,8 +9,8 @@ using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Models.Konfigurationen;
 using AMTools.Shared.Core.Repositories.Interfaces;
-using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.Services.Synchronization.Database.Interfaces;
 using AMTools.Web.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Data.Database.Models;
 using AutoMapper;
@@ -19,8 +19,8 @@ namespace AMTools.Web.BackgroundServices
 {
     public class CalloutBackgroundService : BaseFileChangeBackgroundService
     {
-        private readonly IAlertSyncService _alertSyncService;
-        private readonly IUserResponseSyncService _userResponseSyncService;
+        private readonly IAlertDbSyncService _alertSyncService;
+        private readonly IUserResponseDbSyncService _userResponseSyncService;
         private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IVirtualDesktopService _virtualDesktopService;
         private readonly ICalloutNotificationService _calloutNotificationService;
@@ -29,8 +29,8 @@ namespace AMTools.Web.BackgroundServices
         private System.Timers.Timer _switchTimer;
 
         public CalloutBackgroundService(
-            IAlertSyncService alertSyncService,
-            IUserResponseSyncService userResponseSyncService,
+            IAlertDbSyncService alertSyncService,
+            IUserResponseDbSyncService userResponseSyncService,
             IConfigurationFileRepository configurationFileRepository,
             IVirtualDesktopService virtualDesktopService,
             ICalloutNotificationService calloutNotificationService,

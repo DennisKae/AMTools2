@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models.Konfigurationen;
 using AMTools.Shared.Core.Repositories.Interfaces;
-using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Core.Services.Settings.Interfaces;
+using AMTools.Web.Core.Services.Synchronization.Database.Interfaces;
 using Microsoft.Extensions.Hosting;
 
 namespace AMTools.Web.BackgroundServices
 {
     public class SettingsBackgroundService : BaseFileChangeBackgroundService
     {
-        private readonly ISettingsSyncService _settingsSyncService;
+        private readonly ISettingsDbSyncService _settingsSyncService;
         private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly ISettingsService _settingsService;
 
         public SettingsBackgroundService(
-            ISettingsSyncService settingsSyncService,
+            ISettingsDbSyncService settingsSyncService,
             IConfigurationFileRepository configurationFileRepository,
             ILogService logService,
             ISettingsService settingsService) : base(logService)

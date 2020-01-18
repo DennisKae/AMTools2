@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Shared.Core\Shared.Core.csproj" />
     <ProjectReference Include="..\Web.Data.Database\Web.Data.Database.csproj" />
     <ProjectReference Include="..\Web.Data.FileImport\Web.Data.Files.csproj" />
+    <ProjectReference Include="..\Web.Data.JsonStore\Web.Data.JsonStore.csproj" />
   </ItemGroup>
 
 </Project>

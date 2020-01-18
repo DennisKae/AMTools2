@@ -13,16 +13,21 @@ using AMTools.Shared.Core.Services.Logging;
 using AMTools.Web.Core.Facades;
 using AMTools.Web.Core.Facades.Interfaces;
 using AMTools.Web.Core.Services;
-using AMTools.Web.Core.Services.DataSynchronization;
-using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Core.Services.Settings;
 using AMTools.Web.Core.Services.Settings.Interfaces;
+using AMTools.Web.Core.Services.Synchronization.Database;
+using AMTools.Web.Core.Services.Synchronization.Database.Interfaces;
+using AMTools.Web.Core.Services.Synchronization.JsonStore;
+using AMTools.Web.Core.Services.Synchronization.JsonStore.Interfaces;
 using AMTools.Web.Core.Services.VirtualDesktops;
 using AMTools.Web.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Files.Repositories;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
+using AMTools.Web.Data.JsonStore.Repositories;
+using AMTools.Web.Data.JsonStore.Services;
+using AMTools.Web.Data.JsonStore.Services.Interfaces;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -62,12 +67,16 @@ namespace AMTools.Web.Core.ExtensionMethods
                 services.AddSingleton<ISettingsFileRepository, SettingsFileRepository>();
                 services.AddSingleton<ISubscriberFileRepository, SubscriberFileRepository>();
 
+                // JsonStoreRepositories
+                services.AddSingleton<IAvailabilityJsonStoreRepository, AvailabilityStatusJsonStoreRepository>();
+
                 // SyncServices
-                services.AddSingleton<IAlertSyncService, AlertSyncService>();
-                services.AddSingleton<IAvailabilityStatusSyncService, AvailabilityStatusSyncService>();
-                services.AddSingleton<ISettingsSyncService, SettingsSyncService>();
-                services.AddSingleton<ISubscriberSyncService, SubscriberSyncService>();
-                services.AddSingleton<IUserResponseSyncService, UserResponseSyncService>();
+                services.AddSingleton<IAlertDbSyncService, AlertDbSyncService>();
+                services.AddSingleton<IAvailabilityStatusDbSyncService, AvailabilityStatusDbSyncService>();
+                services.AddSingleton<ISettingsDbSyncService, SettingsDbSyncService>();
+                services.AddSingleton<ISubscriberDbSyncService, SubscriberDbSyncService>();
+                services.AddSingleton<IUserResponseDbSyncService, UserResponseDbSyncService>();
+                services.AddSingleton<IAvailabilityStatusJsonStoreSyncService, AvailabilityStatusJsonStoreSyncService>();
 
                 // Setting Services
                 services.AddSingleton<IQualificationSettingService, QualificationSettingService>();
@@ -92,6 +101,7 @@ namespace AMTools.Web.Core.ExtensionMethods
                 services.AddSingleton<IStartupService, StartupService>();
                 services.AddSingleton<IAvailabilityStatusService, AvailabilityStatusService>();
                 services.AddSingleton<IBatchCalloutImportService, BatchCalloutImportService>();
+                services.AddSingleton<IJsonStoreService, JsonStoreService>();
 
                 // Facades
                 services.AddSingleton<IVirtualDesktopFacade, VirtualDesktopFacade>();

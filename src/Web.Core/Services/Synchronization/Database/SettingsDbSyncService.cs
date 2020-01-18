@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Repositories.Interfaces;
-using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
+using AMTools.Web.Core.Services.Synchronization.Database.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
 using AMTools.Web.Data.Database.Repositories;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
 using AutoMapper;
 
-namespace AMTools.Web.Core.Services.DataSynchronization
+namespace AMTools.Web.Core.Services.Synchronization.Database
 {
-    public class SettingsSyncService : ISettingsSyncService
+    public class SettingsDbSyncService : ISettingsDbSyncService
     {
         private readonly ILogService _logService;
         private readonly ISettingsFileRepository _settingsFileRepository;
         private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
 
-        public SettingsSyncService(
+        public SettingsDbSyncService(
             ILogService logService,
             ISettingsFileRepository settingsFileRepository,
             IConfigurationFileRepository configurationFileRepository,

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using AMTools.Shared.Core.Models;
 
-namespace AMTools.Web.Core.Services.DataSynchronization.Interfaces
+namespace AMTools.Web.Core.Services.Synchronization.Database.Interfaces
 {
-    public interface IAlertSyncService
+    public interface IAlertDbSyncService
     {
         void DisableAllAlerts();
         void DisableObsoleteAlerts();
