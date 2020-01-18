@@ -148,7 +148,7 @@ export class AvailabilityMonitorPageComponent implements OnInit {
       let newResultItem = new QualificationDisplayModel();
       newResultItem.Qualification = qualification;
       newResultItem.Subscribers = allSubscribers.filter(x => !this.util.isNullOrUndefined(x.Qualifications) && x.Qualifications.some(y => y.Abkuerzung === qualification.Abkuerzung));
-
+      newResultItem.AnzahlVerfuegbar = newResultItem.Subscribers.filter(x => !this.util.isNullOrUndefined(x.AvailabilityStatus) && x.AvailabilityStatus.Value === 15).length;
       result.push(newResultItem);
 
       if (!this.util.isNullOrUndefined(newResultItem.Subscribers) && newResultItem.Subscribers.length > 0) {

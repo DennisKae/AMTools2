@@ -7,4 +7,5 @@ export class QualificationDisplayModel {
 
     Subscribers: SubscriberViewModel[];
 
+    AnzahlVerfuegbar: number;
 }
