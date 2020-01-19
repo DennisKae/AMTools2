@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using AMTools.Core.Services.Logging;
 using AMTools.Shared.Core.Models.Konfigurationen;
 using AMTools.Shared.Core.Repositories.Interfaces;
-using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
 using AMTools.Web.Core.Services.Interfaces;
+using AMTools.Web.Core.Services.Synchronization.Database.Interfaces;
 using AMTools.Web.Hubs;
 using Microsoft.AspNetCore.SignalR;
 
@@ -17,13 +17,13 @@ namespace AMTools.Web.BackgroundServices
 {
     public class SubscriberBackgroundService : BaseFileChangeBackgroundService
     {
-        private readonly ISubscriberSyncService _subscriberSyncService;
+        private readonly ISubscriberDbSyncService _subscriberSyncService;
         private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IHubContext<AvailabilityHub> _hubContext;
         private readonly ISubscriberService _subscriberService;
 
         public SubscriberBackgroundService(
-            ISubscriberSyncService subscriberSyncService,
+            ISubscriberDbSyncService subscriberSyncService,
             IConfigurationFileRepository configurationFileRepository,
             IHubContext<AvailabilityHub> hubContext,
             ISubscriberService subscriberService,

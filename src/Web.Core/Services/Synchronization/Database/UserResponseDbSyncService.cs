@@ -5,22 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using AMTools.Shared.Core.Models;
 using AMTools.Shared.Core.Repositories.Interfaces;
-using AMTools.Web.Core.Services.DataSynchronization.Interfaces;
+using AMTools.Web.Core.Services.Synchronization.Database.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
 using AMTools.Web.Data.Database.Repositories;
 using AMTools.Web.Data.Files.Repositories.Interfaces;
 using AutoMapper;
 
-namespace AMTools.Web.Core.Services.DataSynchronization
+namespace AMTools.Web.Core.Services.Synchronization.Database
 {
-    public class UserResponseSyncService : IUserResponseSyncService
+    public class UserResponseDbSyncService : IUserResponseDbSyncService
     {
         private readonly IConfigurationFileRepository _configurationFileRepository;
         private readonly IMapper _mapper;
         private readonly ICalloutFileRepository _calloutFileRepository;
 
-        public UserResponseSyncService(
+        public UserResponseDbSyncService(
             IConfigurationFileRepository configurationFileRepository,
             IMapper mapper,
             ICalloutFileRepository calloutFileRepository)

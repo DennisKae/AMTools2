@@ -9,6 +9,9 @@ namespace AMTools.Web.Core.ViewModels
 {
     public class SubscriberViewModel
     {
+        /// <summary>Datenbank-ID</summary>
+        public int Id { get; set; }
+
         public string Issi { get; set; }
 
         public string Name { get; set; }

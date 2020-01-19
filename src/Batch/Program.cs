@@ -11,6 +11,8 @@ using AMTools.Web.Core.Services.Interfaces;
 using AMTools.Web.Core.Services.VirtualDesktops.Interfaces;
 using AMTools.Web.Data.Database;
 using AMTools.Web.Data.Database.Models;
+using AMTools.Web.Data.JsonStore.Models;
+using AMTools.Web.Data.JsonStore.Repositories;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -141,7 +143,6 @@ namespace AMTools.Batch
                     }));
 
                 }, throwOnUnexpectedArg: false);
-
 
                 app.OnExecute(() =>
                 {
