@@ -12,6 +12,8 @@ import { NotFoundPageComponent } from './Shared/Pages/not-found-page/not-found-p
 import { HomePageComponent } from './Shared/Pages/home-page/home-page.component';
 import { AvailabilityComponent } from './Monitor/Components/availability/availability.component';
 import { DisplaySubscriberComponent } from './Monitor/Components/Display/display-subscriber/display-subscriber.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { DisplaySubscriberComponent } from './Monitor/Components/Display/display
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
