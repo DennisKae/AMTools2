@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "serverbuild": "ng build --prod --aot=true",
+    "http-server": "ng build --prod --aot=true && http-server -p 8080 -c-1 dist/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -30,6 +31,7 @@
     "ngx-toastr": "^10.0.4",
     "popper.js": "^1.16.0",
     "rxjs": "~6.4.0",
+    "sweetalert2": "^9.6.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
@@ -42,6 +44,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.0.0",
+    "http-server": "^0.12.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
